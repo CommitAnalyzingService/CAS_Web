@@ -1,1 +1,3 @@
-Quorum - a CSH  realtime voting system
+#Quorum 
+
+A CSH  realtime voting system
