@@ -1,0 +1,3 @@
+[submodule "bootstrap-square-ui"]
+	path = bootstrap-square-ui
+	url = https://github.com/deltaepsilon/bootstrap-square-ui.git
