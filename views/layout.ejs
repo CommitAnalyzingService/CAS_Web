@@ -5,11 +5,35 @@
 
     <!-- Viewport mobile tag for sensible mobile support -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <link rel="stylesheet" href="linker/styles/bootstrap.css"/>
+    <link rel="stylesheet" href="linker/styles/custom-bootstrap.css"/>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="styles/app.css"/>
-    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+   <!--SCRIPTS-->
+   <script src="/linker/js/socket.io.js"></script>
+   <script src="/linker/js/sails.io.js"></script>
+   <script src="/linker/js/app.js"></script>
+   <!--SCRIPTS END-->
+
+<!--STYLES-->
+<link rel="stylesheet" href="/linker/styles/app.css">
+<link rel="stylesheet" href="/linker/styles/custom-bootstrap.css">
+<!--STYLES END-->
+
+<!--TEMPLATES-->
+
+<!--TEMPLATES END-->
+   
+    <script>
+      if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
+  var msViewportStyle = document.createElement("style")
+  msViewportStyle.appendChild(
+    document.createTextNode(
+      "@-ms-viewport{width:320px!important}"
+    )
+  )
+  document.getElementsByTagName("head")[0].appendChild(msViewportStyle)
+}
+    </script>
   </head>
 
   <body>

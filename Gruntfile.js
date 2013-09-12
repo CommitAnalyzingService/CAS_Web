@@ -200,8 +200,8 @@ module.exports = function (grunt) {
           ext: '.css'
         }, {
             expand: true,
-            cwd: 'bootstrap-square-ui/less/',
-            src: ['bootstrap.less'],
+            cwd: 'assets/bootstrap/less/',
+            src: ['custom-bootstrap.less'],
             dest: '.tmp/public/linker/styles/',
             ext: '.css'
           }, 
@@ -308,75 +308,7 @@ module.exports = function (grunt) {
           'views/**/*.ejs': ['.tmp/public/jst.js']
         }
       },
-
-
-      /*******************************************
-       * Jade linkers (TODO: clean this up)
-       *******************************************/
-
-      devJsJADE: {
-        options: {
-          startTag: '// SCRIPTS',
-          endTag: '// SCRIPTS END',
-          fileTmpl: 'script(type="text/javascript", src="%s")',
-          appRoot: '.tmp/public'
-        },
-        files: {
-          'views/**/*.jade': jsFilesToInject
-        }
-      },
-
-      prodJsJADE: {
-        options: {
-          startTag: '// SCRIPTS',
-          endTag: '// SCRIPTS END',
-          fileTmpl: 'script(type="text/javascript", src="%s")',
-          appRoot: '.tmp/public'
-        },
-        files: {
-          'views/**/*.jade': ['.tmp/public/min/production.js']
-        }
-      },
-
-      devStylesJADE: {
-        options: {
-          startTag: '// STYLES',
-          endTag: '// STYLES END',
-          fileTmpl: 'link(rel="stylesheet", href="%s")',
-          appRoot: '.tmp/public'
-        },
-        files: {
-          'views/**/*.jade': cssFilesToInject
-        }
-      },
-
-      prodStylesJADE: {
-        options: {
-          startTag: '// STYLES',
-          endTag: '// STYLES END',
-          fileTmpl: 'link(rel="stylesheet", href="%s")',
-          appRoot: '.tmp/public'
-        },
-        files: {
-          'views/**/*.jade': ['.tmp/public/min/production.css']
-        }
-      },
-
-      // Bring in JST template object
-      devTplJADE: {
-        options: {
-          startTag: '// TEMPLATES',
-          endTag: '// TEMPLATES END',
-          fileTmpl: 'script(type="text/javascript", src="%s")',
-          appRoot: '.tmp/public'
-        },
-        files: {
-          'views/**/*.jade': ['.tmp/public/jst.js']
-        }
-      }
-      /************************************
-       * Jade linker end
-       ************************************/
+      //Removed Jade linkers because, JADE? really?
     },
 
     watch: {
@@ -416,9 +348,6 @@ module.exports = function (grunt) {
     'sails-linker:devJs',
     'sails-linker:devStyles',
     'sails-linker:devTpl',
-    'sails-linker:devJsJADE',
-    'sails-linker:devStylesJADE',
-    'sails-linker:devTplJADE'
   ]);
 
 
@@ -443,9 +372,6 @@ module.exports = function (grunt) {
     'sails-linker:prodJs',
     'sails-linker:prodStyles',
     'sails-linker:devTpl',
-    'sails-linker:prodJsJADE',
-    'sails-linker:prodStylesJADE',
-    'sails-linker:devTplJADE'
   ]);
 
   // When API files are changed:
