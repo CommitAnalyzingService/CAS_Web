@@ -145,12 +145,7 @@ module.exports = function (grunt) {
           cwd: './assets',
           src: ['**/*'],
           dest: '.tmp/public'
-        }, {
-            expand: true,
-            cwd: './bootstrap-square-ui/dist/img',
-            src: ['**/*'],
-            dest: '.tmp/public/img'
-          }
+        }
         ]
       },
       build: {
@@ -198,13 +193,7 @@ module.exports = function (grunt) {
           src: ['*.less'],
           dest: '.tmp/public/linker/styles/',
           ext: '.css'
-        }, {
-            expand: true,
-            cwd: 'assets/bootstrap/less/',
-            src: ['custom-bootstrap.less'],
-            dest: '.tmp/public/linker/styles/',
-            ext: '.css'
-          }, 
+        },  
         ]
       }
     },
