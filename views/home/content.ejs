@@ -1,0 +1,15 @@
+<div id="content" class="container">
+<div class="row">
+  <div class="col-md-6">
+  <h1>Active Votes </h1>
+    <ul class="list-group">
+    	<li class="list-group-item" ng-repeat="item in activeItems track by $index">{{item}}</li>
+    	<li class="list-group-item" >{{test}}</li>
+  </ul>
+  </div>
+  <div class="col-md-6">
+  <h1>New Vote </h1>
+  Testing: <input ng-model="test" placeholder="topic">
+  </div>
+</div>
+</div>

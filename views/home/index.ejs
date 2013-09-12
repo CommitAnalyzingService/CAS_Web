@@ -1,17 +1,76 @@
-<div id="content" class="container">
-<div class="row">
-  <div class="col-md-6">
-  <h1>Active Votes</h1>
-    <ul class="list-group">
-    <li class="list-group-item">Cras justo odio</li>
-    <li class="list-group-item">Dapibus ac facilisis in</li>
-    <li class="list-group-item">Morbi leo risus</li>
-    <li class="list-group-item">Porta ac consectetur ac</li>
-    <li class="list-group-item">Vestibulum at eros</li>
-  </ul>
-  </div>
-  <div class="col-md-6">
-  </div>
-</div>
-</div>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Quorum</title>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:100,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="linker/styles/custom-bootstrap.css"/>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular.js"></script>
+   <!--SCRIPTS-->
+   <script src="/linker/js/socket.io.js"></script>
+   <script src="/linker/js/sails.io.js"></script>
+   <script src="/linker/js/app.js"></script>
+   <script src="/linker/js/angular-route.js"></script>
+   <!--SCRIPTS END-->
+
+<!--STYLES-->
+<link rel="stylesheet" href="/linker/styles/app.css">
+<!--STYLES END-->
+
+<!--TEMPLATES-->
+
+<!--TEMPLATES END-->
+   
+    <script>
+      if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
+  var msViewportStyle = document.createElement("style")
+  msViewportStyle.appendChild(
+    document.createTextNode(
+      "@-ms-viewport{width:auto!important}"
+    )
+  )
+  document.getElementsByTagName("head")[0].appendChild(msViewportStyle)
+}
+    </script>
+  </head>
+
+  <body ng-app="quorum">
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-check"></span> CSH Quorum</a>
+  </div>
+
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="/"><b class="glyphicon  glyphicon-home"></b> Home</a></li>
+      <li><a href="/admin">Admin</a></li>
+      <li><a href="#">History</a>
+      <!-- <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li><a href="#">Separated link</a></li>
+          <li><a href="#">One more separated link</a></li>
+        </ul>
+      </li> -->
+    </ul>
+  </div><!-- /.navbar-collapse -->
+</nav>
+	<div ng-View>  
+	</div>
+    </body>
+</html>

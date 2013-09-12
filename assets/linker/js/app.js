@@ -7,78 +7,40 @@
  * Feel free to change none, some, or ALL of this file to fit your needs!
  */
 
+var app = angular.module('quorum', ['ngRoute']);
 
-(function (io) {
-
-  // as soon as this file is loaded, connect automatically, 
-  var socket = io.connect();
-  if (typeof console !== 'undefined') {
-    log('Connecting to Sails.js...');
-  }
-
-  socket.on('connect', function socketConnected() {
-
-    // Listen for Comet messages from Sails
-    socket.on('message', function messageReceived(message) {
-
-      ///////////////////////////////////////////////////////////
-      // Replace the following with your own custom logic
-      // to run when a new message arrives from the Sails.js
-      // server.
-      ///////////////////////////////////////////////////////////
-      log('New comet message received :: ', message);
-      //////////////////////////////////////////////////////
-
-    });
-
-
-    ///////////////////////////////////////////////////////////
-    // Here's where you'll want to add any custom logic for
-    // when the browser establishes its socket connection to 
-    // the Sails.js server.
-    ///////////////////////////////////////////////////////////
-    log(
-        'Socket is now connected and globally accessible as `socket`.\n' + 
-        'e.g. to send a GET request to Sails, try \n' + 
-        '`socket.get("/", function (response) ' +
-        '{ console.log(response); })`'
-    );
-    ///////////////////////////////////////////////////////////
-
-
-  });
-
-
-  // Expose connected `socket` instance globally so that it's easy
-  // to experiment with from the browser console while prototyping.
-  window.socket = socket;
-
-
-  // Simple log function to keep the example simple
-  function log () {
-    if (typeof console !== 'undefined') {
-      console.log.apply(console, arguments);
-    }
-  }
-
-
-
-})(
-
-  // In case you're wrapping socket.io to prevent pollution of the global namespace,
-  // you can replace `window.io` with your own `io` here:
-  window.io
-
-);
-/*$(document).ready(function() {
-if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
-	  var msViewportStyle = document.createElement("style")
-	  msViewportStyle.appendChild(
-	    document.createTextNode(
-	      "@-ms-viewport{width:auto!important}"
-	    )
-	  )
-	  document.getElementsByTagName("head")[0].appendChild(msViewportStyle)
-	}
-});*/
+app.config(['$routeProvider', '$locationProvider','$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
+	$httpProvider.defaults.headers.common['X-Request-Origin'] = 'app';
+    $routeProvider.when('/', {templateUrl: 'home/content', controller: 'HomeCtrl'});
+    $routeProvider.when('/admin', {templateUrl: '/admin', controller: 'AdminCtrl'});
+    $routeProvider.otherwise({redirectTo: '/'});
+    $locationProvider.html5Mode(true);
+  }]);
+function HomeCtrl($scope) {
+	$scope.test ="hi";
+	$scope.activeItems = [
+	                      "Newer Drink Machine",
+	                      "Doodledoo",
+	                      "Testing",
+	                      "Whoopie",
+	                      "Testing",
+	                      "Whoopie",
+	                      "Newer Drink Machine",
+	                      "Doodledoo",
+	                      "Newer Drink Machine",
+	                      "Doodledoo",
+	                      "Newer Drink Machine",
+	                      "Doodledoo",
+	                      "Newer Drink Machine",
+	                      "Doodledoo",
+	                      ];
+}
+function AdminCtrl($scope) {
+	$scope.activeItems = [
+	                      "Newer Drink Machine",
+	                      "Doodledoo",
+	                      "Testing",
+	                      "Whoopie"
+	                      ];
+}
 
