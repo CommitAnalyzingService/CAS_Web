@@ -4,7 +4,7 @@
   <h1>Active Votes </h1>
     <ul class="list-group">
     	<li class="list-group-item" ng-repeat="item in activeItems track by $index">{{item}}</li>
-    	<li class="list-group-item" >{{test}}</li>
+    	<li class="list-group-item" ng-show="test.length > 0">{{test}}</li>
   </ul>
   </div>
   <div class="col-md-6">
