@@ -9,16 +9,9 @@ var HomeController = {
     		res.view(null, {layout: null});
     		console.log('Serving with no layout');
     	} else {
-    		res.view('home/index', {total:4});
+    		res.view('admin/index', {total:4});
     		console.log('Serving with layout');
     	}
-    },
-    data: function(req, res) {
-    		var response = ["hello","from","sockets",test];
-    		test++;
-    	res.json(response);
-    	//console.log('here2:',req.isAjax);
-    	//console.log('Home/Data Requested');
     },
 }
 

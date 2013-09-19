@@ -11,46 +11,37 @@ var app = angular.module('quorum', ['ngRoute']);
 
 app.config(['$routeProvider', '$locationProvider','$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
 	$httpProvider.defaults.headers.common['X-Request-Origin'] = 'app';
-    $routeProvider.when('/', {templateUrl: 'home/content', controller: 'HomeCtrl'});
-    $routeProvider.when('/admin', {templateUrl: '/admin', controller: 'AdminCtrl'});
+    $routeProvider.when('/', {templateUrl: '/', controller: 'HomeCtrl'});
+    $routeProvider.when('/admin', {templateUrl: '/administration', controller: 'AdminCtrl'});
     $routeProvider.otherwise({redirectTo: '/'});
     $locationProvider.html5Mode(true);
   }]);
-function HomeCtrl($scope, socket) {
-	$scope.test ="hi";
-	$scope.activeItems = [
-	                      "Newer Drink Machine!",
-	                      "Doodledoo",
-	                      "Testing",
-	                      "Whoopie",
-	                      "Testing",
-	                      "Whoopie",
-	                      "Newer Drink Machine",
-	                      "Doodledoo",
-	                      "Newer Drink Machine",
-	                      "Doodledoo",
-	                      "Newer Drink Machine",
-	                      "Doodledoo",
-	                      "Newer Drink Machine",
-	                      "Doodledoo",
-	                      ];
+
+
+app.controller('AppCtrl', function ($scope, $location, socket) {
 	socket.get('/home/data', function (response) {
 		$scope.$apply(function () {
-			$scope.activeItems = response;
-        });
-		  
+			$scope.items = response;
+		});  
 	});
 	socket.on('message', function messageReceived(message) {
 	      console.log('New comet message received :: ', message);
 	});
-}
+});
+
+app.controller('NavbarCtrl', function ($scope, $location) {
+	$scope.currentPage = function (uri) { 
+        return uri === $location.path();
+    };
+    $scope.collapse = 0;
+});
+
 function AdminCtrl($scope) {
-	$scope.activeItems = [
-	                      "Newer Drink Machine",
-	                      "Doodledoo",
-	                      "Testing",
-	                      "Whoopie"
-	                      ];
+}
+
+
+function HomeCtrl($scope, socket) {
+	$scope.test ="hi";
 }
 
 app.factory('socket', function ($rootScope) {

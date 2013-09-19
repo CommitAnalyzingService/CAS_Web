@@ -25,7 +25,7 @@ module.exports[404] = function pageNotFound(req, res, express404Handler) {
     if (err) {
       return express404Handler();
     }
-    res.render(view);
+    res.view(view, {layout:'layout'});
   });
 
 };
