@@ -1,3 +1,3 @@
-#Quorum 
+#CAS Web 
 
-A CSH  realtime voting system
+A Web service for viewing the risk of commits to a repository
