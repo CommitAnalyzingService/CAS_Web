@@ -128,7 +128,7 @@ module.exports.sockets = {
   // Should be set to true when you want the location handshake to match the protocol of the origin. 
   // This fixes issues with terminating the SSL in front of Node 
   // and forcing location to think it's wss instead of ws.
-  'match origin protocol': false,
+  'match origin protocol': true,
 
   // Global authorization for Socket.IO access, 
   // this is called when the initial handshake is performed with the server.
