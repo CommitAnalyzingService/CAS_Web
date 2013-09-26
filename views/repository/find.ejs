@@ -1,0 +1,10 @@
+<div id="content" class="container" ng-init="repo = <%=repo%>">
+<div class="row">
+  <div class="col-md-12">
+  <h1>{{repo.title}}</h1>
+  </div>
+  <div class="col-md-12">
+  <div ng-repeat="commit in repo.commits" class="panel">{{commit.id}}: {{commit.message}}</div>
+  </div>
+</div>
+</div>

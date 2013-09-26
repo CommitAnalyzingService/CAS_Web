@@ -1,15 +1,34 @@
 <div id="content" class="container">
+<div class="jumbotron">
+    <h1><span class="glyphicon glyphicon-flag"></span> Check your repo</h1>
+    <p>View automatically generated reports of your repository's commits. Anywhere.</p>
+    <form class="form-inline" role="form" ng-submit="quickActions.quickAddRepo()">
+	  <div class="form-group" id="repo_url_group">
+	    <label class="sr-only" for="repo_url">Repo URL:</label>
+	    <input type="text" class="form-control input-lg" id="repo_url" ng-model="quickActions.repo_url" placeholder="Public Repo URL">
+	  </div>
+	  <div class="form-group">
+	  	<button type="submit" class="btn btn-primary btn-lg">Start Now</button>
+	  </div>
+	</form>
+</div>
+
 <div class="row">
   <div class="col-md-6">
-  <h1>Active Votes </h1>
+  <h1>Recent Repositories</h1>
     <ul class="list-group">
     	<li class="list-group-item" ng-repeat="item in items track by $index">{{item}}</li>
-    	<li class="list-group-item" ng-show="test.length > 0">{{test}}</li>
   </ul>
   </div>
   <div class="col-md-6">
-  <h1>New Vote </h1>
-  Testing: <input ng-model="test" placeholder="topic">
+  <h1>How it Works: </h1>
+  <div class="panel">
+  	<ul>
+  	<li>First, we pull your repository</li>
+  	<li>Then we analyze your repository every day</li>
+  	<li>Finally, we display the analyzation here</li>
+  	</ul>
+  </div>
   </div>
 </div>
 </div>

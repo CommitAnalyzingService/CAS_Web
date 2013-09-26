@@ -34,7 +34,7 @@ module.exports.routes = {
   // (This would also work if you had a file at: `/views/home.ejs`)
   '/': 'HomeController',
   '/home/data':'HomeController.data',
-  '/administration': 'AdminController',
+  '/repository': 'repositoryController',
   'get /*(^.*)': 'HomeController'
 
   /*
