@@ -3,14 +3,17 @@
 	"commits": [
 		{
 			"id":"23485gv7umwerp9thsdjghpio",
+			"date": "1/2/13 3:45:12pm",
 			"message":"Test commit message 1"
 		},
 		{
 			"id":"8349275yutoahdfjfcyq9o8w3",
+			"date": "1/1/13 5:50:11pm",
 			"message":"Test message 2"
 		},
 		{
 			"id":"p0o9kwqarumiasdfygiusdf90",
+			"date": "12/24/13 1:20:34pm",
 			"message":"Testing again 3"
 		}
 	]
