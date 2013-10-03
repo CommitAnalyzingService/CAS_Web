@@ -2,6 +2,9 @@
  * New node file
  */
 var test = 0;
+var sys = require('sys');
+var exec = require('child_process').exec;
+function puts(error, stdout, stderr) { sys.puts(stdout); }
 var RepositoryController = {
     index: function(req, res) {
     	if(req['headers']['x-request-origin'] == 'app') {
@@ -13,7 +16,12 @@ var RepositoryController = {
     	}
     },
     create: function(req, res) {
-    	res.json({id:'u3i2yw349o8ayt7',success:true});
+    	var result = false;
+    	var url = req.param('url').replace(/"|'|\\/g, ''); //Sanitize input
+    	exec("C:/Python33/python.exe C:/Users/Ben/Projects/CASWeb/files/process.py \""+url+"\"", function( error, stdout, stderr) {
+    		result = JSON.parse(stdout);
+    		res.json({id:'u3i2yw349o8ayt7', result: result,success:true});
+    	});
     },
     find: function(req, res) {
     	var repo_id = req.param('id');

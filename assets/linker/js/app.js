@@ -29,6 +29,7 @@ app.controller('AppCtrl', function ($scope, $location, socket) {
 						console.log(response);
 						if(response.success) {
 							$scope.$apply(function() {
+								$scope.result = response.result;
 								$location.path('/repo/'+response.id);
 							});
 						} else {
