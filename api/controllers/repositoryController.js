@@ -17,8 +17,9 @@ var RepositoryController = {
     },
     create: function(req, res) {
     	var result = false;
-    	var url = req.param('url').replace(/"|'|\\/g, ''); //Sanitize input
-    	exec("C:/Python33/python.exe C:/Users/Ben/Projects/CASWeb/files/process.py \""+url+"\"", function( error, stdout, stderr) {
+    	var url = req.param('url').replace(/"|'|\\/g, '').replace("\\","\\\\"); //Sanitize input
+    	exec("C:/Python33/python.exe C:/Users/Ben/Projects/CAS_Reader/readRepo.py \""+url+"\"", function( error, stdout, stderr) {
+    		console.log(stderr);
     		result = JSON.parse(stdout);
     		res.json({id:'u3i2yw349o8ayt7', result: result,success:true});
     	});
