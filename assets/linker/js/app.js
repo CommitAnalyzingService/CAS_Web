@@ -13,9 +13,7 @@ app.config(['$routeProvider', '$locationProvider','$httpProvider', function($rou
 	$httpProvider.defaults.headers.common['X-Request-Origin'] = 'app';
     $routeProvider.when('/', {templateUrl: '/', controller: 'HomeCtrl'});
     $routeProvider.when('/repo', {templateUrl: '/repository', controller: 'RepoCtrl'});
-    $routeProvider.when('/repo/:id', {templateUrl: function(params) {
-    	return '/repository/'+params.id;
-    }, controller: 'RepoCtrl'});
+    $routeProvider.when('/repo/:name', {templateUrl: 'repository.html', controller: 'RepoCtrl'});
     $routeProvider.otherwise({redirectTo: '/'});
     $locationProvider.html5Mode(true);
   }]);
@@ -29,8 +27,7 @@ app.controller('AppCtrl', function ($scope, $location, socket) {
 						console.log(response);
 						if(response.success) {
 							$scope.$apply(function() {
-								$scope.result = response.result;
-								$location.path('/repo/'+response.id);
+								$location.path('/repo/'+response.repo.name);
 							});
 						} else {
 							alert('Repo does not exist');
@@ -58,8 +55,19 @@ app.controller('NavbarCtrl', function ($scope, $location) {
     $scope.collapse = 0;
 });
 
-function RepoCtrl($scope) {
-}
+app.controller('RepoCtrl', function($scope, $routeParams, socket) {
+	$scope.repo = {
+		name: $routeParams.name + "..."	
+	};
+	$scope.loaded = false;
+	socket.get('/repository/' + $routeParams.name, function(response) {
+		//console.log(response);
+		$scope.$apply(function() {
+			$scope.loaded = true;
+			$scope.repo = response.repo;
+		});
+	});
+});
 
 
 function HomeCtrl($scope, socket) {

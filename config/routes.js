@@ -35,7 +35,9 @@ module.exports.routes = {
   '/': 'HomeController',
   '/home/data':'HomeController.data',
   '/repository': 'repositoryController',
-  'get /*(^.*)': 'HomeController'
+  '/repository/create/': 'repositoryController.create',
+  //'/repository/:name':'repositoryController.find',
+  'get /repo/*': 'HomeController'
 
   /*
   // But what if you want your home page to display

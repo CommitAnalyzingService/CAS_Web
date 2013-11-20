@@ -1,21 +1,28 @@
 /**
  * New node file
  */
-var test = 0;
 var HomeController = {
     index: function(req, res) {
     	if(req['headers']['x-request-origin'] == 'app') {
     		res.view(null, {layout: null});
     		console.log('Serving with no layout');
     	} else {
-    		res.view('home/index', {total:4});
+    		res.view({total:4});
     		console.log('Serving with layout');
     	}
     },
     data: function(req, res) {
-    		var response = ["twbs/bootstrap","HubSpot/vex","angular/angular.js","Socket Request #"+test];
-    		test++;
-    	res.json(response);
+    	Repository.find().done(function(err, result) {
+    		/*if(!err) {
+    			console.log(err);
+    		}*/
+    		//var response = [];
+    		/*result.forEach(function(item) {
+    			response.push(item.name)
+    		});*/
+        	res.json(result);
+    	});
+    	
     	//console.log('here2:',req.isAjax);
     	//console.log('Home/Data Requested');
     },

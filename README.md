@@ -14,4 +14,6 @@ These are managed in the package.json file in the project root. Please see this 
 ##Installation
 1. Clone the repository.
 2. Run `npm install` and wait for all node dependencies to download.
-3. To start the server, type `npm start`.
+3. Copy the `/config/adapters.example.js` to `/config/adapters.js` and add the
+correct credentials to the file.
+4. To start the server, type `npm start`.

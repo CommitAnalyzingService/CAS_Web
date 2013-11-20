@@ -216,3 +216,6 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+#CAS Web
+config/adapters.js
