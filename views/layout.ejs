@@ -84,7 +84,7 @@
 						<div ng-repeat="commit in repo.commits | filter:search">
 							<div class="panel panel-default">
 								<div class="panel-heading">
-									<div class="pull-right">{{commit.author_date}}</div>
+									<div class="pull-right">{{commit.author_name}} on {{commit.author_date}}</div>
 									<h3 class="panel-title">{{commit.commit_hash}}</h3>
 								</div>
 								<div class="panel-body">

@@ -61,8 +61,8 @@ var RepositoryController = {
     		    console.log("Repo created:", repo);
     		    res.json({repo: repo, success:true});
     		  }
-    		  Repository.subscribe(req.socket, [repo]);
-    		  /*setInterval(function() { 
+    		  /*Repository.subscribe(req.socket, [repo]);
+    		  setInterval(function() { 
     			  Repository.findOne(repo.id).done(function(err, repo){
     				  if(!err) {
     					  console.log(repo);
@@ -92,15 +92,15 @@ var RepositoryController = {
     	console.log(repo_name);
     	Repository.findOne({name:repo_name}).done(function(err, repo){
     		if(!err) {
-	    		console.log(repo);
-	    		if(typeof repo !== "undefined") {
-	    			console.log('Finding Commits');
-		    		Commit.find({repository_id:repo.id}).done(function(err, commits){
-		    			//console.log(err,commits);
-		    			repo.commits = commits
-		        		res.json({success: true, repo: repo});
-		        	});
-	    		} else {
+    			if(typeof repo !== "undefined") {
+    				Metric.findOne({repo:repo.id}).done(function(err, metrics){
+    					repo.metrics = metrics;
+			    		Commit.find({repository_id:repo.id}).done(function(err, commits){
+			    			repo.commits = commits;
+			        		res.json({success: true, repo: repo});
+			        	});
+    				});
+    			} else {
 	    			res.json({success:false, error:'Nothing Found'});
 	    		}
     		} else console.log(err);
