@@ -14,7 +14,7 @@ module.exports = {
   attributes: {
 	  repo: {
 		  type:'STRING'
-	  }
+	  },
 	  nsbuggy: {
 		   type: 'FLOAT',
 		   defaultsTo: 0
