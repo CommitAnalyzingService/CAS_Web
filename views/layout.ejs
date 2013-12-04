@@ -79,6 +79,7 @@
 						</form>
 					</div>
 				</div>
+				<pre>{{repo.metrics | json}}</pre>
 				<div class="row" ng-if="repo.commits.length > 0">
 					<div class="col-md-12">
 						<div ng-repeat="commit in repo.commits | filter:search">

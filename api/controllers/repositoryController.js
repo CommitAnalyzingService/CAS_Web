@@ -93,7 +93,7 @@ var RepositoryController = {
     	Repository.findOne({name:repo_name}).done(function(err, repo){
     		if(!err) {
     			if(typeof repo !== "undefined") {
-    				Metric.findOne({repo:repo.id}).done(function(err, metrics){
+    				Metric.findOne({repo:repo_name}).done(function(err, metrics){
     					repo.metrics = metrics;
 			    		Commit.find({repository_id:repo.id}).done(function(err, commits){
 			    			repo.commits = commits;

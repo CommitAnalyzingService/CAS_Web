@@ -21,6 +21,7 @@ module.exports = {
 		commit_message: 'STRING',
 		repository_id:'STRING',
 		//Statistics
+		fix: 'STRING',
 		contains_bug: {
 		    type: 'BOOLEAN',
 		    defaultsTo: false
@@ -73,7 +74,7 @@ module.exports = {
 		    type: 'FLOAT',
 		    defaultsTo: 0
 		},
-		rexo: {
+		rexp: {
 		    type: 'FLOAT',
 		    defaultsTo: 0
 		},

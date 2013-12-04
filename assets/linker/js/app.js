@@ -62,6 +62,11 @@ app.controller('RepoCtrl', function($scope, $routeParams, socket) {
 	$scope.loaded = false;
 	socket.get('/repository/' + $routeParams.name, function(response) {
 		//console.log(response);
+		response.repo.commits.forEach(function(commit) {
+			commit.forEach(function(value, key) {
+				if(typeof response.repo.commits)
+			});
+		});
 		$scope.$apply(function() {
 			$scope.loaded = true;
 			$scope.repo = response.repo;
