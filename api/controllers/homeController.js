@@ -5,10 +5,8 @@ var HomeController = {
     index: function(req, res) {
     	if(req['headers']['x-request-origin'] == 'app') {
     		res.view(null, {layout: null});
-    		console.log('Serving with no layout');
     	} else {
-    		res.view({total:4});
-    		console.log('Serving with layout');
+    		res.view();
     	}
     },
     data: function(req, res) {

@@ -89,13 +89,38 @@ var RepositoryController = {
     		res.view({layout: null, repo: data});
     	});
     	*/
-    	console.log(repo_name);
+    	// Get the repository
     	Repository.findOne({name:repo_name}).done(function(err, repo){
     		if(!err) {
     			if(typeof repo !== "undefined") {
+    				// Repository found, get the metrics
     				Metric.findOne({repo:repo_name}).done(function(err, metrics){
+    					// Regardless if successful, get commits
     					repo.metrics = metrics;
 			    		Commit.find({repository_id:repo.id}).done(function(err, commits){
+			    			// Loop through each commit's keys to determine if in between metric threshold
+			    			for(var i in commits) {
+			    				for(var key in commits[i]) {
+			    					var value = commits[i][key];
+			    					// Is key a metric?
+			    					if(metrics.hasOwnProperty(key+'nonbuggy')) {
+			    						commits[i][key] = {value: value, threshold:0}
+
+			    						var nonbuggy = key + 'nonbuggy',
+			    						buggy = key + 'buggy';
+			    						if(key == 'entrophy') {
+			    							buggy = key;
+			    						}
+			    						if(metrics[nonbuggy] <= value) {
+			    							commits[i][key].threshold = -1;
+			    						} else if(metrics[buggy] >= value) {
+			    							commits[i][key].threshold = 1;
+			    						} else {
+			    							commits[i][key].threshold = 0;
+			    						}
+			    					}
+			    				}
+			    			}
 			    			repo.commits = commits;
 			        		res.json({success: true, repo: repo});
 			        	});
