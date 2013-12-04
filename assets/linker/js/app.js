@@ -55,18 +55,29 @@ app.controller('NavbarCtrl', function ($scope, $location) {
     $scope.collapse = 0;
 });
 
-app.controller('RepoCtrl', function($scope, $routeParams, socket) {
+app.controller('RepoCtrl', function($scope, $routeParams, socket, $filter) {
 	$scope.repo = {
 		name: $routeParams.name + "..."	
 	};
 	$scope.loaded = false;
+	$scope.commits = [];
 	socket.get('/repository/' + $routeParams.name, function(response) {
 		//console.log(response);
 		$scope.$apply(function() {
 			$scope.loaded = true;
 			$scope.repo = response.repo;
+			$scope.commits = $scope.repo.commits;
 		});
 	});
+	/*$scope.$watch('search', function(newVal) {
+		console.log(newVal);
+		$scope.commits = $filter('filter')($scope.repo.commits, $scope.search);
+	});*/
+	$scope.currentPage = 0;
+    $scope.pageSize = 10;
+    $scope.numberOfPages=function(){
+        return Math.ceil($scope.commits.length/$scope.pageSize);                
+    }
 });
 
 
@@ -115,3 +126,9 @@ app.factory('socket', function ($rootScope) {
 	    }
 	  };*/
 	});
+app.filter('startFrom', function() {
+    return function(input, start) {
+        start = +start; //parse to int
+        return input.slice(start);
+    }
+});
