@@ -54,15 +54,21 @@
 	  <div class="collapse navbar-collapse navbar-ex1-collapse" ng-class="{in: collapse}">
 	    <ul class="nav navbar-nav">
 	      <li ng-class="{ active: currentPage('/')}"><a href="/" ng-click="collapse = 0"><b class="glyphicon  glyphicon-home"></b> Home</a></li>
-	      <li ng-class="{ active: currentPage('/repo')}"><a href="/repo" ng-click="collapse = 0"><b class="glyphicon glyphicon-asterisk"></b> Repos</a></li>
+	      <li ng-class="{ active: currentPage('/repos')}"><a href="/repos" ng-click="collapse = 0"><b class="glyphicon glyphicon-asterisk"></b> Repos</a></li>
 	    </ul>
 	  </div>
   </div>
 </nav>
-	<div ng-View id="mainView">
+	<div id="content">
+		<div class="container" id="messages" ng-if="globalMessages.length > 0">
+			<div class="alert alert-{{message.type}} alert-dismissable" ng-repeat="message in globalMessages">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				{{message.content}}
+			</div>
+		</div>
+		<div ng-View class="container"></div>
 	</div>
-	 <script type="text/ng-template" id="repository.html">
-	<div id="content" class="container">
+	<script type="text/ng-template" id="repository.html">
 		<div ng-switch="loaded">
 			<div ng-switch-when="true">
 				<div class="row">
@@ -80,7 +86,7 @@
 					</div>
 				</div>
 				<pre ng-if="debug">{{repo.metrics | json}}</pre>
-<div class="form-group">
+<div class="form-group" ng-if="repoStatus=='analyzed'">
 <button class="btn btn-default" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
         Previous
     </button>
@@ -132,14 +138,24 @@ Relative Age
 						</div>
 					</div>
 				</div>
-				<div class="row" ng-if="repo.commits.length == 0">
-					<div class="col-md-12">
+				<div class="row" ng-switch="repoStatus">
+					<div class="col-md-12" ng-switch-when='ingested'>
+						<div class="panel panel-warning">
+							<div class="panel-heading">
+								<h3 class="panel-title">Repository ingested, wating for analysis...</h3>
+							</div>
+							<div class="panel-body">
+								The repository was successfully ingested into the system, it is now waiting for analysis. This may take up an additional 20 minutes.
+							</div>
+						</div>
+					</div>
+					<div class="col-md-12" ng-switch-when='analyzed'>
 						<div class="panel panel-warning">
 							<div class="panel-heading">
 								<h3 class="panel-title">Repository scheduled to be analyzed</h3>
 							</div>
 							<div class="panel-body">
-								Please wait for the repository to be analyzed. This may take up to 5 minutes.
+								Please wait for the repository to be analyzed. This may take up to 20 minutes.
 							</div>
 						</div>
 					</div>
@@ -147,8 +163,6 @@ Relative Age
 			</div>
 			<h1 ng-switch-when="false">Repository Loading...</h1>
 		</div>
-	</div>
-
 	</script>
     </body>
 </html>

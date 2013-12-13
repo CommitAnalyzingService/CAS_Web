@@ -95,38 +95,44 @@ var RepositoryController = {
     			if(typeof repo !== "undefined") {
     				// Repository found, get the metrics
     				Metric.findOne({repo:repo_name}).done(function(err, metrics){
-    					// Regardless if successful, get commits
-    					repo.metrics = metrics;
-			    		Commit.find({repository_id:repo.id}).sort('author_date_unix_timestamp DESC').done(function(err, commits){
-			    			// Loop through each commit's keys to determine if in between metric threshold
-			    			for(var i in commits) {
-			    				for(var key in commits[i]) {
-			    					var value = parseFloat(commits[i][key]);
-			    					// Is key a metric?
-			    					if(metrics.hasOwnProperty(key+'nonbuggy')) {
-			    						commits[i][key] = {value: value, threshold:0}
-
-			    						var nonbuggy = key + 'nonbuggy',
-			    						buggy = key + 'buggy';
-			    						if(key == 'entrophy') {
-			    							buggy = key;
-			    						}
-			    						if(value <= metrics[nonbuggy]) {
-			    							commits[i][key].threshold = -1;
-			    						} else if(value >= metrics[buggy]) {
-			    							commits[i][key].threshold = 1;
-			    						} else {
-			    							commits[i][key].threshold = 0;
-			    						}
-			    					}
-			    				}
-			    			}
-			    			repo.commits = commits;
-			        		res.json({success: true, repo: repo});
-			        	});
+    					if(!err && typeof metrics != 'undefined') {
+	    					repo.metrics = metrics;
+				    		Commit.find({repository_id:repo.id}).sort('author_date_unix_timestamp DESC').done(function(err, commits){
+				    			// Loop through each commit's keys to determine if in between metric threshold
+				    			for(var i in commits) {
+				    				for(var key in commits[i]) {
+				    					var value = parseFloat(commits[i][key]);
+				    					// Is key a metric?
+				    					if(metrics.hasOwnProperty(key+'nonbuggy')) {
+				    						commits[i][key] = {value: value, threshold:0}
+	
+				    						var nonbuggy = key + 'nonbuggy',
+				    						buggy = key + 'buggy';
+				    						if(key == 'entrophy') {
+				    							buggy = key;
+				    						}
+				    						if(value <= metrics[nonbuggy]) {
+				    							commits[i][key].threshold = -1;
+				    						} else if(value >= metrics[buggy]) {
+				    							commits[i][key].threshold = 1;
+				    						} else {
+				    							commits[i][key].threshold = 0;
+				    						}
+				    					}
+				    				}
+				    			}
+				    			repo.commits = commits;
+				        		res.json({success: true, repo: repo,  repoStatus:'analyzed'});
+				        	});
+    					} else {
+    						repo.commits = [];
+    						repo.metrics = [];
+    						res.json({success: true, repo: repo, repoStatus:'ingested'});
+    					}
     				});
     			} else {
-	    			res.json({success:false, error:'Nothing Found'});
+    				// TODO: Send 404 and have it work correctly on client side.
+	    			res.json({success:false, error:'Nothing Found', repoStatus:'notfound'});
 	    		}
     		} else console.log(err);
     	});

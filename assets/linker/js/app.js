@@ -12,7 +12,7 @@ var app = angular.module('casweb', ['ngRoute']);
 app.config(['$routeProvider', '$locationProvider','$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
 	$httpProvider.defaults.headers.common['X-Request-Origin'] = 'app';
     $routeProvider.when('/', {templateUrl: '/', controller: 'HomeCtrl'});
-    $routeProvider.when('/repo', {templateUrl: '/repository', controller: 'RepoCtrl'});
+    $routeProvider.when('/repos', {templateUrl: '/repository'});
     $routeProvider.when('/repo/:name', {templateUrl: 'repository.html', controller: 'RepoCtrl'});
     $routeProvider.otherwise({redirectTo: '/'});
     $locationProvider.html5Mode(true);
@@ -20,6 +20,7 @@ app.config(['$routeProvider', '$locationProvider','$httpProvider', function($rou
 
 
 app.controller('AppCtrl', function ($scope, $location, socket) {
+	$scope.globalMessages = [];
 	$scope.quickActions = {
 			quickAddRepo: function() {
 				if(this.repo_url) {
@@ -55,18 +56,38 @@ app.controller('NavbarCtrl', function ($scope, $location) {
     $scope.collapse = 0;
 });
 
-app.controller('RepoCtrl', function($scope, $routeParams, socket, $filter) {
+app.controller('RepoCtrl', function($scope, $routeParams, socket, $filter, $location) {
 	$scope.repo = {
 		name: $routeParams.name + "..."	
 	};
 	$scope.loaded = false;
+	$scope.repoStatus = '';
+	$scope.repo = {};
 	$scope.commits = [];
 	socket.get('/repository/' + $routeParams.name, function(response) {
 		//console.log(response);
 		$scope.$apply(function() {
-			$scope.loaded = true;
-			$scope.repo = response.repo;
-			$scope.commits = $scope.repo.commits;
+			if(typeof response.repoStatus != 'undefined') {
+				if(response.repoStatus=='notfound') {
+					$scope.error = true;
+					$scope.globalMessages.push({
+						type:"danger",
+						content:'Repository does not exist.'
+					});
+					$location.path('/repos');
+				} else {
+					$scope.repo = response.repo;
+					$scope.repoStatus = response.repoStatus;
+					$scope.loaded = true;
+					$scope.commits = $scope.repo.commits;
+				}
+			} else {
+				$scope.globalMessages.push({
+					type:"danger",
+					content:'Something went wrong when trying to load the repository.'
+				});
+				$location.path('/repos');
+			}
 		});
 	});
 	/*$scope.$watch('search', function(newVal) {

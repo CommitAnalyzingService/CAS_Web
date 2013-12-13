@@ -1,4 +1,3 @@
-<div id="content" class="container">
 <div class="jumbotron">
     <h1><span class="glyphicon glyphicon-flag"></span> Check your repo</h1>
     <p>View automatically generated reports of your repository's commits. Anywhere.</p>
@@ -16,10 +15,15 @@
 <div class="row">
   <div class="col-md-6">
   <h1>Recent Repositories</h1>
-    <ul class="list-group">
-    	<li class="list-group-item" ng-repeat="item in items"><a href="/repo/{{item.name}}">{{item.name}}</a></li>
-  </ul>
-  </div>
+		<div class="list-group">
+			<a href="/repo/{{item.name}}" class="list-group-item" ng-repeat="item in items">
+				<h4 class="list-group-item-heading">{{item.name}}</h4>
+				<p class="list-group-item-text">
+					<span ng-if="item.ingestion_date.length > 0">Last Ingested: {{item.ingestion_date}}</span> <span ng-if="item.analysis_date.length > 0">, Last Analyzed: {{item.analysis_date}}</span>
+				</p>
+			</a>
+		</div>
+	</div>
   <div class="col-md-6">
   <h1>How it Works: </h1>
   <div class="panel">
@@ -30,5 +34,4 @@
   	</ul>
   </div>
   </div>
-</div>
 </div>
