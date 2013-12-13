@@ -19,7 +19,7 @@
 			<a href="/repo/{{item.name}}" class="list-group-item" ng-repeat="item in items">
 				<h4 class="list-group-item-heading">{{item.name}}</h4>
 				<p class="list-group-item-text">
-					<span ng-if="item.ingestion_date.length > 0">Last Ingested: {{item.ingestion_date}}</span> <span ng-if="item.analysis_date.length > 0">, Last Analyzed: {{item.analysis_date}}</span>
+					<span ng-if="item.ingestion_date.length > 0">Last Ingested: {{item.ingestion_date}}</span><span ng-if="item.analysis_date.length > 0">, Last Analyzed: {{item.analysis_date}}</span>
 				</p>
 			</a>
 		</div>

@@ -60,6 +60,7 @@ app.controller('RepoCtrl', function($scope, $routeParams, socket, $filter, $loca
 	$scope.repo = {
 		name: $routeParams.name + "..."	
 	};
+	$scope.search = {fulltext:''};
 	$scope.loaded = false;
 	$scope.repoStatus = '';
 	$scope.repo = {};
@@ -90,10 +91,10 @@ app.controller('RepoCtrl', function($scope, $routeParams, socket, $filter, $loca
 			}
 		});
 	});
-	/*$scope.$watch('search', function(newVal) {
-		console.log(newVal);
-		$scope.commits = $filter('filter')($scope.repo.commits, $scope.search);
-	});*/
+	$scope.$watchCollection('search', function(search) {
+		$scope.currentPage = 0;
+		$scope.commits = $filter('filter')($scope.repo.commits, search.fulltext);
+	});
 	$scope.currentPage = 0;
     $scope.pageSize = 10;
     $scope.numberOfPages=function(){
@@ -112,7 +113,7 @@ app.directive('metric', function() {
 		scope: {
 			metric:'='
 		},
-		template: '<div class="alert" ng-class="threshold" ng-bind="metric.value"></div><div ng-transclude></div>',
+		template: '<div class="alert" ng-class="threshold" ng-bind="metric.value | round"></div><div ng-transclude></div>',
 		link: {
 				pre: function(scope, elm, attrs) {
 					if(scope.metric.threshold > 0 ) scope.threshold="alert-danger";
@@ -151,5 +152,12 @@ app.filter('startFrom', function() {
     return function(input, start) {
         start = +start; //parse to int
         return input.slice(start);
+    }
+});
+app.filter('round', function() {
+    return function(input,places) {
+    	if(typeof places == 'undefined') places = 100;
+    	else places = Math.pow(10, places);
+        return Math.round(input*places)/places;
     }
 });

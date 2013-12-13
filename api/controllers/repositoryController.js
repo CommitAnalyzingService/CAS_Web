@@ -127,7 +127,17 @@ var RepositoryController = {
     					} else {
     						repo.commits = [];
     						repo.metrics = [];
-    						res.json({success: true, repo: repo, repoStatus:'ingested'});
+    						
+    						Commit.find()
+    						.where({repository_id:repo.id})
+    						.limit(1)
+    						.exec(function(err, commits) {
+    							if(commits.length > 1) {
+    	    						res.json({success: true, repo: repo, repoStatus:'ingested'});
+    							} else {
+    								res.json({success: true, repo: repo, repoStatus:'uningested'});
+    							}
+    						});
     					}
     				});
     			} else {
