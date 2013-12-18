@@ -146,6 +146,23 @@ var RepositoryController = {
 	    		}
     		} else console.log(err);
     	});
+    },
+    update: function(req, res) {
+    	
+    	var repo_name = req.param('id');
+
+    	Repository.update({name:repo_name}, req.body).done(function(err, repo){
+    		if(!err) {
+    			if(typeof repo !== "undefined") {
+    				res.json({success:true});
+    			} else {
+    				res.json({success:false, error:'Nothing Found', repoStatus:'notfound'});
+    			}
+    		} else {
+    			console.log(err);
+    			res.json({success:false, error:'Something went wrong with the database connection.'});
+    		}
+    	});
     }
 }
 

@@ -17,7 +17,8 @@ module.exports = {
   	url: 'string',
   	creation_date: 'string',
   	ingestion_date: 'string',
-  	analysis_date:'string'
+  	analysis_date:'string',
+  	email:'string'
   }
 
 };

@@ -19,8 +19,28 @@ app.config(['$routeProvider', '$locationProvider','$httpProvider', function($rou
   }]);
 
 
-app.controller('AppCtrl', function ($scope, $location, socket) {
-	$scope.globalMessages = [];
+app.controller('AppCtrl', function ($scope, $location, $timeout, socket) {
+	$scope.globalMessages = {
+			_messages: [],
+			push: function(elm) {
+				$scope.globalMessages._messages.push(elm);
+				$timeout(function() {
+					$scope.globalMessages.shift();
+				},3000);
+			},
+			shift: function() {
+				$scope.globalMessages._messages.shift();
+			},
+			remove: function(index) {
+				$scope.globalMessages._messages.splice(index, 1);
+			},
+			count: function() {
+				return $scope.globalMessages._messages.length;
+			},
+			get: function() {
+				return $scope.globalMessages._messages;
+			}
+	};
 	$scope.quickActions = {
 			quickAddRepo: function() {
 				if(this.repo_url) {
@@ -77,6 +97,7 @@ app.controller('RepoCtrl', function($scope, $routeParams, socket, $filter, $loca
 					});
 					$location.path('/repos');
 				} else {
+					if(response.repo.email == null) response.repo.email = "leedle";
 					$scope.repo = response.repo;
 					$scope.repoStatus = response.repoStatus;
 					$scope.loaded = true;
@@ -95,6 +116,32 @@ app.controller('RepoCtrl', function($scope, $routeParams, socket, $filter, $loca
 		$scope.currentPage = 0;
 		$scope.commits = $filter('filter')($scope.repo.commits, search.fulltext);
 	});
+	
+	$scope.updateEmail = function() {
+		if($scope.repo.email != null && $scope.repo.email.length > 0) {
+			socket.put('/repository/' + $routeParams.name, {email:$scope.repo.email}, function(response) {
+				$scope.$apply(function() {
+					if(response.success) {
+						$scope.globalMessages.push({
+							type:'success',
+							content:'Saved! You will now receive an email when your repository gets analyzed.'
+						});
+					} else {
+						$scope.globalMessages.push({
+							type:'danger',
+							content:'There was an error in updating your email.'
+						});
+					}
+				});
+			});
+		} else {
+			$scope.globalMessages.push({
+				type:'danger',
+				content:'Please enter a valid email.'
+			});
+		}
+	};
+	
 	$scope.currentPage = 0;
     $scope.pageSize = 10;
     $scope.numberOfPages=function(){
@@ -148,6 +195,7 @@ app.factory('socket', function ($rootScope) {
 	    }
 	  };*/
 	});
+
 app.filter('startFrom', function() {
     return function(input, start) {
         start = +start; //parse to int
