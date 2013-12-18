@@ -39,7 +39,7 @@ module.exports = {
 	        type: 'FLOAT',
 	        defaultsTo: 0
 	    },
-	    entrophy: {
+	    entrophybuggy: {
 	        type: 'FLOAT',
 	        defaultsTo: 0
 	    },
