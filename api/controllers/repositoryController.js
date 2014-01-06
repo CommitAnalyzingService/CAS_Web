@@ -94,7 +94,7 @@ var RepositoryController = {
     		if(!err) {
     			if(typeof repo !== "undefined") {
     				// Repository found, get the metrics
-    				Metric.findOne({repo:repo_name}).done(function(err, metrics){
+    				Metric.findOne({repo:repo.id}).done(function(err, metrics){
     					if(!err && typeof metrics != 'undefined') {
 	    					repo.metrics = metrics;
 				    		Commit.find({repository_id:repo.id}).sort('author_date_unix_timestamp DESC').done(function(err, commits){
