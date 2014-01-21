@@ -11,10 +11,10 @@
 			</div>
 		</div>
 		<pre ng-if="debug">{{repo.metrics | json}}</pre>
-		<div class="row" ng-if="commits.length > 0">
+		<div class="row" ng-show="showRepo">
 			<div class="col-md-4">
 				<div class="form-group">
-					<input type="text" class="form-control" ng-model="search" placeholder="Filter commits">
+					<input type="text" class="form-control" ng-model="search.fulltext" placeholder="Filter commits">
 				</div>
 			</div>
 			<div class="col-md-8">
@@ -28,11 +28,10 @@
 				</div>
 			</div>
 		</div>
-		<div class="row" ng-if="commits.length > 0">
-		Searching{{search}}
+		<div class="row" ng-show="showRepo">
 			<div class="col-md-12">
 				
-				<div ng-repeat="commit in commits | filter:search | startFrom:currentPage*pageSize | limitTo:pageSize">
+				<div ng-repeat="commit in commits | startFrom:currentPage*pageSize | limitTo:pageSize">
 					<div class="panel panel-default" ng-class="{'panel-danger':commit.contains_bug}">
 						<div class="panel-heading">
 							<div class="pull-right">{{commit.author_name}} on {{commit.author_date}}</div>
@@ -62,26 +61,60 @@
 						</div>
 					</div>
 				</div>
+				<div ng-if="commits.length == 0">
+					<div class="alert alert-warning">No Results</div>
+				</div>
 			</div>
 		</div>
-		<div class="row" ng-switch="repoStatus">
-			<div class="col-md-12" ng-switch-when='ingested'>
+		<div class="row">
+			<div class="col-md-6">
 				<div class="panel panel-warning">
 					<div class="panel-heading">
-						<h3 class="panel-title">Repository ingested, wating for analysis...</h3>
+						<h3 class="panel-title">Repository status: {{repo.status}}</h3>
 					</div>
-					<div class="panel-body">The repository was successfully ingested into the system and it is now waiting for analysis. This may take up an additional 20 minutes.</div>
+					<div class="panel-body" ng-switch="repo.status">
+					<span ng-switch-when="Waiting to be Ingested">
+						The repository is scheduled to be ingested into the system.
+					</span>
+					<span ng-switch-when="Ingesting">
+						The repository is currently being ingested into the system.
+					</span>
+					<span ng-switch-when="Waiting to be Analyzed">
+						The repository was successfully ingested into the system and it is now waiting for analysis.
+					</span>
+					<span ng-switch-when="Analyzing">
+						The repository is currently being analyzed by the system.
+					</span>
+					<span ng-switch-when="Analyzed">
+						The repository has been successfully analyzed by the system. It will be updated every day from now on.
+					</span>
+					</div>
 				</div>
 			</div>
-			<div class="col-md-12" ng-switch-when='uningested'>
-				<div class="panel panel-warning">
+			<div class="col-md-6">
+				<div class="panel panel-primary">
 					<div class="panel-heading">
-						<h3 class="panel-title">Repository scheduled to be ingested and analyzed</h3>
+						<h3 class="panel-title">Add a notification email</h3>
 					</div>
-					<div class="panel-body">Please wait for the repository to be ingested in to our system. This may take up to 20 minutes.</div>
-				</div>
+					<div class="panel-body">
+						<p>Want to get notified when your repository is ready to view?<br><br><strong>Yes?</strong> Then just add your email address below and you will get an email whenever your repository is analyzed.</p>
+						<form name="updateEmailForm" class="form-horizontal" novalidate ng-submit="updateEmail()">
+							<div class="form-group" ng-class="{'has-error':updateEmailForm.email.$dirty && updateEmailForm.email.$invalid}">
+								<label for="repo-email" class="col-sm-2 control-label">Email</label>
+								<div class="col-sm-10">
+									<input type="email" name="email" ng-model="repo.email" class="form-control" id="repo-email" placeholder="Email">
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+									<button type="submit" class="btn btn-default" ng-disabled="updateEmailForm.email.$error.email || updateEmailForm.email.$error.required">Save Email</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>				
 			</div>
 		</div>
 	</div>
-	<h1 ng-switch-when="false">Repository Loading...</h1>
+	<div class="alert alert-info center" style="margin-top:25px;" ng-switch-when="false">Repository Loading...</div>
 </div>

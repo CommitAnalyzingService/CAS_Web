@@ -7,6 +7,14 @@ var exec = require('child_process').exec;
 var moment = require('moment');
 function puts(error, stdout, stderr) { sys.puts(stdout); }
 
+function isValidUrl(url) {
+	return url.match(/^(ht|f)tps?:\/\/[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?$/);
+}
+
+function isValidEmail(email) {
+	return email.match(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/);
+}
+
 var genUUID = function() {
     var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split(''), uuid = new Array(36), rnd=0, r;
     for (var i = 0; i < 36; i++) {
@@ -45,15 +53,26 @@ var RepositoryController = {
     		res.json({id:'u3i2yw349o8ayt7', result: result,success:true});
     	});*/
     	var url = req.param('url').replace(/"|'|\\/g, '').replace("\\","\\\\");
+    	var email = req.param('email');
+    	if(!isValidUrl(url) && !isValidEmail(email)) {
+    		res.json({success:false, error: 'Invalid Email Address and/or Repo URL'});
+    		return;
+    	}
+    	
     	var urlParts = url.split('/');
     	var nameParts = urlParts[urlParts.length - 1];
     	var name = nameParts.split('.')[0];
     	var now = moment().format('YYYY-MM-DD HH:mm:ss');
+    	
+    	
+    	
     	Repository.create({
     		id:genUUID(),
     		name:name,
     		url:url,
-    		creation_date: now
+    		creation_date: now,
+    		status: 'Waiting to be Ingested',
+    		email: email
     	}).done(function(err, repo) {
     		  if (err) {
     		    return console.log(err);
@@ -122,7 +141,7 @@ var RepositoryController = {
 				    				}
 				    			}
 				    			repo.commits = commits;
-				        		res.json({success: true, repo: repo,  repoStatus:'analyzed'});
+				        		res.json({success: true, repo: repo});
 				        	});
     					} else {
     						repo.commits = [];
@@ -133,16 +152,16 @@ var RepositoryController = {
     						.limit(1)
     						.exec(function(err, commits) {
     							if(commits.length > 1) {
-    	    						res.json({success: true, repo: repo, repoStatus:'ingested'});
+    	    						res.json({success: true, repo: repo});
     							} else {
-    								res.json({success: true, repo: repo, repoStatus:'uningested'});
+    								res.json({success: true, repo: repo});
     							}
     						});
     					}
     				});
     			} else {
     				// TODO: Send 404 and have it work correctly on client side.
-	    			res.json({success:false, error:'Nothing Found', repoStatus:'notfound'});
+	    			res.json({success:false, error:'Nothing Found'});
 	    		}
     		} else console.log(err);
     	});
@@ -150,13 +169,26 @@ var RepositoryController = {
     update: function(req, res) {
     	
     	var repo_name = req.param('id');
-
-    	Repository.update({name:repo_name}, req.body).done(function(err, repo){
+    	var update = {};
+    	var valid = false;
+    	if('email' in req.body) {
+    		if(isValidEmail(req.body.email)) {
+    			update.email = req.body.email;
+    			valid = true;
+    		} else {
+    			valid = false;
+    		}
+    	}
+    	if(!valid) {
+    		res.json({success:false, error:'Only allowed to update valid emails.'});
+    		return;
+    	}
+    	Repository.update({name:repo_name}, update).done(function(err, repo){
     		if(!err) {
     			if(typeof repo !== "undefined") {
     				res.json({success:true});
     			} else {
-    				res.json({success:false, error:'Nothing Found', repoStatus:'notfound'});
+    				res.json({success:false, error:'Nothing Found'});
     			}
     		} else {
     			console.log(err);

@@ -13,7 +13,7 @@ app.config(['$routeProvider', '$locationProvider','$httpProvider', function($rou
 	$httpProvider.defaults.headers.common['X-Request-Origin'] = 'app';
     $routeProvider.when('/', {templateUrl: '/', controller: 'HomeCtrl'});
     $routeProvider.when('/repos', {templateUrl: '/repository'});
-    $routeProvider.when('/repo/:name', {templateUrl: 'repository.html', controller: 'RepoCtrl'});
+    $routeProvider.when('/repo/:name', {templateUrl: '/ui/repository/find.html', controller: 'RepoCtrl'});
     $routeProvider.otherwise({redirectTo: '/'});
     $locationProvider.html5Mode(true);
   }]);
@@ -41,30 +41,14 @@ app.controller('AppCtrl', function ($scope, $location, $timeout, socket) {
 				return $scope.globalMessages._messages;
 			}
 	};
-	$scope.quickActions = {
-			quickAddRepo: function() {
-				if(this.repo_url) {
-					socket.post('/repository/create',{url: this.repo_url}, function (response) {
-						console.log(response);
-						if(response.success) {
-							$scope.$apply(function() {
-								$location.path('/repo/'+response.repo.name);
-							});
-						} else {
-							alert('Repo does not exist');
-						}
-					});
-				}
-			},
-			repo_url: ''
-	};
+	socket.on('message', function messageReceived(message) {
+	      console.log('New comet message received :: ', message);
+	});
+	
 	socket.get('/home/data', function (response) {
 		$scope.$apply(function () {
 			$scope.items = response;
 		});  
-	});
-	socket.on('message', function messageReceived(message) {
-	      console.log('New comet message received :: ', message);
 	});
 });
 
@@ -87,30 +71,23 @@ app.controller('RepoCtrl', function($scope, $routeParams, socket, $filter, $loca
 	$scope.commits = [];
 	socket.get('/repository/' + $routeParams.name, function(response) {
 		//console.log(response);
-		$scope.$apply(function() {
-			if(typeof response.repoStatus != 'undefined') {
-				if(response.repoStatus=='notfound') {
-					$scope.error = true;
-					$scope.globalMessages.push({
-						type:"danger",
-						content:'Repository does not exist.'
-					});
-					$location.path('/repos');
-				} else {
-					if(response.repo.email == null) response.repo.email = "leedle";
-					$scope.repo = response.repo;
-					$scope.repoStatus = response.repoStatus;
-					$scope.loaded = true;
-					$scope.commits = $scope.repo.commits;
-				}
-			} else {
+		if(response.success) {
+			$scope.$apply(function() {
+				$scope.repo = response.repo;
+				$scope.loaded = true;
+				$scope.commits = $scope.repo.commits;
+				$scope.showRepo = ($scope.commits.length > 0 && $scope.repo.analysis_date != '');
+			});
+		} else {
+			$scope.$apply(function() {
+				$scope.error = true;
 				$scope.globalMessages.push({
 					type:"danger",
-					content:'Something went wrong when trying to load the repository.'
+					content:'Repository does not exist.'
 				});
 				$location.path('/repos');
-			}
-		});
+			});
+		}
 	});
 	$scope.$watchCollection('search', function(search) {
 		$scope.currentPage = 0;
@@ -150,8 +127,29 @@ app.controller('RepoCtrl', function($scope, $routeParams, socket, $filter, $loca
 });
 
 
-function HomeCtrl($scope, socket) {
-	$scope.test ="hi";
+function HomeCtrl($scope, socket, $location) {
+	$scope.quickActions = {
+			repo_url:'',
+			repo_email: '',
+			quickAddRepo: function() {
+				if($scope.quickAddForm.$valid) {
+					socket.post('/repository/create',{url: this.repo_url, email: this.repo_email}, function (response) {
+						console.log(response);
+						if(response.success) {
+							$scope.$apply(function() {
+								$location.path('/repo/'+response.repo.name);
+							});
+						} else {
+							$scope.globalMessages.push({
+								type: 'danger',
+								content: 'Cannot create repository: ' + response.error
+							});
+						}
+					});
+				}
+			},
+			repo_url: ''
+	};
 }
 app.directive('metric', function() {
 	return {
