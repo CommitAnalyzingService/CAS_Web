@@ -7,19 +7,36 @@
  */
 
 module.exports = {
-  tableName: 'repositories',
-  autoCreatedAt: false,
-  autoUpdatedAt: false,
-  autoPK: false,
-  attributes: {
-  	id: 'string',
-  	name: 'string',
-  	url: 'string',
-  	creation_date: 'string',
-  	ingestion_date: 'string',
-  	analysis_date:'string',
-  	email:'string',
-  	status: 'string'
-  }
-
+	tableName: 'repositories',
+	migrate: 'safe',
+	autoCreatedAt: false,
+	autoUpdatedAt: false,
+	autoPK: false,
+	attributes: {
+		id: {
+			type: 'STRING',
+			primaryKey: true
+		},
+		name: {
+			type: 'STRING'
+		},
+		url: {
+			type: 'STRING'
+		},
+		creation_date: {
+			type: 'STRING'
+		},
+		ingestion_date: {
+			type: 'STRING'
+		},
+		analysis_date: {
+			type: 'STRING'
+		},
+		email: {
+			type: 'STRING'
+		},
+		status: {
+			type: 'STRING'
+		},
+	}
 };
