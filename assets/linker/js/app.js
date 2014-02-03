@@ -171,6 +171,22 @@ app.controller('RepoCtrl', function($scope, $routeParams, socket, $filter, $loca
 	$scope.repo = {
 		name: $routeParams.name + "..."	
 	};
+	$scope.metricValues = {
+			ns: "# of subsystems",
+			nd: "# of directories",
+			nf: "# of files",
+			entrophy: "Entrophy",
+			la: "Lines added",
+			ld: "Lines deleted",
+			lt: "Lines total",
+			ndev: "# of devs",
+			age: "Relative age",
+			nuc: "# of unique changes",
+			exp: "Experience",
+			rexp: "R Experience",
+			sexp: "S Experience",	
+	};
+	
 	var registerMH = messageHandler.controllerRegister($scope);
 	$scope.search = {fulltext:''};
 	$scope.loaded = false;
@@ -238,6 +254,34 @@ app.controller('RepoCtrl', function($scope, $routeParams, socket, $filter, $loca
 			$scope.globalMessages.push({
 				type:'danger',
 				content:'Please enter a valid email.'
+			});
+		}
+	};
+	
+	$scope.submitFeedback = function(commit) {
+		if(commit.feedback.$valid) {
+			socket.post('/feedback/submit/' + commit.commit_hash, {
+				score: commit.feedback.score,
+				comment: commit.feedback.comment
+			}, function(response) {
+				$scope.$apply(function() {
+					if(response.success) {
+						$scope.globalMessages.push({
+							type: 'success',
+							content: 'Thanks for your feedback!'
+						});
+					} else {
+						$scope.globalMessages.push({
+							type:'danger',
+							content:'There was an error in submiting your feedback'
+						});
+					}
+				});
+			});
+		} else {
+			$scope.globalMessages.push({
+				type: 'danger',
+				content: 'Please at least submit either a thumbs up or thumbs down'
 			});
 		}
 	};

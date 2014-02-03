@@ -40,7 +40,8 @@ module.exports.routes = {
   //'/repository/:name':'repositoryController.find',
   'get /repo/*': 'HomeController',
   'get /repos': 'HomeController',
-  '/ui/:controller/:file': 'UiController.index'
+  '/ui/:controller/:file': 'UiController.index',
+  'post /feedback/submit/:commit_hash': 'FeedbackController.submit'
 
   /*
   // But what if you want your home page to display

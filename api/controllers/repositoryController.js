@@ -205,7 +205,7 @@ var RepositoryController = {
     			res.json({success:false, error:'Something went wrong with the database connection.'});
     		}
     	});
-    }
+    },
 }
 
 module.exports = RepositoryController;
