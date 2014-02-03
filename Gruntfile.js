@@ -126,7 +126,6 @@ module.exports = function (grunt) {
   grunt.loadTasks(depsPath + '/grunt-contrib-clean/tasks');
   grunt.loadTasks(depsPath + '/grunt-contrib-copy/tasks');
   grunt.loadTasks(depsPath + '/grunt-contrib-concat/tasks');
-  grunt.loadTasks(depsPath + '/grunt-sails-linker/tasks');
   grunt.loadTasks(depsPath + '/grunt-contrib-jst/tasks');
   grunt.loadTasks(depsPath + '/grunt-contrib-watch/tasks');
   grunt.loadTasks(depsPath + '/grunt-contrib-uglify/tasks');
@@ -234,7 +233,7 @@ module.exports = function (grunt) {
         files: ['assets/**/*'],
 
         // When assets are changed:
-        tasks: ['compileAssets', 'linkAssets']
+        tasks: ['compileAssets']
       }
     }
   });
@@ -242,7 +241,6 @@ module.exports = function (grunt) {
   // When Sails is lifted:
   grunt.registerTask('default', [
     'compileAssets',
-    'linkAssets',
     'watch'
   ]);
 
