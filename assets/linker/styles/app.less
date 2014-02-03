@@ -12,9 +12,36 @@
 	z-index: 1000;
 }
 
-#messages > .alert {
-	//box-shadow: 0px 0px 10px #777 !important;
+#messages .alert {
 	border-width:3px !important;
+}
+
+.animate-repeat.ng-move , .animate-repeat.ng-enter , .animate-repeat.ng-leave {
+	-webkit-transition: all ease 0.3s;
+	transition: all ease 0.3s;
+}
+
+.animate-repeat.ng-leave.ng-leave-active , .animate-repeat.ng-move , .animate-repeat.ng-enter {
+	opacity: 0;
+	max-height: 0;
+}
+
+.animate-repeat.ng-leave , .animate-repeat.ng-move.ng-move-active , .animate-repeat.ng-enter.ng-enter-active {
+	opacity: 1;
+	max-height: 80px;
+}
+
+.animate-fade.ng-move , .animate-fade.ng-enter , .animate-fade.ng-leave {
+	-webkit-transition: opacity linear 0.3s;
+	transition: opacity linear 0.3s;
+}
+
+.animate-fade.ng-leave.ng-leave-active , .animate-fade.ng-move , .animate-fade.ng-enter {
+	opacity: 0;
+}
+
+.animate-fade.ng-leave , .animate-fade.ng-move.ng-move-active , .animate-fade.ng-enter.ng-enter-active {
+	opacity: 1;
 }
 
 .center {

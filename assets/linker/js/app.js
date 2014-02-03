@@ -7,7 +7,7 @@
  * Feel free to change none, some, or ALL of this file to fit your needs!
  */
 
-var app = angular.module('casweb', ['ngRoute']);
+var app = angular.module('casweb', ['ngRoute', 'ngAnimate']);
 
 app.config(['$routeProvider', '$locationProvider','$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
 	$httpProvider.defaults.headers.common['X-Request-Origin'] = 'app';

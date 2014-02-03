@@ -1,5 +1,5 @@
 <div ng-switch="loaded">
-	<div ng-switch-when="true">
+	<div class="animate-fade" ng-switch-when="true">
 		<div class="row">
 			<div class="col-md-8">
 				<h2>{{repo.name}}</h2>
@@ -57,15 +57,15 @@
 									</div>
 								</div>
 								<div class="form-group">	
-									<button class="btn btn-primary" type="submit">Submit Feedback</button>
+									<button class="btn btn-primary" type="submit" ng-disabled="commit.feedback.$invalid">Submit Feedback</button>
 								</div>
 							</form>
 							<div class="form-group">
 								<button class="btn btn-primary" ng-click="show_commit_message = !show_commit_message" type="button">Toggle Message</button>
 								<button class="btn btn-default" ng-click="show_commit_diff = !show_commit_diff" type="button">Toggle Diff</button>
 							</div>
-							<div class="well" ng-if="show_commit_message">{{commit.commit_message}}</div>
-							<div class="well" ng-if="show_commit_diff">
+							<div class="well animate-fade" ng-if="show_commit_message">{{commit.commit_message}}</div>
+							<div class="well animate-fade" ng-if="show_commit_diff">
 								<i>Not Implimented Yet.</i>
 							</div>
 						</div>

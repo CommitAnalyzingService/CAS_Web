@@ -9,13 +9,14 @@
     <link href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular-animate.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular-route.js"></script>
    <script>window.APP_PORT = <%=sails.config.port%>;</script>
    <!--SCRIPTS-->
    <script src="/linker/js/socket.io.js"></script>
    <script src="/linker/js/sails.io.js"></script>
    <script src="/linker/js/app.js"></script>
-   <script src="/linker/js/angular-route.js"></script>
    <!--SCRIPTS END-->
 
 <!--STYLES-->
@@ -62,13 +63,15 @@
   </div>
 </nav>
 	<div id="content">
-		<div class="container" id="messages" ng-if="globalMessages.count() > 0">
-			<div class="alert alert-{{message.type}} alert-dismissable" ng-repeat="message in globalMessages.get()">
-				<button type="button" class="close" ng-click="globalMessages.remove($index)">&times;</button>
-				{{message.content}}
+		<div class="container" id="messages">
+			<div class="animate-repeat" ng-repeat="message in globalMessages.get()">
+				<div class="alert alert-{{message.type}} alert-dismissable">
+					<button type="button" class="close" ng-click="globalMessages.remove($index)">&times;</button>
+					{{message.content}}
+				</div>
 			</div>
 		</div>
-		<div ng-View class="container"></div>
+		<div ng-View class="container animate-fade"></div>
 	</div>			
 </body>
 </html>
