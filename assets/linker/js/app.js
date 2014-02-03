@@ -290,7 +290,7 @@ app.directive('metric', function() {
 	};
 });
 app.factory('socket', function ($rootScope) {
-	  var socket = io.connect();
+	  var socket = io.connect(':' + APP_PORT);
 	  return socket;
 	  /*
 	  return {
