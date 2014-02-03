@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link href='//fonts.googleapis.com/css?family=Roboto:100,300' rel='stylesheet' type='text/css'>
+    <link href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.2/angular.js"></script>
@@ -47,14 +48,14 @@
 	      <span class="icon-bar"></span>
 	      <span class="icon-bar"></span>
 	    </button>
-	    <a class="navbar-brand" href="/" ng-click="collapse = 0"><span class="glyphicon glyphicon-flag"></span> CAS</a>
+	    <a class="navbar-brand" href="/" ng-click="collapse = 0"><span class="fa fa-flag"></span> CAS</a>
 	  </div>
 	
 	  <!-- Collect the nav links, forms, and other content for toggling -->
 	  <div class="collapse navbar-collapse navbar-ex1-collapse" ng-class="{in: collapse}">
 	    <ul class="nav navbar-nav">
-	      <li ng-class="{ active: currentPage('/')}"><a href="/" ng-click="collapse = 0"><b class="glyphicon  glyphicon-home"></b> Home</a></li>
-	      <li ng-class="{ active: (currentPage('/repos')|| currentPage('/repo'))}"><a href="/repos" ng-click="collapse = 0"><b class="glyphicon glyphicon-asterisk"></b> Repos</a></li>
+	      <li ng-class="{ active: currentPage('/')}"><a href="/" ng-click="collapse = 0"><i class="fa fa-home"></i> Home</a></li>
+	      <li ng-class="{ active: (currentPage('/repos')|| currentPage('/repo'))}"><a href="/repos" ng-click="collapse = 0"><i class="fa fa-archive"></i> Repos</a></li>
 	    </ul>
 	  </div>
   </div>

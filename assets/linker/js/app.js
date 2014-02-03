@@ -41,15 +41,122 @@ app.controller('AppCtrl', function ($scope, $location, $timeout, socket) {
 				return $scope.globalMessages._messages;
 			}
 	};
-	socket.on('message', function messageReceived(message) {
-	      console.log('New comet message received :: ', message);
-	});
 	
 	socket.get('/home/data', function (response) {
 		$scope.$apply(function () {
 			$scope.items = response;
 		});  
 	});
+});
+
+app.service('messageHandler', function(socket) {
+
+	// A simple array remove tool preparing to be scoped when a handler is register 
+	var unregister = function(callback_ptr) {
+		this.splice(this.indexOf(callback_ptr), 1);
+	},
+	
+	// Init the mH, short for messageHandler because it is used so much
+	mH = {
+		_handlers: {}
+	};
+	
+	/**
+	 * Register a message handler
+	 * @param options Object{model, id, verb} The conditions to listen for
+	 * @param callback() Function What to execute when the conditions are met from a message
+	 */
+	mH.register = function(options, callback) {
+		
+		// Traverse the model -> id -> verb tree
+		// and create any node that hasn't already been created.
+		if(mH._handlers.hasOwnProperty(options.model)) {
+			if(mH._handlers[options.model].hasOwnProperty(options.id)) {
+				if(mH._handlers[options.model][options.id].hasOwnProperty(options.verb)) {
+					mH._handlers[options.model][options.id][options.verb].push(callback);
+				} else {
+					mH._handlers[options.model][options.id][options.verb] = [callback];
+				}
+			} else {
+				mH._handlers[options.model][options.id] = {};
+				mH._handlers[options.model][options.id][options.verb] = [callback];
+			}
+		} else {
+			mH._handlers[options.model] = {};
+			mH._handlers[options.model][options.id] = {};
+			mH._handlers[options.model][options.id][options.verb] = [callback];
+		}
+		
+		// Use the power of Function.bind to scope the unregister function in 
+		// the callback queue for that verb
+		callback.unregister = unregister.bind(mH._handlers[options.model][options.id][options.verb], callback);
+		return callback.unregister;
+	},
+	
+	/**
+	 * Handle an incoming message from the websocket
+	 * @param message Object The incoming message
+	 */
+	mH.handle = function(message) {
+		
+		// Traverse the model -> id -> verb tree and look for any handlers
+		if(mH._handlers.hasOwnProperty(message.model)) {
+			if(mH._handlers[message.model].hasOwnProperty(message.id)) {
+				if(mH._handlers[message.model][message.id].hasOwnProperty(message.verb)) {
+					var callbacks = mH._handlers[message.model][message.id][message.verb];
+					// Loop through the found callbacks and execute them
+					for(var i = 0, l = callbacks.length; i < l; i ++) {
+						
+						// If a callback returns false, stop executing the
+						// other callbacks as a safety (much like events)
+						if(!callbacks[i](message.data)) {
+							break;
+						}
+					}
+				}
+			}
+		}
+		
+		// Silently ignore any messages without handlers for now.
+	};
+	
+	// Here is where we actually listen to the socket
+	socket.on('message', mH.handle);
+	
+	// Return a simple abstraction for registering, and provide an easy way to
+	// keep registration in the lifetime of a controller.
+	return {
+		register: mH.register,
+		controllerRegister: function(scope) {
+			// Keep track of the callbacks assigned
+			var handler_callbacks = [];
+			
+			// If controller is deleted, unregister each of the callbacks
+			scope.$on("$destroy", function(){
+				for(var i = 0; i < handler_callbacks.length; i++) {
+					handler_callbacks[i].unregister();
+				}
+		    });
+			
+			// Return a re-usable function
+			return function(handler) {
+				
+				// Prepare the callback to be run inside a digest loop
+				var handler_callback = function(data) {
+					scope.$apply(function() {
+						handler['callback'](data);
+					});
+				};
+				
+				// Remember the callback so it can be unregistered later
+				handler_callbacks.push(handler_callback);
+				
+				// Register the handler and it's callback, return the
+				// unregister method of the callback
+				return mH.register(handler, handler_callback);
+			};
+		}
+	};
 });
 
 app.controller('NavbarCtrl', function ($scope, $location) {
@@ -60,23 +167,39 @@ app.controller('NavbarCtrl', function ($scope, $location) {
     $scope.collapse = 0;
 });
 
-app.controller('RepoCtrl', function($scope, $routeParams, socket, $filter, $location) {
+app.controller('RepoCtrl', function($scope, $routeParams, socket, $filter, $location, $route, messageHandler) {
 	$scope.repo = {
 		name: $routeParams.name + "..."	
 	};
+	var registerMH = messageHandler.controllerRegister($scope);
 	$scope.search = {fulltext:''};
 	$scope.loaded = false;
 	$scope.repoStatus = '';
 	$scope.repo = {};
 	$scope.commits = [];
 	socket.get('/repository/' + $routeParams.name, function(response) {
-		//console.log(response);
+	
 		if(response.success) {
 			$scope.$apply(function() {
 				$scope.repo = response.repo;
 				$scope.loaded = true;
 				$scope.commits = $scope.repo.commits;
 				$scope.showRepo = ($scope.commits.length > 0 && $scope.repo.analysis_date != '');
+				//if(!$scope.showRepo) {					
+					registerMH({
+						model: 'repository',
+						verb: 'update',
+						id: $scope.repo.id,
+						callback: function(data) {
+							if(data.hasOwnProperty('status')) {
+								if($scope.repo.status != 'Analyzed' && data.status == 'Analyzed') {
+									$route.reload();
+								}
+							}
+							$scope.repo = angular.extend($scope.repo, data);
+						}
+					});
+				//}
 			});
 		} else {
 			$scope.$apply(function() {
@@ -134,7 +257,6 @@ function HomeCtrl($scope, socket, $location) {
 			quickAddRepo: function() {
 				if($scope.quickAddForm.$valid) {
 					socket.post('/repository/create',{url: this.repo_url, email: this.repo_email}, function (response) {
-						console.log(response);
 						if(response.success) {
 							$scope.$apply(function() {
 								$location.path('/repo/'+response.repo.name);
@@ -148,7 +270,6 @@ function HomeCtrl($scope, socket, $location) {
 					});
 				}
 			},
-			repo_url: ''
 	};
 }
 app.directive('metric', function() {

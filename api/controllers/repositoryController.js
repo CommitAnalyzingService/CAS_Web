@@ -80,17 +80,6 @@ var RepositoryController = {
     		    console.log("Repo created:", repo);
     		    res.json({repo: repo, success:true});
     		  }
-    		  /*Repository.subscribe(req.socket, [repo]);
-    		  setInterval(function() { 
-    			  Repository.findOne(repo.id).done(function(err, repo){
-    				  if(!err) {
-    					  console.log(repo);
-    					  if(typeof repo !== "undefined") {
-    						  Repository.publish(req, [{id: repo.id}], {repo: repo, success:true});
-    					  }
-    				  } else console.log(error)
-    			  });
-    		  }, 5000);*/
     	});
     },
     find: function(req, res) {
@@ -163,6 +152,27 @@ var RepositoryController = {
     				// TODO: Send 404 and have it work correctly on client side.
 	    			res.json({success:false, error:'Nothing Found'});
 	    		}
+    			if(repo.status != 'Analyzed') {
+    				Repository.subscribe(req.socket, [repo.id]);
+        			var checkStatus = function() { 
+        				console.log('Checking for update to repo '+ repo.name);
+        				Repository.findOne(repo.id).done(function(err, newRepo){
+        					if(!err) {
+        						if(typeof repo !== "undefined") {
+        							if(repo.status != newRepo.status) {
+        								Repository.publishUpdate(repo.id, {status: newRepo.status});
+        							}
+        							if(newRepo.status == 'Analyzed') {
+        								clearInterval(checkStatusInterval);
+        								Repository.unsubscribe(req.socket, [repo.id])
+        							}
+        						}
+        					} else console.log(error)
+        				});
+        			}
+        			var checkStatusInterval = setInterval(checkStatus, 5000);
+    			}
+    			
     		} else console.log(err);
     	});
     },

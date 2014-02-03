@@ -1,5 +1,5 @@
 <div class="jumbotron">
-    <h1><span class="glyphicon glyphicon-flag"></span> Check your repo</h1>
+    <h1><span class="fa fa-flag"></span> Analyze your repo</h1>
     <p>View automatically generated reports of your repository's commits. Anywhere.</p>
     <form novalidate class="form-inline" role="form" name="quickAddForm" ng-submit="quickActions.quickAddRepo()">
 	  <div class="form-group" ng-class="{'has-error':quickAddForm.url.$dirty && quickAddForm.url.$invalid}">
@@ -8,7 +8,7 @@
 	  </div>
 	  <div class="form-group" ng-class="{'has-error':quickAddForm.email.$dirty && quickAddForm.email.$invalid}">
 	    <label class="sr-only" for="repo_email">Your Email Address:</label>
-	    <input required ng-model="quickActions.repo_email" type="email" class="form-control input-lg" id="repo_email" name="email" placeholder="Your email address">
+	    <input ng-model="quickActions.repo_email" type="email" class="form-control input-lg" id="repo_email" name="email" placeholder="Your email address">
 	  </div>
 	  <div class="form-group">
 	  	<button type="submit" ng-disabled="quickAddForm.$invalid" class="btn btn-primary btn-lg">Start Now</button>
