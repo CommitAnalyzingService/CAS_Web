@@ -298,9 +298,10 @@ function HomeCtrl($scope, socket, $location) {
 	$scope.quickActions = {
 			repo_url:'',
 			repo_email: '',
+			listed: true,
 			quickAddRepo: function() {
 				if($scope.quickAddForm.$valid) {
-					socket.post('/repository/create',{url: this.repo_url, email: this.repo_email}, function (response) {
+					socket.post('/repository/create',{url: this.repo_url, email: this.repo_email, listed: this.listed}, function (response) {
 						if(response.success) {
 							$scope.$apply(function() {
 								$location.path('/repo/'+response.repo.name);
@@ -316,6 +317,13 @@ function HomeCtrl($scope, socket, $location) {
 			},
 	};
 }
+
+app.filter('percentof', function () {
+	return function(input, total) {
+		return Math.round((+input)/(+total) * 100);
+	}
+});
+
 app.directive('metric', function() {
 	return {
 		restrict: 'A',

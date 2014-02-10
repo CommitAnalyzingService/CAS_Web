@@ -38,5 +38,9 @@ module.exports = {
 		status: {
 			type: 'STRING'
 		},
+		listed: {
+			type: 'BOOLEAN',
+			defaultsTo: 'TRUE'
+		}
 	}
 };

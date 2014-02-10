@@ -10,7 +10,7 @@ var HomeController = {
     	}
     },
     data: function(req, res) {
-    	Repository.find().sort('analysis_date DESC').done(function(err, result) {
+    	Repository.find().where({listed: true}).sort('analysis_date DESC').done(function(err, result) {
     		if(!err) {
     			res.json(result);
     		} else {
