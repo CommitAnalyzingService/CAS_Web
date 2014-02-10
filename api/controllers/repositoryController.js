@@ -36,13 +36,7 @@ var genUUID = function() {
 /**
  * Provide a way to send updates to the client
  */
-var repoPubPollList = [];
 var repoPubPoll = function(req, repo) {
-	var ident = req.socket.id + ':' + repo.id;
-	if(repoPubPollList.indexOf(ident) !== -1) {
-		return;
-	}
-	repoPubPollList.push(ident);
 	Repository.subscribe(req.socket, [ repo.id ]);
 	var checkStatus = function() {
 		console.log(req.socket.id + ' is checking for update to repo '
@@ -57,8 +51,7 @@ var repoPubPoll = function(req, repo) {
 					}
 					if(newRepo.status == 'Analyzed') {
 						clearInterval(checkStatusInterval);
-						Repository.unsubscribe(req.socket, [ repo.id ]);
-						repoPubPollList.splice(repoPubPollList.indexOf(ident), 1);
+						Repository.unsubscribe(req.socket, [ repo.id ])
 					}
 				}
 			} else
@@ -68,8 +61,7 @@ var repoPubPoll = function(req, repo) {
 	req.socket.on('disconnect', function() {
 		console.log(req.socket.id + ' disconnected, removing repo subscription');
 		clearInterval(checkStatusInterval);
-		Repository.unsubscribe(req.socket, [ repo.id ]);
-		repoPubPollList.splice(repoPubPollList.indexOf(ident), 1);
+		Repository.unsubscribe(req.socket, [ repo.id ])
 	});
 	var checkStatusInterval = setInterval(checkStatus, 5000);
 };
@@ -108,6 +100,7 @@ var RepositoryController = {
     	var listed = req.param('listed');
     	
     	
+    	
     	Repository.create({
     		id:genUUID(),
     		name:name,
@@ -115,7 +108,7 @@ var RepositoryController = {
     		creation_date: now,
     		status: 'Waiting to be Ingested',
     		email: email,
-    		listed: listed?true: false
+    		listed: listed?true:false
     	}).done(function(err, repo) {
     		  if (err) {
     		    return console.log(err);
@@ -190,8 +183,6 @@ var RepositoryController = {
 				    						commits[i][key].threshold = threshold;
 				    					}
 				    				}
-				    				
-				    				
 				    			}
 				    			
 				    			repo.commits = commits;
