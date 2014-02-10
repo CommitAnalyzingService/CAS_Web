@@ -12,7 +12,7 @@
 	z-index: 1000;
 }
 
-.alert {
+#messages .alert, .alert.alert-main {
 	border-width:3px !important;
 }
 
@@ -69,9 +69,24 @@ div[metric] .alert {
 	display:inline-block;
 }
 
+div[metric-summary] {
+	width:160px;
+	height:200px;
+}
+
+
+/*
+div.metric-summary-legend .list-group {
+	display: table-cell;
+}*/
+
 .inline-col {
 	display: inline-block;
 	vertical-align:top;
 	float:none;
+}
+
+.clone_url_field {
+	margin-top: 20px;
 }
 

@@ -7,7 +7,7 @@
  * Feel free to change none, some, or ALL of this file to fit your needs!
  */
 
-var app = angular.module('casweb', ['ngRoute', 'ngAnimate']);
+var app = angular.module('casweb', ['ngRoute', 'ngAnimate','angles']);
 
 app.config(['$routeProvider', '$locationProvider','$httpProvider', function($routeProvider, $locationProvider, $httpProvider) {
 	$httpProvider.defaults.headers.common['X-Request-Origin'] = 'app';
@@ -233,7 +233,7 @@ app.controller('RepoCtrl', function($scope, $routeParams, socket, $filter, $loca
 		$scope.commits = $filter('filter')($scope.repo.commits, search.fulltext);
 	});
 	
-	$scope.updateEmail = function() {
+	/*$scope.updateEmail = function() {
 		if($scope.repo.email != null && $scope.repo.email.length > 0) {
 			socket.put('/repository/' + $routeParams.name, {email:$scope.repo.email}, function(response) {
 				$scope.$apply(function() {
@@ -256,7 +256,7 @@ app.controller('RepoCtrl', function($scope, $routeParams, socket, $filter, $loca
 				content:'Please enter a valid email.'
 			});
 		}
-	};
+	};*/
 	
 	$scope.submitFeedback = function(commit) {
 		if(commit.feedback.$valid) {
@@ -330,6 +330,79 @@ app.directive('metric', function() {
 					else if(scope.metric.threshold < 0 ) scope.threshold="alert-success";
 					else scope.threshold="alert-warning";
 				}
+		}
+	};
+});
+app.directive("scrollActivate", function ($window, $timeout) {
+	var elements = [];
+	var win = angular.element($window);
+	var checkElm = function(elm, i) {
+		if (elm.triggered == false && elm.element.offset().top <= win.scrollTop() + win.height()) {
+			elm.triggered = true;
+			setTimeout(function() {
+				elm.scope.$eval(elm.expression);
+				elm.scope.$apply();
+				if(i !== false) {
+					elements.splice(elements.indexOf(elm), 1);
+				}
+			}, 200);
+			return true;
+		} else {
+			return false;
+		}
+	};
+	var addElm = function(elm) {
+		setTimeout(function() {
+			if(!checkElm(elm, false)) {
+		    	elements.push(elm);
+			}
+		}, 300);
+	};
+	win.bind("scroll", function() {
+		elements.forEach(checkElm);
+	});
+    return function(scope, element, attrs) {
+    	addElm({
+    		scope: scope,
+    		element: angular.element(element),
+    		expression: attrs.scrollActivate,
+    		triggered: false
+    	});
+    };
+});
+app.directive('metricSummary', function() {
+	return {
+		restrict: 'A',
+		transclude:true,
+		scope: {
+			metricSummary:'=',
+			size: '@'
+		},
+		template: '<canvas scroll-activate="data = staged_data" doughnutchart data="data" options="options" height="height" width="width"></canvas>',
+		link: {
+			pre: function(scope, elm, attrs) {
+				scope.staged_data = [{
+					value: scope.metricSummary.below,
+					color: 'rgb(223, 240, 216)'
+				},
+				{
+					value: scope.metricSummary.between,
+					color: 'rgb(252, 248, 227)'
+				},
+				{
+					value: scope.metricSummary.above,
+					color: 'rgb(242, 222, 222)'
+				}];
+				if(!scope.size) {
+					scope.height = 160;
+					scope.width = 200;
+				} else {
+					scope.height = + scope.size / 1.25;
+					scope.width = + scope.size;
+				}
+				scope.data = [];
+				scope.options = {};
+			}
 		}
 	};
 });

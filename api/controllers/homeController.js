@@ -10,15 +10,12 @@ var HomeController = {
     	}
     },
     data: function(req, res) {
-    	Repository.find().done(function(err, result) {
-    		/*if(!err) {
+    	Repository.find().sort('analysis_date DESC').done(function(err, result) {
+    		if(!err) {
+    			res.json(result);
+    		} else {
     			console.log(err);
-    		}*/
-    		//var response = [];
-    		/*result.forEach(function(item) {
-    			response.push(item.name)
-    		});*/
-        	res.json(result);
+    		}
     	});
     	
     	//console.log('here2:',req.isAjax);

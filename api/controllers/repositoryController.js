@@ -33,6 +33,39 @@ var genUUID = function() {
   };
 
 
+/**
+ * Provide a way to send updates to the client
+ */
+var repoPubPoll = function(req, repo) {
+	Repository.subscribe(req.socket, [ repo.id ]);
+	var checkStatus = function() {
+		console.log(req.socket.id + ' is checking for update to repo '
+			+ repo.name);
+		Repository.findOne(repo.id).done(function(err, newRepo) {
+			if(!err) {
+				if(typeof repo !== "undefined") {
+					if(repo.status != newRepo.status) {
+						Repository.publishUpdate(repo.id, {
+							status: newRepo.status
+						});
+					}
+					if(newRepo.status == 'Analyzed') {
+						clearInterval(checkStatusInterval);
+						Repository.unsubscribe(req.socket, [ repo.id ])
+					}
+				}
+			} else
+				console.log(error)
+		});
+	};
+	req.socket.on('disconnect', function() {
+		console.log(req.socket.id + ' disconnected, removing repo subscription');
+		clearInterval(checkStatusInterval);
+		Repository.unsubscribe(req.socket, [ repo.id ])
+	});
+	var checkStatusInterval = setInterval(checkStatus, 5000);
+};
+
 var RepositoryController = {
     index: function(req, res) {
     	if(req['headers']['x-request-origin'] == 'app') {
@@ -104,31 +137,51 @@ var RepositoryController = {
     				// Repository found, get the metrics
     				Metric.findOne({repo:repo.id}).done(function(err, metrics){
     					if(!err && typeof metrics != 'undefined') {
-	    					repo.metrics = metrics;
+	    					repo.metrics = {
+	    						individual: metrics,
+	    						overall: {
+	    							above: 0,
+	    							below: 0,
+	    							between: 0
+	    						}
+	    					};
+
 				    		Commit.find({repository_id:repo.id}).sort('author_date_unix_timestamp DESC').done(function(err, commits){
+				    			
 				    			// Loop through each commit's keys to determine if in between metric threshold
 				    			for(var i in commits) {
+				    				commits[i].metric_summary = {
+				    					above: 0,
+				    					below: 0,
+				    					between: 0
+				    				};
 				    				for(var key in commits[i]) {
-				    					var value = parseFloat(commits[i][key]);
+				    					
 				    					// Is key a metric?
 				    					if(metrics.hasOwnProperty(key+'nonbuggy')) {
-				    						commits[i][key] = {value: value, threshold:0}
-	
+				    						
+					    					var value = parseFloat(commits[i][key]);
+				    						commits[i][key] = {value: value, threshold:0};
 				    						var nonbuggy = key + 'nonbuggy',
 				    						buggy = key + 'buggy';
-				    						if(key == 'entrophy') {
-				    							buggy = key;
-				    						}
+				    						var threshold = 0;
 				    						if(value <= metrics[nonbuggy]) {
-				    							commits[i][key].threshold = -1;
+				    							threshold = -1;
+				    							commits[i].metric_summary.below += 1;
+				    							repo.metrics.overall.below += 1;
 				    						} else if(value >= metrics[buggy]) {
-				    							commits[i][key].threshold = 1;
+				    							threshold = 1;
+				    							commits[i].metric_summary.above += 1;
+				    							repo.metrics.overall.above += 1;
 				    						} else {
-				    							commits[i][key].threshold = 0;
+				    							commits[i].metric_summary.between += 1;
+				    							repo.metrics.overall.between += 1;
 				    						}
+				    						commits[i][key].threshold = threshold;
 				    					}
 				    				}
 				    			}
+				    			
 				    			repo.commits = commits;
 				        		res.json({success: true, repo: repo});
 				        	});
@@ -153,24 +206,7 @@ var RepositoryController = {
 	    			res.json({success:false, error:'Nothing Found'});
 	    		}
     			if(repo.status != 'Analyzed') {
-    				Repository.subscribe(req.socket, [repo.id]);
-        			var checkStatus = function() { 
-        				console.log('Checking for update to repo '+ repo.name);
-        				Repository.findOne(repo.id).done(function(err, newRepo){
-        					if(!err) {
-        						if(typeof repo !== "undefined") {
-        							if(repo.status != newRepo.status) {
-        								Repository.publishUpdate(repo.id, {status: newRepo.status});
-        							}
-        							if(newRepo.status == 'Analyzed') {
-        								clearInterval(checkStatusInterval);
-        								Repository.unsubscribe(req.socket, [repo.id])
-        							}
-        						}
-        					} else console.log(error)
-        				});
-        			}
-        			var checkStatusInterval = setInterval(checkStatus, 5000);
+    				repoPubPoll(req, repo);
     			}
     			
     		} else console.log(err);
