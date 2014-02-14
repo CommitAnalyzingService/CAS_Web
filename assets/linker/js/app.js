@@ -172,23 +172,23 @@ app.controller('RepoCtrl', function($scope, $routeParams, socket, $filter, $loca
 		name: $routeParams.name + "..."	
 	};
 	$scope.metricValues = {
-			ns: "# of subsystems",
-			nd: "# of directories",
-			nf: "# of files",
-			entrophy: "Entrophy",
+			ns: "# of modified subsystems",
+			nd: "# of modified directories",
+			nf: "# of modified files",
+			entrophy: "Entrophy (distribution)",
 			la: "Lines added",
 			ld: "Lines deleted",
-			lt: "Lines total",
-			ndev: "# of devs",
-			age: "Relative age",
+			lt: "Total lines",
+			ndev: "# of devs contributing",
+			age: "Age from last change",
 			nuc: "# of unique changes",
-			exp: "Experience",
-			rexp: "R Experience",
-			sexp: "S Experience",	
+			exp: "Dev experience",
+			rexp: "Recent dev experience",
+			sexp: "Subsystem dev experience",	
 	};
 	
 	var registerMH = messageHandler.controllerRegister($scope);
-	$scope.search = {fulltext:''};
+	$scope.search = {fulltext:'', merge: true};
 	$scope.loaded = false;
 	$scope.repoStatus = '';
 	$scope.repo = {};
@@ -230,7 +230,12 @@ app.controller('RepoCtrl', function($scope, $routeParams, socket, $filter, $loca
 	});
 	$scope.$watchCollection('search', function(search) {
 		$scope.currentPage = 0;
-		$scope.commits = $filter('filter')($scope.repo.commits, search.fulltext);
+		var filterFilter = $filter('filter');
+		var commits = filterFilter($scope.repo.commits, $scope.search.fulltext);
+		if(!$scope.search.merge) {
+			commits = filterFilter(commits, "!merge");
+		}
+		$scope.commits = commits;
 	});
 	
 	/*$scope.updateEmail = function() {
@@ -316,6 +321,20 @@ function HomeCtrl($scope, socket, $location) {
 				}
 			},
 	};
+	
+	var now = new Date(Date.now());
+	now = now.getHours();
+	if(now == 0) {
+		$scope.now = "12am";
+	} else if(now < 12) {
+		$scope.now = now + "am";
+	} else if(now == 12) {
+		$scope.now = "12pm";
+	} else {
+		$scope.now = (now - 12) + "pm";
+	}
+	
+	
 }
 
 app.filter('percentof', function () {

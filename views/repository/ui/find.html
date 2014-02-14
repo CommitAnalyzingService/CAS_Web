@@ -5,7 +5,7 @@
 				<div class="navbar-header">
 					<div class="site-title">
 						<div class="logo">
-							<a href="/" ng-click="collapse = 0"><span class="fa fa-flag"></span> CAS</a>
+							<a href="/" ng-click="collapse = 0"><span class="fa fa-magic"></span> Commit Guru</a>
 						</div>
 					</div>
 					<div class="page-title">
@@ -91,9 +91,12 @@
 			</div>
 			<h2 ng-show="showRepo" id="page-anchor-commits">Commit Statistics</h2>
 			<div class="row" ng-show="showRepo">
-				<div class="col-md-4">
+				<div class="col-md-4 form-inline">
 					<div class="form-group">
 						<input type="text" class="form-control" ng-model="search.fulltext" placeholder="Filter commits">
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" class="form-control" ng-model="search.merge" /> Show Merge commits?</label>
 					</div>
 				</div>
 				<div class="col-md-8">
