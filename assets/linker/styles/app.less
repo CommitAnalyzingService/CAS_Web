@@ -90,3 +90,106 @@ div.metric-summary-legend .list-group {
 	margin-top: 20px;
 }
 
+.page-navbar {
+
+	background-color: @jumbotron-bg;
+	border-top: 0;
+	border-right: 0;
+	border-left: 0;
+	border-bottom: 2px solid #ccc;
+	
+	.site-title {
+		overflow: hidden;
+		float: left;
+		margin-left:-90px;
+		width:90px;
+	}
+	
+	.site-title .logo {
+		margin-top: -60px;
+		-webkit-transition: margin-top .5s ease;
+		transition: margin-top .5s ease;
+	}
+	
+	@media screen and (min-width: @screen-md-min) {
+		height: 52px;
+		z-index: 1031;
+		width:100%;
+		left: 0;
+		&.affix {
+			position: fixed;
+			margin-top: -50px;
+		}
+		&:not(.affix) {
+			position: absolute;
+			margin-top: 0;
+		}
+	
+		.logo {
+			color: #333;
+			font-size: 18px;
+			width: 100px;
+		}
+		
+		.logo a {
+			color: #333;
+		}
+		
+		&.affix .site-title .logo {
+			margin-top: 13px;
+		}
+	}
+	@media screen and (max-width: @screen-sm-max) {
+		
+		padding-top: 10px;
+		position: static !important;
+		
+		.container {
+			margin-left: (@grid-gutter-width / 2);
+			margin-right: (@grid-gutter-width / 2);
+		}
+		
+		ul.nav.navbar-nav > li > a {
+			float: left;
+		}
+	}
+	
+	.page-title {
+		float: left;
+		padding-top: 5px;
+	}
+	
+	.page-title  h1 {
+		padding: 0;
+		margin: 0;
+	}
+	
+	.form-group {
+		margin-top: 7px;
+	}
+	
+	ul.nav.navbar-nav {
+		margin-left: 10px;
+	}
+	
+	ul.nav.navbar-nav > li > a {
+		color: #333;
+	}
+	
+	ul.nav.navbar-nav > li:hover > a {
+		background-color: #ddd;
+	}
+	
+	&:extend(.navbar);
+}
+
+.page-body {
+	
+	@media screen and (min-width: @screen-md-min) {
+		padding-top: 60px;
+	}
+	
+	@media screen and (max-width: @screen-sm-max) {
+		padding-top: 10px;
+	}
+}

@@ -146,10 +146,50 @@ var RepositoryController = {
 	    							above: 0,
 	    							below: 0,
 	    							between: 0
+	    						},
+	    						history: {
+	    							ids: [],
+	    							values: {
+	    								quality: [],
+	    							}
 	    						}
 	    					};
+	    				
 
 				    		Commit.find({repository_id:repo.id}).sort('author_date_unix_timestamp DESC').done(function(err, commits){
+				    			
+				    			var historyFreq = 1;
+				    			if(commits.length > 10) {
+				    				var modInterval = commits.length % 10;
+				    				var rawInterval = Math.floor(commits.length / 10);
+				    				historyFreq = (modInterval == 0)? rawInterval: rawInterval + 1;
+				    			}
+				    			var historyCount = 1;
+				    			var currentAvgs = [];
+				    			var saveHistory = function() {
+	    							var sum = 0;
+	    							for(var i = 0; i < currentAvgs.length; i++) {
+	    								sum += currentAvgs[i];
+	    							}
+	    							repo.metrics.history.ids.push(historyCount);
+	    							repo.metrics.history.values.quality.unshift(sum / currentAvgs.length);
+	    							currentAvgs = [];
+				    			};
+		    					var updateRepoMetrics = function(commit, summary) {
+		    						repo.metrics.overall.above += summary.above;
+		    						repo.metrics.overall.between += summary.between;
+		    						repo.metrics.overall.below += summary.below;
+		    						
+	    							var total = summary.above + summary.between + summary.below;
+	    							var quality = (total == 0)? 0: Math.round((summary.below / total) * 100);
+	    							currentAvgs.push(quality);
+		    						
+		    						if(historyCount % historyFreq == 0 || historyCount == commits.length) {
+		    							saveHistory();
+		    						}
+		    						
+		    						historyCount++;
+		    					};
 				    			
 				    			// Loop through each commit's keys to determine if in between metric threshold
 				    			for(var i in commits) {
@@ -171,18 +211,16 @@ var RepositoryController = {
 				    						if(value <= metrics[nonbuggy]) {
 				    							threshold = -1;
 				    							commits[i].metric_summary.below += 1;
-				    							repo.metrics.overall.below += 1;
 				    						} else if(value >= metrics[buggy]) {
 				    							threshold = 1;
 				    							commits[i].metric_summary.above += 1;
-				    							repo.metrics.overall.above += 1;
 				    						} else {
 				    							commits[i].metric_summary.between += 1;
-				    							repo.metrics.overall.between += 1;
 				    						}
 				    						commits[i][key].threshold = threshold;
 				    					}
 				    				}
+				    				updateRepoMetrics(commits[i], commits[i].metric_summary);
 				    			}
 				    			
 				    			repo.commits = commits;
@@ -204,13 +242,14 @@ var RepositoryController = {
     						});
     					}
     				});
+    				
+        			if(repo.status != 'Analyzed') {
+        				repoPubPoll(req, repo);
+        			}
     			} else {
     				// TODO: Send 404 and have it work correctly on client side.
 	    			res.json({success:false, error:'Nothing Found'});
 	    		}
-    			if(repo.status != 'Analyzed') {
-    				repoPubPoll(req, repo);
-    			}
     			
     		} else console.log(err);
     	});

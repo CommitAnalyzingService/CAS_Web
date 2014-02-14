@@ -1,156 +1,184 @@
 <div ng-switch="loaded">
 	<div class="animate-fade" ng-switch-when="true">
-		<div class="row">
-			<div class="col-md-6">
-				<h1>{{repo.name}} <small ng-if="!repo.listed">Unlisted</small></h1>
-			</div>
-			<div class="col-md-6">
-				<div class="form-horizontal clone_url_field">
-					<div class="form-group">
-						<label for="clone_url" class="control-label col-xs-6">Clone URL:</label>
-						<div class="col-xs-6">
-							<input id="clone_url" class="form-control" type="text" value="{{repo.url}}" readonly="true" />
+		<div class="page-navbar" pinned>
+			<div class="container">
+				<div class="navbar-header">
+					<div class="site-title">
+						<div class="logo">
+							<a href="/" ng-click="collapse = 0"><span class="fa fa-flag"></span> CAS</a>
+						</div>
+					</div>
+					<div class="page-title">
+						<h1>
+							<a ng-attr-href="/repo/{{repo.name}}">{{repo.name}}</a> <small ng-if="!repo.listed">Unlisted</small>
+						</h1>
+					</div>
+				</div>
+					<ul class="nav navbar-nav">
+						<li><a href="#page-anchor-overview">Overview</a></li>
+						<li><a href="#page-anchor-commits">Commits</a></li>
+						<li><a href="#">Options</a></li>
+					</ul>
+				<div class="navbar-right">
+					<div class="form-horizontal">
+						<div class="form-group">
+							<label for="clone_url" class="control-label col-xs-6">Clone URL:</label>
+							<div class="col-xs-6">
+								<input id="clone_url" class="form-control" type="text" value="{{repo.url}}" readonly="true" />
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<h2>Overview</h2>
-		<div class="row">
-			<div class="col-md-3" ng-show="showRepo">
-				<div metric-summary="repo.metrics.overall" size="250">
-				</div>
-			</div>
-			<div class="col-md-2" ng-show="showRepo">
-				<div class="list-group metric-summary-legend" ng-init="mtotal = repo.metrics.overall.below + repo.metrics.overall.between + repo.metrics.overall.above">
-					<a class="list-group-item list-group-item-primary" href="#" ng-click="ms_filter = false">
-						All Categories
-					</a>
-					<a class="list-group-item list-group-item-danger" href="#" ng-click="ms_filter = 1" ng-class="{'active':ms_filter === 1}">
-						{{repo.metrics.overall.above | percentof: mtotal}}% High Risk
-					</a>
-					<a class="list-group-item list-group-item-warning" href="#" ng-click="ms_filter = 0" ng-class="{'active':ms_filter === 0}">
-						{{repo.metrics.overall.between | percentof: mtotal}}% Possible Risk
-					</a>
-					<a class="list-group-item list-group-item-success" href="#" ng-click="ms_filter = -1" ng-class="{'active':ms_filter === -1}">
-						{{repo.metrics.overall.below | percentof: mtotal}}% Low Risk
-					</a>
-				</div>
-			</div>
-			<div class="col-md-7">
-				<div class="panel panel-warning">
-					<div class="panel-heading">
-						<h3 class="panel-title">Repository status: {{repo.status}} <i class="fa fa-refresh fa-spin" ng-show="repo.status != 'Analyzed'"></i></h3>
-					</div>
-					<div class="panel-body" ng-switch="repo.status">
-					<span ng-switch-when="Waiting to be Ingested">
-						The repository is scheduled to be ingested into the system.
-					</span>
-					<span ng-switch-when="Ingesting">
-						The repository is currently being ingested into the system.
-					</span>
-					<span ng-switch-when="Waiting to be Analyzed">
-						The repository was successfully ingested into the system and it is now waiting for analysis.
-					</span>
-					<span ng-switch-when="Analyzing">
-						The repository is currently being analyzed by the system.
-					</span>
-					<span ng-switch-when="Analyzed">
-						The repository has been successfully analyzed by the system. It will be updated every day from now on.
-					</span>
-					<br><br>
-					<span ng-if="repo.ingestion_date.length > 0">Last Ingested: {{repo.ingestion_date}}</span><span ng-if="repo.analysis_date.length > 0"><br>Last Analyzed: {{repo.analysis_date}}</span>
-					</div>
-				</div>
-			</div>
-		</div>
-		<h2 ng-show="showRepo">Commit Statistics</h2>
-		<div class="row" ng-show="showRepo">
-			<div class="col-md-4">
-				<div class="form-group">
-					<input type="text" class="form-control" ng-model="search.fulltext" placeholder="Filter commits">
-				</div>
-			</div>
-			<div class="col-md-8">
-				<div class="pull-right">
-					<div class="form-group">
-						<button class="btn btn-default" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">Previous</button>
-						{{currentPage+1}}/{{numberOfPages()}}
-						<button class="btn btn-default" ng-disabled="currentPage >= commits.length/pageSize - 1" ng-click="currentPage=currentPage+1">Next</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="row" ng-show="showRepo">
-			<div class="col-md-12">
-				
-				<div ng-repeat="commit in commits | startFrom:currentPage*pageSize | limitTo:pageSize">
-					<div class="panel panel-default" ng-class="{'panel-danger':commit.contains_bug}">
-						<div class="panel-heading">
-							<div class="pull-right">{{commit.author_name}} on {{commit.author_date}}</div>
-							<h3 class="panel-title">
-								<span ng-if="commit.contains_bug">Possible Bug-inducing: </span>{{commit.commit_hash.substr(0, 10)}} <i>{{commit.commit_message.substr(0, 60)}}...</i>
-							</h3>
+		<div class="container page-body">
+			<h2 id="page-anchor-overview">Overview</h2>
+			<div class="panel">
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-3" ng-show="showRepo">
+							<div metric-summary="repo.metrics.overall" size="250">
+							</div>
 						</div>
-						<div class="panel-body">
-							<div class="row">
-								<div class="col-md-2">
-									<div metric-summary="commit.metric_summary">
-									</div>
+						<div class="col-md-2" ng-show="showRepo">
+							<div class="list-group metric-summary-legend" ng-init="mtotal = repo.metrics.overall.below + repo.metrics.overall.between + repo.metrics.overall.above">
+								<a class="list-group-item list-group-item-primary" href="#" ng-click="ms_filter = false">
+									All Categories
+								</a>
+								<a class="list-group-item list-group-item-danger" href="#" ng-click="ms_filter = 1" ng-class="{'active':ms_filter === 1}">
+									{{repo.metrics.overall.above | percentof: mtotal}}% High Risk
+								</a>
+								<a class="list-group-item list-group-item-warning" href="#" ng-click="ms_filter = 0" ng-class="{'active':ms_filter === 0}">
+									{{repo.metrics.overall.between | percentof: mtotal}}% Possible Risk
+								</a>
+								<a class="list-group-item list-group-item-success" href="#" ng-click="ms_filter = -1" ng-class="{'active':ms_filter === -1}">
+									{{repo.metrics.overall.below | percentof: mtotal}}% Low Risk
+								</a>
+							</div>
+						</div>
+						<div class="col-md-3" ng-show="showRepo">
+							<div metric-history="repo.metrics.history" size="250">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="panel panel-warning">
+								<div class="panel-heading">
+									<h3 class="panel-title">Repository status: {{repo.status}} <i class="fa fa-refresh fa-spin" ng-show="repo.status != 'Analyzed'"></i></h3>
 								</div>
-								<div class="col-md-2">
-									<div class="list-group metric-summary-legend" ng-init="mtotal = commit.metric_summary.below + commit.metric_summary.between + commit.metric_summary.above">
-										<a class="list-group-item list-group-item-primary" href="#" ng-click="ms_filter = false">
-											All Categories
-										</a>
-										<a class="list-group-item list-group-item-danger" href="#" ng-click="ms_filter = 1" ng-class="{'active':ms_filter === 1}">
-											{{commit.metric_summary.above | percentof: mtotal}}% High Risk
-										</a>
-										<a class="list-group-item list-group-item-warning" href="#" ng-click="ms_filter = 0" ng-class="{'active':ms_filter === 0}">
-											{{commit.metric_summary.between | percentof: mtotal}}% Possible Risk
-										</a>
-										<a class="list-group-item list-group-item-success" href="#" ng-click="ms_filter = -1" ng-class="{'active':ms_filter === -1}">
-											{{commit.metric_summary.below | percentof: mtotal}}% Low Risk
-										</a>
-									</div>
-								</div>
-								<div class="col-md-8">
-									<div class="row">
-										<div ng-repeat="(key, display) in metricValues" ng-if="(ms_filter===false || (!ms_filter && ms_filter !== 0))?true:(commit[key].threshold == ms_filter)" class="inline-col col-md-2" metric="commit[key]">{{display}}</div>
-									</div>
+								<div class="panel-body" ng-switch="repo.status">
+								<span ng-switch-when="Waiting to be Ingested">
+									The repository is scheduled to be ingested into the system.
+								</span>
+								<span ng-switch-when="Ingesting">
+									The repository is currently being ingested into the system.
+								</span>
+								<span ng-switch-when="Waiting to be Analyzed">
+									The repository was successfully ingested into the system and it is now waiting for analysis.
+								</span>
+								<span ng-switch-when="Analyzing">
+									The repository is currently being analyzed by the system.
+								</span>
+								<span ng-switch-when="Analyzed">
+									The repository has been successfully analyzed by the system. It will be updated every day from now on.
+								</span>
+								<br><br>
+								<span ng-if="repo.ingestion_date.length > 0">Last Ingested: {{repo.ingestion_date}}</span><span ng-if="repo.analysis_date.length > 0"><br>Last Analyzed: {{repo.analysis_date}}</span>
 								</div>
 							</div>
-							<form class="form-inline pull-right" name="commit.feedback" ng-submit="submitFeedback(commit)">
-								<div class="form-group">	
-									<input type="text" class="form-control" ng-model="commit.feedback.comment" placeholder="Was this helpful?">
+						</div>
+					</div>
+				</div>
+			</div>
+			<h2 ng-show="showRepo" id="page-anchor-commits">Commit Statistics</h2>
+			<div class="row" ng-show="showRepo">
+				<div class="col-md-4">
+					<div class="form-group">
+						<input type="text" class="form-control" ng-model="search.fulltext" placeholder="Filter commits">
+					</div>
+				</div>
+				<div class="col-md-8">
+					<div class="pull-right">
+						<div class="form-group">
+							<button class="btn btn-default" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">Previous</button>
+							{{currentPage+1}}/{{numberOfPages()}}
+							<button class="btn btn-default" ng-disabled="currentPage >= commits.length/pageSize - 1" ng-click="currentPage=currentPage+1">Next</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" ng-show="showRepo">
+				<div class="col-md-12">
+					
+					<div ng-repeat="commit in commits | startFrom:currentPage*pageSize | limitTo:pageSize">
+						<div class="panel panel-default" ng-class="{'panel-danger':commit.contains_bug}">
+							<div class="panel-heading">
+								<div class="pull-right">{{commit.author_name}} on {{commit.author_date}}</div>
+								<h3 class="panel-title">
+									<span ng-if="commit.contains_bug">Possible Bug-inducing: </span>{{commit.commit_hash.substr(0, 10)}} <i>{{commit.commit_message.substr(0, 60)}}...</i>
+								</h3>
+							</div>
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-md-2">
+										<div metric-summary="commit.metric_summary">
+										</div>
+									</div>
+									<div class="col-md-2">
+										<div class="list-group metric-summary-legend" ng-init="mtotal = commit.metric_summary.below + commit.metric_summary.between + commit.metric_summary.above">
+											<a class="list-group-item list-group-item-primary" href="#" ng-click="ms_filter = false">
+												All Categories
+											</a>
+											<a class="list-group-item list-group-item-danger" href="#" ng-click="ms_filter = 1" ng-class="{'active':ms_filter === 1}">
+												{{commit.metric_summary.above | percentof: mtotal}}% High Risk
+											</a>
+											<a class="list-group-item list-group-item-warning" href="#" ng-click="ms_filter = 0" ng-class="{'active':ms_filter === 0}">
+												{{commit.metric_summary.between | percentof: mtotal}}% Possible Risk
+											</a>
+											<a class="list-group-item list-group-item-success" href="#" ng-click="ms_filter = -1" ng-class="{'active':ms_filter === -1}">
+												{{commit.metric_summary.below | percentof: mtotal}}% Low Risk
+											</a>
+										</div>
+									</div>
+									<div class="col-md-8">
+										<div class="row">
+											<div ng-repeat="(key, display) in metricValues" ng-if="(ms_filter===false || (!ms_filter && ms_filter !== 0))?true:(commit[key].threshold == ms_filter)" class="inline-col col-md-2" metric="commit[key]">{{display}}</div>
+										</div>
+									</div>
 								</div>
+								<form class="form-inline pull-right" name="commit.feedback" ng-submit="submitFeedback(commit)">
+									<div class="form-group">	
+										<input type="text" class="form-control" ng-model="commit.feedback.comment" placeholder="Was this helpful?">
+									</div>
+									<div class="form-group">
+										<div class="btn-group">
+											<input type="hidden" class="form-control" required ng-model="commit.feedback.score">
+											<button type="button" class="btn btn-default" ng-click="commit.feedback.score = 1" ng-class="{'btn-success':commit.feedback.score > 0}"><i class="fa fa-thumbs-up"></i></button>
+											<button type="button" class="btn btn-default" ng-click="commit.feedback.score = -1" ng-class="{'btn-danger':commit.feedback.score < 0}"><i class="fa fa-thumbs-down"></i></button>
+										</div>
+									</div>
+									<div class="form-group">	
+										<button class="btn btn-primary" type="submit" ng-disabled="commit.feedback.$invalid">Submit Feedback</button>
+									</div>
+								</form>
 								<div class="form-group">
-									<div class="btn-group">
-										<input type="hidden" class="form-control" required ng-model="commit.feedback.score">
-										<button type="button" class="btn btn-default" ng-click="commit.feedback.score = 1" ng-class="{'btn-success':commit.feedback.score > 0}"><i class="fa fa-thumbs-up"></i></button>
-										<button type="button" class="btn btn-default" ng-click="commit.feedback.score = -1" ng-class="{'btn-danger':commit.feedback.score < 0}"><i class="fa fa-thumbs-down"></i></button>
-									</div>
+									<button class="btn btn-primary" ng-click="show_commit_message = !show_commit_message" type="button">Toggle Message</button>
+									<button class="btn btn-default" ng-click="show_commit_diff = !show_commit_diff" type="button">Toggle Diff</button>
 								</div>
-								<div class="form-group">	
-									<button class="btn btn-primary" type="submit" ng-disabled="commit.feedback.$invalid">Submit Feedback</button>
+								<div class="well animate-fade" ng-if="show_commit_message">{{commit.commit_message}}</div>
+								<div class="well animate-fade" ng-if="show_commit_diff">
+									<i>Not Implimented Yet.</i>
 								</div>
-							</form>
-							<div class="form-group">
-								<button class="btn btn-primary" ng-click="show_commit_message = !show_commit_message" type="button">Toggle Message</button>
-								<button class="btn btn-default" ng-click="show_commit_diff = !show_commit_diff" type="button">Toggle Diff</button>
-							</div>
-							<div class="well animate-fade" ng-if="show_commit_message">{{commit.commit_message}}</div>
-							<div class="well animate-fade" ng-if="show_commit_diff">
-								<i>Not Implimented Yet.</i>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div ng-if="commits.length == 0">
-					<div class="alert alert-main alert-warning">No Results</div>
+					<div ng-if="commits.length == 0">
+						<div class="alert alert-main alert-warning">No Results</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="alert alert-main alert-info center" style="margin-top:25px;" ng-switch-when="false"><i class="fa fa-spin fa-refresh"></i> Repository Loading...</div>
+	<div class="container" ng-switch-when="false">
+			<div class="alert alert-main alert-info center" style="margin-top:25px;" ><i class="fa fa-spin fa-refresh"></i> Repository Loading...</div>
+	</div>
 </div>

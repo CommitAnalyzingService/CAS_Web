@@ -1,45 +1,48 @@
 <div class="jumbotron">
-	<h1>
-		<span class="fa fa-flag"></span> Analyze your repo
-	</h1>
-	<p>View automatically generated reports of your repository's commits. Anywhere.</p>
-	<form novalidate class="form-inline" role="form" name="quickAddForm" ng-submit="quickActions.quickAddRepo()">
-		<div class="form-group" ng-class="{'has-error':quickAddForm.url.$dirty && quickAddForm.url.$invalid}">
-			<label class="sr-only" for="repo_url">Repo URL:</label> <input required type="url" ng-model="quickActions.repo_url" class="form-control input-lg" id="repo_url" name="url" placeholder="Public Repo URL">
-		</div>
-		<div class="form-group" ng-class="{'has-error':quickAddForm.email.$dirty && quickAddForm.email.$invalid}">
-			<label class="sr-only" for="repo_email">Your Email Address:</label> <input ng-model="quickActions.repo_email" type="email" class="form-control input-lg" id="repo_email" name="email" placeholder="Your email address">
-		</div>
-		<div class="checkbox">
-			<label> <input type="checkbox" ng-model="quickActions.listed"> Listed
-			</label>
-		</div>
-		<div class="form-group">
-			<button type="submit" ng-disabled="quickAddForm.$invalid" class="btn btn-primary btn-lg">Start Now</button>
-		</div>
-	</form>
+	<div class="container">
+		<h1>
+			<span class="fa fa-flag"></span> Analyze your repo
+		</h1>
+		<p>View automatically generated reports of your repository's commits. Anywhere.</p>
+		<form novalidate class="form-inline" role="form" name="quickAddForm" ng-submit="quickActions.quickAddRepo()">
+			<div class="form-group" ng-class="{'has-error':quickAddForm.url.$dirty && quickAddForm.url.$invalid}">
+				<label class="sr-only" for="repo_url">Repo URL:</label> <input required type="url" ng-model="quickActions.repo_url" class="form-control input-lg" id="repo_url" name="url" placeholder="Public Repo URL">
+			</div>
+			<div class="form-group" ng-class="{'has-error':quickAddForm.email.$dirty && quickAddForm.email.$invalid}">
+				<label class="sr-only" for="repo_email">Your Email Address:</label> <input ng-model="quickActions.repo_email" type="email" class="form-control input-lg" id="repo_email" name="email" placeholder="Your email address">
+			</div>
+			<div class="checkbox">
+				<label> <input type="checkbox" ng-model="quickActions.listed"> Listed
+				</label>
+			</div>
+			<div class="form-group">
+				<button type="submit" ng-disabled="quickAddForm.$invalid" class="btn btn-primary btn-lg">Start Now</button>
+			</div>
+		</form>
+	</div>
 </div>
-
-<div class="row">
-  <div class="col-md-6">
-  <h1>Recent Repositories</h1>
-		<div class="list-group">
-			<a href="/repo/{{item.name}}" class="list-group-item" ng-repeat="item in items">
-				<h4 class="list-group-item-heading">{{item.name}}</h4>
-				<p class="list-group-item-text">
-					<span ng-if="item.ingestion_date.length > 0">Last Ingested: {{item.ingestion_date}}</span><span ng-if="item.analysis_date.length > 0">, Last Analyzed: {{item.analysis_date}}</span>
-				</p>
-			</a>
+<div class="container">
+	<div class="row">
+		<div class="col-md-6">
+			<h1>Recent Repositories</h1>
+			<div class="list-group">
+				<a href="/repo/{{item.name}}" class="list-group-item" ng-repeat="item in items">
+					<h4 class="list-group-item-heading">{{item.name}}</h4>
+					<p class="list-group-item-text">
+						<span ng-if="item.ingestion_date.length > 0">Last Ingested: {{item.ingestion_date}}</span><span ng-if="item.analysis_date.length > 0">, Last Analyzed: {{item.analysis_date}}</span>
+					</p>
+				</a>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<h1>How it Works:</h1>
+			<div class="panel">
+				<ul>
+					<li>First, we pull your repository</li>
+					<li>Then we analyze your repository every day</li>
+					<li>Finally, we display the analyzation here</li>
+				</ul>
+			</div>
 		</div>
 	</div>
-  <div class="col-md-6">
-  <h1>How it Works: </h1>
-  <div class="panel">
-  	<ul>
-  	<li>First, we pull your repository</li>
-  	<li>Then we analyze your repository every day</li>
-  	<li>Finally, we display the analyzation here</li>
-  	</ul>
-  </div>
-  </div>
 </div>
