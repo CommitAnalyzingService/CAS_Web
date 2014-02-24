@@ -57,7 +57,7 @@
 </nav>
 	<div id="content">
 		<div class="container" id="messages">
-			<div class="animate-repeat" ng-repeat="message in globalMessages.get()">
+			<div class="animate-repeat" ng-repeat="message in globalMessages.get()" ng-click="message.hold = true">
 				<div class="alert alert-{{message.type}} alert-dismissable">
 					<button type="button" class="close" ng-click="globalMessages.remove($index)">&times;</button>
 					{{message.content}}

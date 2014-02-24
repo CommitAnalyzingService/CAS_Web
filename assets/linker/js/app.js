@@ -19,7 +19,7 @@ app.config(['$routeProvider', '$locationProvider','$httpProvider', function($rou
   }]);
 
 
-app.controller('AppCtrl', function ($scope, $location, $timeout, socket) {
+app.controller('AppCtrl', function ($scope, $location, $timeout, socket, responseHandler) {
 	$scope.globalMessages = {
 			_messages: [],
 			push: function(elm) {
@@ -29,7 +29,9 @@ app.controller('AppCtrl', function ($scope, $location, $timeout, socket) {
 				},3000);
 			},
 			shift: function() {
-				$scope.globalMessages._messages.shift();
+				if(!$scope.globalMessages._messages[0].hold) {
+					$scope.globalMessages._messages.shift();
+				}
 			},
 			remove: function(index) {
 				$scope.globalMessages._messages.splice(index, 1);
@@ -41,6 +43,10 @@ app.controller('AppCtrl', function ($scope, $location, $timeout, socket) {
 				return $scope.globalMessages._messages;
 			}
 	};
+	
+	$scope.globalUtils = {
+		responseHandler: responseHandler($scope)
+	}
 	
 	socket.get('/home/data', function (response) {
 		$scope.$apply(function () {
@@ -298,8 +304,66 @@ app.controller('RepoCtrl', function($scope, $routeParams, socket, $filter, $loca
     }
 });
 
+/**
+ * Handles responses and their errors
+ */
+app.factory('responseHandler', function($filter) {
+	
+	/*
+	 * Wrap the response Handler in a scope
+	 */
+	return function($scope) {
+		/**
+		 * Handle an error
+		 * @param action String the action that was performed
+		 * @param details
+		 * @returns
+		 */
+		var handleError = function(action, details) {
+			if(typeof details == 'object') {
+				details = '<pre>' + $filter('json')(details) + '</pre>';
+			}
+			$scope.globalMessages.push({
+				type: 'danger',
+				content: action + ': ' + details
+			});
+		};
+		
+		/**
+		 * Returns a request handeler
+		 * 
+		 * @param response Object The response object
+		 * @param {function} successFn The function to call upon success
+		 * @param {?(function | boolean | string)} errorFn   
+		 */
+		return function(response, successFn, errorFn) {
+			
+			// Wrap in an apply block
+			$scope.$apply(function() {
+				
+				// If successful, call the success callback
+				if(response.success) {
+					successFn(response);
+				} else {
+					
+					// Check if there is a callback function, then call it
+					if(typeof errorFn == "function") {
+						errorFn(response.error);
+					} else if(typeof errorFn == "string") {
+						handleError(errorFn , response.error);
+					} else if((typeof errorFn == "boolean" && errorFn !== false) || typeof errorFn == "undefined") {
+						handleError('Error', response.error);
+					}
+					
+					// If the errorFn is set to false, fail silently
+				}
+			});
+		};
+	};
+});
 
-function HomeCtrl($scope, socket, $location) {
+
+function HomeCtrl($scope, socket, $location, responseHandler) {
 	$scope.quickActions = {
 			repo_url:'',
 			repo_email: '',
@@ -307,16 +371,13 @@ function HomeCtrl($scope, socket, $location) {
 			quickAddRepo: function() {
 				if($scope.quickAddForm.$valid) {
 					socket.post('/repository/create',{url: this.repo_url, email: this.repo_email, listed: this.listed}, function (response) {
-						if(response.success) {
-							$scope.$apply(function() {
-								$location.path('/repo/'+response.repo.name);
-							});
-						} else {
-							$scope.globalMessages.push({
-								type: 'danger',
-								content: 'Cannot create repository: ' + response.error
-							});
-						}
+						
+						$scope.globalUtils.responseHandler(response, function(response) {
+							
+							// Repo created successfully, redirect to the repo
+							$location.path('/repo/' + response.repo.name);
+							
+						}, "Could not create repo");
 					});
 				}
 			},

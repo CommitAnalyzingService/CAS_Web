@@ -10,7 +10,8 @@
     "ejs": "0.8.x",
     "optimist": "0.3.*",
     "moment": "~2.4.x",
-    "sails-postgresql":"x"
+    "sails-postgresql":"x",
+    "node-uuid": "~1.4.0"
   },
   "scripts": {
     "start": "node app.js",
