@@ -219,3 +219,4 @@ pip-log.txt
 
 #CAS Web
 config/adapters.js
+assets/vendor

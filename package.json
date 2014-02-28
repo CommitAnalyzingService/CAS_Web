@@ -11,7 +11,8 @@
     "optimist": "0.3.*",
     "moment": "~2.4.x",
     "sails-postgresql":"x",
-    "node-uuid": "~1.4.0"
+    "node-uuid": "~1.4.0",
+    "grunt-contrib-less": "0.9.0"
   },
   "scripts": {
     "start": "node app.js",
