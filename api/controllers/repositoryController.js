@@ -175,6 +175,14 @@ var RepositoryController = {
 				    					}
 				    				}
 				    				updateRepoMetrics(commits[i], commits[i].metric_summary);
+				    				
+				    				// Now normalize the fileschanged
+				    				commits[i].fileschanged = commits[i].fileschanged.split(",CAS_DELIMITER");
+				    				
+				    				// Get rid of inconsistant commas 
+				    				commits[i].fileschanged = commits[i].fileschanged.map(function(file) {
+				    					return file.replace(/(^,)|(,$)/, '');
+				    				});
 				    			}
 				    			
 				    			repo.commits = commits;

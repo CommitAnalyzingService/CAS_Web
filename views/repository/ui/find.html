@@ -122,24 +122,39 @@
 							</div>
 							<div class="panel-body">
 								<div class="row">
-									<div class="col-md-2">
-										<div metric-summary="commit.metric_summary">
+									<div class="col-md-4">
+										<div class="row">
+											<div class="col-md-6">
+												<div metric-summary="commit.metric_summary">
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="list-group metric-summary-legend" ng-init="mtotal = commit.metric_summary.below + commit.metric_summary.between + commit.metric_summary.above">
+													<a class="list-group-item list-group-item-primary" href="#" ng-click="ms_filter = false">
+														All Categories
+													</a>
+													<a class="list-group-item list-group-item-danger" href="#" ng-click="ms_filter = 1" ng-class="{'active':ms_filter === 1}">
+														{{commit.metric_summary.above | percentof: mtotal}}% High Risk
+													</a>
+													<a class="list-group-item list-group-item-warning" href="#" ng-click="ms_filter = 0" ng-class="{'active':ms_filter === 0}">
+														{{commit.metric_summary.between | percentof: mtotal}}% Possible Risk
+													</a>
+													<a class="list-group-item list-group-item-success" href="#" ng-click="ms_filter = -1" ng-class="{'active':ms_filter === -1}">
+														{{commit.metric_summary.below | percentof: mtotal}}% Low Risk
+													</a>
+												</div>
+											</div>
 										</div>
-									</div>
-									<div class="col-md-2">
-										<div class="list-group metric-summary-legend" ng-init="mtotal = commit.metric_summary.below + commit.metric_summary.between + commit.metric_summary.above">
-											<a class="list-group-item list-group-item-primary" href="#" ng-click="ms_filter = false">
-												All Categories
-											</a>
-											<a class="list-group-item list-group-item-danger" href="#" ng-click="ms_filter = 1" ng-class="{'active':ms_filter === 1}">
-												{{commit.metric_summary.above | percentof: mtotal}}% High Risk
-											</a>
-											<a class="list-group-item list-group-item-warning" href="#" ng-click="ms_filter = 0" ng-class="{'active':ms_filter === 0}">
-												{{commit.metric_summary.between | percentof: mtotal}}% Possible Risk
-											</a>
-											<a class="list-group-item list-group-item-success" href="#" ng-click="ms_filter = -1" ng-class="{'active':ms_filter === -1}">
-												{{commit.metric_summary.below | percentof: mtotal}}% Low Risk
-											</a>
+										<div class="row">
+											<div class="col-md-12">
+												<div class="well commit-message-well" ng-bind="commit.commit_message"></div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12">
+												Updated Files:
+												<span class="label label-primary" ng-repeat="file in commit.fileschanged">{{file}}</span>
+											</div>
 										</div>
 									</div>
 									<div class="col-md-8">
@@ -149,28 +164,26 @@
 									</div>
 								</div>
 								<form class="form-inline pull-right" name="commit.feedback" ng-submit="submitFeedback(commit)">
-									<div class="form-group">	
-										<input type="text" class="form-control" ng-model="commit.feedback.comment" placeholder="Was this helpful?">
-									</div>
-									<div class="form-group">
-										<div class="btn-group">
-											<input type="hidden" class="form-control" required ng-model="commit.feedback.score">
-											<button type="button" class="btn btn-default" ng-click="commit.feedback.score = 1" ng-class="{'btn-success':commit.feedback.score > 0}"><i class="fa fa-thumbs-up"></i></button>
-											<button type="button" class="btn btn-default" ng-click="commit.feedback.score = -1" ng-class="{'btn-danger':commit.feedback.score < 0}"><i class="fa fa-thumbs-down"></i></button>
+									<div ng-show="show_commit_feedback"> 
+										<div class="form-group">	
+											<input type="text" class="form-control" ng-model="commit.feedback.comment" placeholder="Was this helpful?">
+										</div>
+										<div class="form-group">
+											<div class="btn-group">
+												<input type="hidden" class="form-control" required ng-model="commit.feedback.score">
+												<button type="button" class="btn btn-default" ng-click="commit.feedback.score = 1" ng-class="{'btn-success':commit.feedback.score > 0}"><i class="fa fa-thumbs-up"></i></button>
+												<button type="button" class="btn btn-default" ng-click="commit.feedback.score = -1" ng-class="{'btn-danger':commit.feedback.score < 0}"><i class="fa fa-thumbs-down"></i></button>
+											</div>
+										</div>
+									
+										<div class="form-group">	
+											<button class="btn btn-primary" type="submit" ng-disabled="commit.feedback.$invalid">Submit Feedback</button>
 										</div>
 									</div>
-									<div class="form-group">	
-										<button class="btn btn-primary" type="submit" ng-disabled="commit.feedback.$invalid">Submit Feedback</button>
+									<div class="form-group" ng-show="!show_commit_feedback">
+										<button class="btn btn-primary" type="button" ng-click="show_commit_feedback = !show_commit_feedback">Feedback?</button>
 									</div>
 								</form>
-								<div class="form-group">
-									<button class="btn btn-primary" ng-click="show_commit_message = !show_commit_message" type="button">Toggle Message</button>
-									<button class="btn btn-default" ng-click="show_commit_diff = !show_commit_diff" type="button">Toggle Diff</button>
-								</div>
-								<div class="well animate-fade" ng-if="show_commit_message">{{commit.commit_message}}</div>
-								<div class="well animate-fade" ng-if="show_commit_diff">
-									<i>Not Implimented Yet.</i>
-								</div>
 							</div>
 						</div>
 					</div>

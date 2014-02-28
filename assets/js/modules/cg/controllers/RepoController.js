@@ -19,7 +19,7 @@ angular.module('cg').controller('RepoController', function($scope, $routeParams,
 	};
 	
 	var registerMH = messageHandler.controllerRegister($scope);
-	$scope.search = {fulltext:'', merge: true};
+	$scope.search = {fulltext:'', merge: false};
 	$scope.loaded = false;
 	$scope.repoStatus = '';
 	$scope.repo = {};
@@ -30,7 +30,7 @@ angular.module('cg').controller('RepoController', function($scope, $routeParams,
 			$scope.$apply(function() {
 				$scope.repo = response.repo;
 				$scope.loaded = true;
-				$scope.commits = $scope.repo.commits;
+				handleCommitSearch();
 				$scope.showRepo = ($scope.commits.length > 0 && $scope.repo.analysis_date != '');
 				//if(!$scope.showRepo) {					
 					registerMH({
@@ -59,15 +59,19 @@ angular.module('cg').controller('RepoController', function($scope, $routeParams,
 			});
 		}
 	});
-	$scope.$watchCollection('search', function(search) {
+	
+	var filterFilter = $filter('filter');
+	
+	var handleCommitSearch = function(search) {
 		$scope.currentPage = 0;
-		var filterFilter = $filter('filter');
 		var commits = filterFilter($scope.repo.commits, $scope.search.fulltext);
 		if(!$scope.search.merge) {
 			commits = filterFilter(commits, "!merge");
 		}
 		$scope.commits = commits;
-	});
+	};
+	
+	$scope.$watchCollection('search', handleCommitSearch);
 	
 	/*$scope.updateEmail = function() {
 		if($scope.repo.email != null && $scope.repo.email.length > 0) {
