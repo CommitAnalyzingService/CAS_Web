@@ -24,6 +24,34 @@ angular.module('cg').controller(
 				}
 			},
 		};
+		
+		$scope.createUserFields = {
+			email: '',
+			password: '',
+			submit: function() {
+				if($scope.createUser.$valid) {
+					socket.post('/user/create', {
+						email: this.email,
+						password: this.password
+					}, function(response) {
+
+						$scope.globalUtils.responseHandler(response, function(
+							response) {
+							
+							$scope.globalMessages.push({
+								type: 'success',
+								content: 'Account created!'
+							});
+							$scope.createUserFields.email = '';
+							$scope.createUserFields.password = '';
+							// Repo created successfully, redirect to the repo
+							//$location.path('/repo/' + response.repo.name);
+
+						}, "Could not create account");
+					});
+				}
+			},
+		};
 
 		var now = new Date(Date.now());
 		now = now.getHours();

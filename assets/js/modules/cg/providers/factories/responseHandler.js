@@ -19,8 +19,7 @@ angular.module('cg')
 					 */
 					var handleError = function(action, details) {
 						if(typeof details == 'object') {
-							details = '<pre>' + $filter('json')(details)
-								+ '</pre>';
+							details = (details.message || details.content || details.error);
 						}
 						$scope.globalMessages.push({
 							type: 'danger',

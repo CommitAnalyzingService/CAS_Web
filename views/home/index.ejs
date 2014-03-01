@@ -1,28 +1,66 @@
-<div class="jumbotron">
+<div class="jumbotron half-page">
 	<div class="container">
 		<p>It's {{now}}, do you know how risky your commits are?</p>
 		<h1>
 			<span class="fa fa-magic"></span> Ask the Commit Guru
 		</h1>
 		<p>View automatically generated reports of your repository's commits. Anywhere.</p>
-		<form novalidate class="form-inline" role="form" name="quickAddForm" ng-submit="quickActions.quickAddRepo()">
-			<div class="form-group" ng-class="{'has-error':quickAddForm.url.$dirty && quickAddForm.url.$invalid}">
-				<label class="sr-only" for="repo_url">Repo URL:</label> <input required type="url" ng-model="quickActions.repo_url" class="form-control input-lg" id="repo_url" name="url" placeholder="Public Repo URL">
-			</div>
-			<div class="form-group" ng-class="{'has-error':quickAddForm.email.$dirty && quickAddForm.email.$invalid}">
-				<label class="sr-only" for="repo_email">Your Email Address:</label> <input ng-model="quickActions.repo_email" type="email" class="form-control input-lg" id="repo_email" name="email" placeholder="Your email address">
-			</div>
-			<div class="checkbox">
-				<label> <input type="checkbox" ng-model="quickActions.listed"> Listed
-				</label>
-			</div>
-			<div class="form-group">
-				<button type="submit" ng-disabled="quickAddForm.$invalid" class="btn btn-primary btn-lg">Start Now</button>
-			</div>
-		</form>
 	</div>
 </div>
 <div class="container">
+	<div class="row">
+		<div class="col-md-6">
+			<h1>Analyze a Repository</h1>
+			<form novalidate class="form-horizontal" role="form" name="quickAddForm" ng-submit="quickActions.quickAddRepo()">
+				<div class="form-group" ng-class="{'has-error':quickAddForm.url.$dirty && quickAddForm.url.$invalid}">
+					<label class="control-label col-sm-4" for="repo_url">Repository URL*</label>
+					<div class="col-sm-8">
+						<input required type="url" ng-model="quickActions.repo_url" class="form-control input-lg" id="repo_url" name="url">
+					</div>
+				</div>
+				<div class="form-group" ng-class="{'has-error':quickAddForm.email.$dirty && quickAddForm.email.$invalid}">
+					<label class="control-label col-sm-4" for="repo_email">Email</label>
+					<div class="col-sm-8">
+						<input ng-model="quickActions.repo_email" type="email" class="form-control input-lg" id="repo_email" name="email">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-4 col-sm-8">
+						<div class="checkbox">
+							<label><input type="checkbox" ng-model="quickActions.listed"> List publicly? (Always will be accessible directly)</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-4 col-sm-8">
+						<button type="submit" ng-disabled="quickAddForm.$invalid" class="btn btn-success btn-lg">Start Now <i class="fa fa-angle-right"></i></button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="col-md-6">
+			<h1>Create an account</h1>
+			<form novalidate class="form-horizontal" role="form" name="createUser" ng-submit="createUserFields.submit()">
+				<div class="form-group" ng-class="{'has-error': createUser.email.$dirty && createUser.email.$invalid}">
+					<label class="control-label col-sm-4" for="createUser_email">Email:</label>
+					<div class="col-sm-8">
+						<input required ng-model="createUserFields.email" type="email" class="form-control input-lg" id="createUser_email" name="email">
+					</div>
+				</div>
+				<div class="form-group" ng-class="{'has-error': createUser.password.$dirty && createUser.password.$invalid}">
+					<label class="control-label col-sm-4" for="createUser_password">Password</label>
+					<div class="col-sm-8">
+						<input required type="password" ng-model="createUserFields.password" class="form-control input-lg" ng-minlength="6" id="createUser_password" name="password">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-4 col-sm-8">
+						<button type="submit" ng-disabled="createUser.$invalid" class="btn btn-primary btn-lg"><i class="fa fa-user"></i> Sign Up</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-md-6">
 			<h1>Recent Repositories</h1>
@@ -37,13 +75,12 @@
 		</div>
 		<div class="col-md-6">
 			<h1>How it Works:</h1>
-			<div class="panel">
-				<ul>
-					<li>First, we pull your repository</li>
-					<li>Then we analyze your repository every day</li>
-					<li>Finally, we display the analyzation here</li>
-				</ul>
+			<div class="center">
+				<p class="lead"><i class="fa fa-download fa-5x"></i><br><br>First, we pull your repository to our servers</p>
+				<p class="lead"><i class="fa fa-refresh fa-5x"></i><br><br>Next, we analyze your commits every day</p>
+				<p class="lead"><i class="fa fa-bar-chart-o fa-5x"></i><br><br>Finally, we display the results online</p>
 			</div>
 		</div>
+	</div>
 	</div>
 </div>

@@ -7,6 +7,7 @@
  */
 var node_uuid = require('node-uuid');
 var moment = require('moment');
+var sha1 = require('sha1');
 
 var Utils = {
 	
@@ -34,6 +35,13 @@ var Utils = {
 		now: function() {
 			return moment().format('YYYY-MM-DD HH:mm:ss');
 		}
+	},
+	
+	/**
+	 * Password-related utilities
+	 */
+	password: {
+		hash: sha1
 	},
 	
 	/**
