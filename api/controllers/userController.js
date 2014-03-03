@@ -20,24 +20,24 @@ var UserController = {
         		//Log user in
         		req.session.user = newUser.id;
         		
-    		    res.json({success:true});
+    		    res.json({success:true, user: newUser});
     		}
     	});
     },
     login: function(req, res) {
     	
     	// Create the new user
-    	User.findByEmail(req.body.email).done(function(err, foundUser) {
+    	User.findOneByEmail(req.body.email).done(function(err, foundUser) {
     		// Check for an error
     		if(err) res.json({success: false, error: err});
     		
     		// Check if the password is correct
-    		if(foundUser.isCorrectPassword(req.body.password)) {
+    		if(foundUser && foundUser.isCorrectPassword(req.body.password)) {
     			
     			// Log them in
     			req.session.user = foundUser.id;
     			
-    			res.json({success: true});
+    			res.json({success: true, user: foundUser});
     		} else {
     			
     			// If the user is set in the session, null it.
@@ -45,7 +45,7 @@ var UserController = {
     	    		req.session.user = null;
     	    	}
     			
-    			res.json({success: false, error: err});
+    			res.json({success: false, error: "Invalid username/password"});
     		}
     		
     	});

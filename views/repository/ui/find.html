@@ -163,7 +163,7 @@
 										</div>
 									</div>
 								</div>
-								<form class="form-inline pull-right" name="commit.feedback" ng-submit="submitFeedback(commit)">
+								<form ng-show="user.status.authenticated" class="form-inline pull-right" name="commit.feedback" ng-submit="submitFeedback(commit)">
 									<div ng-show="show_commit_feedback"> 
 										<div class="form-group">	
 											<input type="text" class="form-control" ng-model="commit.feedback.comment" placeholder="Was this helpful?">

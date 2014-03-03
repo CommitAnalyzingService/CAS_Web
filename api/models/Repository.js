@@ -25,7 +25,7 @@ module.exports = {
 		},
 
 		url: {
-			type: 'url',
+			type: 'string', // TODO: Should be 'url', will look into later
 			required: true
 		},
 

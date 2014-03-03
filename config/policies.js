@@ -26,6 +26,12 @@ module.exports.policies = {
 	  
 	  // Only allow authenticated users to log out
 	  logout: 'authenticated',
+  },
+  
+  FeedbackController: {
+    '*': false,
+    
+    submit: 'authenticated'
   }
 
   /*

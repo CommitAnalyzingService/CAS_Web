@@ -30,7 +30,64 @@ angular.module('cg').controller('AppController',
 
 		socket.get('/home/data', function(response) {
 			$scope.$apply(function() {
-				$scope.items = response;
+				$scope.items = response.repositories;
+				if(response.user) {
+					$scope.user.setUser(response.user);
+				}
 			});
 		});
+		
+		$scope.user = {
+			status: {
+				authenticated: false
+			},
+			object: {},
+			setUser: function(user) {
+				$scope.user.object = user;
+				$scope.user.status.authenticated = true;
+			},
+			clearUser: function() {
+				$scope.user.object = {};
+				$scope.user.status.authenticated = false;
+			},
+			signIn: function() {
+				socket.post('/user/login', {
+					email: $scope.user.signInFields.email,
+					password: $scope.user.signInFields.password
+				}, function(response) {
+
+					$scope.globalUtils.responseHandler(response, function(
+						response) {
+						
+						$scope.globalMessages.push({
+							type: 'success',
+							content: 'Signed in'
+						});
+						
+						$scope.user.setUser(response.user);
+						$scope.user.signInFields.password = '';
+					}, "Cannot sign in");
+				});
+			},
+			signOut: function() {
+				socket.get('/user/logout', function(response) {
+
+					$scope.globalUtils.responseHandler(response, function(
+						response) {
+						
+						$scope.globalMessages.push({
+							type: 'success',
+							content: 'Signed out'
+						});
+						
+						$scope.user.clearUser();
+						$scope.user.signInFields.password = '';
+					}, "Cannot sign out");
+				});
+			},
+			signInFields: {
+				email: '',
+				password: ''
+			}
+		};
 	});

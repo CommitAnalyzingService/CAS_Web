@@ -42,6 +42,8 @@ angular.module('cg').controller(
 								type: 'success',
 								content: 'Account created!'
 							});
+							
+							$scope.user.setUser(response.user);
 							$scope.createUserFields.email = '';
 							$scope.createUserFields.password = '';
 							// Repo created successfully, redirect to the repo
