@@ -42,6 +42,11 @@ module.exports = {
 		fix: {
 			type: 'STRING'
 		},
+		
+		classification: {
+			type: 'STRING'
+		},
+		
 		contains_bug: {
 			type: 'BOOLEAN',
 			defaultsTo: false
