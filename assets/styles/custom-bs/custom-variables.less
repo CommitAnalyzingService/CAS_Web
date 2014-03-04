@@ -267,20 +267,20 @@
 // Navbar links
 @navbar-default-link-color:                #F5FFFA;
 @navbar-default-link-hover-color:          #FEF;
-@navbar-default-link-hover-bg:             transparent;
-@navbar-default-link-active-color:         #FFF;
-@navbar-default-link-active-bg:            #333;
+@navbar-default-link-hover-bg:             darken(@navbar-default-bg, 6.5%);
+@navbar-default-link-active-color:         #333;
+@navbar-default-link-active-bg:            @gray-lighter;
 @navbar-default-link-disabled-color:       #ccc;
 @navbar-default-link-disabled-bg:          transparent;
 
 // Navbar brand label
 @navbar-default-brand-color:               @navbar-default-link-color;
-@navbar-default-brand-hover-color:         darken(@navbar-default-brand-color, 10%);
+@navbar-default-brand-hover-color:         @navbar-default-link-hover-color;
 @navbar-default-brand-hover-bg:            transparent;
 
 // Navbar toggle
-@navbar-default-toggle-hover-bg:           #333;
-@navbar-default-toggle-icon-bar-bg:        #ccc;
+@navbar-default-toggle-hover-bg:           lighten(@navbar-default-bg, 6.5%);
+@navbar-default-toggle-icon-bar-bg:        @navbar-default-link-hover-color;
 @navbar-default-toggle-border-color:       #ddd;
 
 

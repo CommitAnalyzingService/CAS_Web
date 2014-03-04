@@ -9,7 +9,7 @@
 	position: fixed;
 	left:0;
 	right:0;
-	z-index: 1000;
+	z-index: 1010;
 }
 
 #messages .alert, .alert.alert-main {
@@ -97,47 +97,15 @@ div.metric-summary-legend .list-group {
 	border-right: 0;
 	border-left: 0;
 	border-bottom: 2px solid #ccc;
-	
-	.site-title {
-		overflow: hidden;
-		float: left;
-		margin-left:-150px;
-		width:150px;
-	}
-	
-	.site-title .logo {
-		margin-top: -60px;
-		-webkit-transition: margin-top .5s ease;
-		transition: margin-top .5s ease;
-	}
+	z-index: 1000;
 	
 	@media screen and (min-width: @screen-md-min) {
 		height: 52px;
-		z-index: 1031;
 		width:100%;
 		left: 0;
-		&.affix {
-			position: fixed;
-			margin-top: -50px;
-		}
-		&:not(.affix) {
-			position: absolute;
-			margin-top: 0;
-		}
+		top: 50px;
+		position: fixed;
 	
-		.logo {
-			color: #333;
-			font-size: 18px;
-			width: 150px;
-		}
-		
-		.logo a {
-			color: #333;
-		}
-		
-		&.affix .site-title .logo {
-			margin-top: 13px;
-		}
 	}
 	@media screen and (max-width: @screen-sm-max) {
 		

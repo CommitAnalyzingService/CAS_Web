@@ -3,7 +3,7 @@ angular.module('cg').controller(
 	function($scope, socket, $location, responseHandler) {
 		$scope.quickActions = {
 			repo_url: '',
-			repo_email: '',
+			repo_email: $scope.user.status.authenticated?$scope.user.object.email: '',
 			listed: true,
 			quickAddRepo: function() {
 				if($scope.quickAddForm.$valid) {

@@ -1,13 +1,8 @@
 <div ng-switch="loaded">
 	<div class="animate-fade" ng-switch-when="true">
-		<div class="page-navbar" pinned>
+		<div class="page-navbar">
 			<div class="container">
 				<div class="navbar-header">
-					<div class="site-title">
-						<div class="logo">
-							<a href="/" ng-click="collapse = 0"><span class="fa fa-magic"></span> Commit Guru</a>
-						</div>
-					</div>
 					<div class="page-title">
 						<h1>
 							<a ng-attr-href="/repo/{{repo.name}}">{{repo.name}}</a> <small ng-if="!repo.listed">Unlisted</small>
@@ -82,7 +77,7 @@
 									The repository has been successfully analyzed by the system. It will be updated every day from now on.
 								</span>
 								<br><br>
-								<span ng-if="repo.ingestion_date.length > 0">Last Ingested: {{repo.ingestion_date}}</span><span ng-if="repo.analysis_date.length > 0"><br>Last Analyzed: {{repo.analysis_date}}</span>
+								<span ng-if="repo.ingestion_date.length > 0">Last Ingested: {{repo.ingestion_date | timeFormat_fromNow}}</span><span ng-if="repo.analysis_date.length > 0"><br>Last Analyzed: {{repo.analysis_date | timeFormat_fromNow}}</span>
 								</div>
 							</div>
 						</div>
