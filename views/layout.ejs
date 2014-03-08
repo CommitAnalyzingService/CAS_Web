@@ -7,11 +7,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link href='//fonts.googleapis.com/css?family=Roboto:100,300' rel='stylesheet' type='text/css'>
 <link href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css' rel='stylesheet' type='text/css'>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.0/js/bootstrap.js"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular.js"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular-animate.js"></script>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular-route.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
 <script>
@@ -20,6 +19,7 @@
 <script src="/js/modules/socket.io.js"></script>
 <script src="/js/modules/sails.js"></script>
 <script src="/js/modules/angles.js"></script>
+<script src="/js/vendor/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script src="/js/modules/cg.js"></script>
 <link rel="stylesheet" href="/styles/app.css">
 
@@ -40,17 +40,17 @@
 				<button type="button" class="navbar-toggle" ng-click="collapse = !collapse">
 					<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="/" ng-click="collapse = 0"><span class="fa fa-magic"></span> Commit Guru</a>
+				<a class="navbar-brand" ui-sref="home" ng-click="collapse = 0"><span class="fa fa-magic"></span> Commit Guru</a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse navbar-ex1-collapse" ng-class="{in: collapse}">
 				<ul class="nav navbar-nav">
 					<li ng-class="{ active: currentPage('/')}">
-						<a href="/" ng-click="collapse = 0"><i class="fa fa-home"></i> Home</a>
+						<a ui-sref="home" ng-click="collapse = 0"><i class="fa fa-home"></i> Home</a>
 					</li>
 					<li ng-class="{ active: (currentPage('/repos')|| currentPage('/repo'))}">
-						<a href="/repos" ng-click="collapse = 0"><i class="fa fa-archive"></i> Repos</a>
+						<a ui-sref="repos" ng-click="collapse = 0"><i class="fa fa-archive"></i> Repos</a>
 					</li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
@@ -81,8 +81,15 @@
 			</div>
 		</div>
 	</nav>
+	<div class="container animate-fade" ng-if="loading">
+		<div class="globalLoading">
+			<span>
+				<i class="fa fa-spin fa-refresh"></i> Loading...
+			</span>
+		</div>
+	</div>
 	<div id="content">
-		<div class="container" id="messages">
+		<div class="container" id="messages" ng-class="{showMessages: globalMessages.count() > 0}">
 			<div class="animate-repeat" ng-repeat="message in globalMessages.get()" ng-click="message.hold = true">
 				<div class="alert alert-{{message.type}} alert-dismissable">
 					<button type="button" class="close" ng-click="globalMessages.remove($index)">&times;</button>
@@ -90,7 +97,7 @@
 				</div>
 			</div>
 		</div>
-		<div ng-View class="animate-fade"></div>
+		<div ui-view autoscroll="false" class="animate-fade"></div>
 	</div>
 </body>
 </html>

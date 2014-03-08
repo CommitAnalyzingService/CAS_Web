@@ -1,0 +1,64 @@
+<div ng-switch="showRepo">
+	<div ng-switch-when="false">
+		<h2 class="center"><i class="fa fa-spin fa-refresh"></i> {{repo.status}}...</h2>
+	</div>	
+	<div ng-switch-when="true">	
+		<h2 id="page-anchor-overview">Overview</h2>
+		<div class="panel">
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-3" ng-show="showRepo">
+						<div metric-summary="repo.metrics.overall" size="250">
+						</div>
+					</div>
+					<div class="col-md-2" ng-show="showRepo">
+						<div class="list-group metric-summary-legend" ng-init="mtotal = repo.metrics.overall.below + repo.metrics.overall.between + repo.metrics.overall.above">
+							<a class="list-group-item list-group-item-primary" href="#" ng-click="ms_filter = false">
+								All Categories
+							</a>
+							<a class="list-group-item list-group-item-danger" href="#" ng-click="ms_filter = 1" ng-class="{'active':ms_filter === 1}">
+								{{repo.metrics.overall.above | percentof: mtotal}}% High Risk
+							</a>
+							<a class="list-group-item list-group-item-warning" href="#" ng-click="ms_filter = 0" ng-class="{'active':ms_filter === 0}">
+								{{repo.metrics.overall.between | percentof: mtotal}}% Possible Risk
+							</a>
+							<a class="list-group-item list-group-item-success" href="#" ng-click="ms_filter = -1" ng-class="{'active':ms_filter === -1}">
+								{{repo.metrics.overall.below | percentof: mtotal}}% Low Risk
+							</a>
+						</div>
+					</div>
+					<div class="col-md-3" ng-show="showRepo">
+						<div metric-history="repo.metrics.history" size="250">
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="panel panel-warning">
+							<div class="panel-heading">
+								<h3 class="panel-title">Repository status: {{repo.status}} <i class="fa fa-refresh fa-spin" ng-show="repo.status != 'Analyzed'"></i></h3>
+							</div>
+							<div class="panel-body" ng-switch="repo.status">
+							<span ng-switch-when="Waiting to be Ingested">
+								The repository is scheduled to be ingested into the system.
+							</span>
+							<span ng-switch-when="Ingesting">
+								The repository is currently being ingested into the system.
+							</span>
+							<span ng-switch-when="Waiting to be Analyzed">
+								The repository was successfully ingested into the system and it is now waiting for analysis.
+							</span>
+							<span ng-switch-when="Analyzing">
+								The repository is currently being analyzed by the system.
+							</span>
+							<span ng-switch-when="Analyzed">
+								The repository has been successfully analyzed by the system. It will be updated every day from now on.
+							</span>
+							<br><br>
+							<span ng-if="repo.ingestion_date.length > 0">Last Ingested: {{repo.ingestion_date | timeFormat_fromNow}}</span><span ng-if="repo.analysis_date.length > 0"><br>Last Analyzed: {{repo.analysis_date | timeFormat_fromNow}}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

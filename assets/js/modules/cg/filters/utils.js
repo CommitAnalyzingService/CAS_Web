@@ -15,4 +15,9 @@ angular.module('cg').filter('percentof', function() {
 		start = +start; // parse to int
 		return input.slice(start);
 	};
+})
+.filter('capitalizeFirst', function() {
+	return function(input) {
+		return input.charAt(0).toUpperCase() + input.slice(1);
+	};
 });

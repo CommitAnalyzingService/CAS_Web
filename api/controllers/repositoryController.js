@@ -210,7 +210,7 @@ var RepositoryController = {
         			}
     			} else {
     				// TODO: Send 404 and have it work correctly on client side.
-	    			res.json({success:false, error:'Nothing Found'});
+	    			res.json({success:false, error:'Repository not found'});
 	    		}
     			
     		} else console.log(err);

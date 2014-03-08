@@ -28,7 +28,13 @@ angular.module('cg').directive('metricHistory', function() {
 					scope.height = + scope.size / 1.25;
 					scope.width = + scope.size;
 				}
-				scope.options = {};
+				scope.options = {
+					scaleOverride: true,
+					scaleSteps: 10,
+					scaleStepWidth: 10,
+					scaleStartValue: 0,
+					scaleLabel : "<%=value%>%"
+				};
 			}, post: function(scope) {
 				scope.$broadcast('startDraw');
 			}

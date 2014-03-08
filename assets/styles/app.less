@@ -5,11 +5,13 @@
 }
 
 #messages {
-	padding-top:25px;
 	position: fixed;
 	left:0;
 	right:0;
 	z-index: 1010;
+}
+#messages.showMessages {
+	padding-top:25px;
 }
 
 #messages .alert, .alert.alert-main {
@@ -144,7 +146,8 @@ div.metric-summary-legend .list-group {
 		color: #333;
 	}
 	
-	ul.nav.navbar-nav > li:hover > a {
+	ul.nav.navbar-nav > li:hover > a,
+		ul.nav.navbar-nav > li.active > a {
 		background-color: #ddd;
 	}
 	
@@ -162,9 +165,25 @@ div.metric-summary-legend .list-group {
 	}
 }
 
-.commit-message-well {
+.cont-max-150 {
 	@media screen and (min-width: @screen-md-min) {
 		max-height: 150px;
 		overflow-y: auto;
 	}
+}
+
+.globalLoading {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	text-align: center;
+	z-index:2000;
+}
+.globalLoading span {
+	background: #333;
+	color: #fff;
+	font-size: 16px;
+	padding: 13.5px;
+	display: inline-block;
 }

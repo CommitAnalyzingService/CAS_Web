@@ -53,7 +53,13 @@ module.exports = function (grunt) {
           cwd: './assets/public',
           src: ['**/*'],
           dest: '.tmp/public'
-        }
+        },
+        {
+            expand: true,
+            cwd: './assets/vendor',
+            src: ['angular-ui-router/release/*'],
+            dest: '.tmp/public/js/vendor'
+          },
         ]
       },
       build: {
@@ -108,14 +114,22 @@ module.exports = function (grunt) {
         // API files to watch:
         files: ['api/**/*']
       },
-      assets: {
+      js: {
 
         // Assets to watch:
-        files: ['assets/**/*'],
+        files: ['assets/js/**/*'],
 
         // When assets are changed:
-        tasks: ['compileAssets']
-      }
+        tasks: ['concat']
+      },
+      styles: {
+
+          // Assets to watch:
+          files: ['assets/styles/**/*'],
+
+          // When assets are changed:
+          tasks: ['less:dev']
+       }
     }
   });
 

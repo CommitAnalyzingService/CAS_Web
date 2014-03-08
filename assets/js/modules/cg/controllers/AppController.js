@@ -1,5 +1,5 @@
 angular.module('cg').controller('AppController',
-	function($scope, $location, $timeout, socket, responseHandler) {
+	function($scope, $location, $timeout, socket, responseHandler, $state) {
 		$scope.globalMessages = {
 			_messages: [],
 			push: function(elm) {
@@ -35,6 +35,21 @@ angular.module('cg').controller('AppController',
 					$scope.user.setUser(response.user);
 				}
 			});
+		});
+		$scope.loading = false;
+		$scope.$on("$stateChangeStart", function() {
+			$scope.loading = true;
+		});
+		$scope.$on("$stateChangeSuccess", function() {
+			$scope.loading = false;
+		});
+		$scope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {
+			$scope.globalMessages.push({
+				type: 'danger',
+				content: error
+			});
+			$scope.loading = false;
+			$state.go('home');
 		});
 		
 		$scope.user = {
