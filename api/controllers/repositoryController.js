@@ -75,7 +75,6 @@ var RepositoryController = {
 	    		// METRCIS VALID
 	    		
 				// Get the commits for the repo
-	    		/*
 				Commit.find({repository_id:repo.id})
 				.sort('author_date_unix_timestamp DESC')
 				.done(function(err, commits){
@@ -116,7 +115,7 @@ var RepositoryController = {
 	    			
 	    			// Return the repo
 	    			return res.json({success: true, repo: repo});
-    			});*/
+    			});
 			});
     	});
     }
