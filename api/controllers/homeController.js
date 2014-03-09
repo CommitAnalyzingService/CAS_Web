@@ -3,19 +3,15 @@
  */
 var HomeController = {
     index: function(req, res) {
-    	if(req['headers']['x-request-origin'] == 'app') {
-    		res.view(null, {layout: null});
-    	} else {
-    		res.view();
-    	}
+    	// No-op
     },
     data: function(req, res) {
     	Repository.find().where({listed: true}).sort('analysis_date DESC').done(function(err, repos) {
-    		if(err) return res.json(err);
+    		if(err) return res.json({success: false, error: err});
     		
     		if(req.session.user) {
     			User.findOne(req.session.user).done(function(err, user) {
-    				if(err) return res.json(err);
+    				if(err) return res.json({success: false, error: err});
     				if(user) {
     					res.json({repositories: repos, user: user});
     				} else {

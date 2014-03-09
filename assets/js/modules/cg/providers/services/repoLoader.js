@@ -7,7 +7,7 @@ angular.module('cg')
 	
 	return function(name) {
 		var defer = $q.defer();
-		socket.get('/repository/' + name, 
+		socket.get('/repo/' + name, 
 			function(response) {
 				if(response.success) {
 					defer.resolve(response.repo);

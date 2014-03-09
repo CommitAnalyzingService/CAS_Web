@@ -28,7 +28,7 @@ angular.module('cg').controller('AppController',
 			responseHandler: responseHandler($scope)
 		};
 
-		socket.get('/home/data', function(response) {
+		socket.get('/data', function(response) {
 			$scope.$apply(function() {
 				$scope.items = response.repositories;
 				if(response.user) {
@@ -66,7 +66,7 @@ angular.module('cg').controller('AppController',
 				$scope.user.status.authenticated = false;
 			},
 			signIn: function() {
-				socket.post('/user/login', {
+				socket.post('/login', {
 					email: $scope.user.signInFields.email,
 					password: $scope.user.signInFields.password
 				}, function(response) {
@@ -85,7 +85,7 @@ angular.module('cg').controller('AppController',
 				});
 			},
 			signOut: function() {
-				socket.get('/user/logout', function(response) {
+				socket.get('/logout', function(response) {
 
 					$scope.globalUtils.responseHandler(response, function(
 						response) {

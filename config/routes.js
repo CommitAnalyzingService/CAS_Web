@@ -28,26 +28,28 @@
 
 module.exports.routes = {
 
-  // By default, your root route (aka home page) points to a view
-  // located at `views/home/index.ejs`
-  // 
-  // (This would also work if you had a file at: `/views/home.ejs`)
-  '/': 'HomeController',
-  '/home/data':'HomeController.data',
-  //'/repository': 'repositoryController',
-  //'post /repository/:name': 'repositoryController.update',
-  '/repository/create/': 'repositoryController.create',
-  //'/repository/:name':'repositoryController.find',
-  'get /repo/*': 'HomeController',
-  'get /repos': 'HomeController',
-  '/ui/:controller/:file': 'UiController.index',
+  //Front-end endpoints
+  'get /': 'HomeController',
+  
+  'get /ui/:controller/:file': 'UiController.index',
+    
+  // Actual Endpoints
+  
+  'get /data': 'HomeController.data',
+
+  'get /repos': 'RepositoryController.index',
+  
+  'post /repo': 'RepositoryController.create',
+  
+  'get /repo/:name': 'RepositoryController.find',
+  
   'post /feedback/submit/:commit_hash': 'FeedbackController.submit',
   
-  'post /user/create': 'UserController.create',
+  'post /user': 'UserController.create',
   
-  'post /user/login': 'UserController.login',
+  'post /login': 'UserController.login',
   
-  'get /user/logout': 'UserController.logout',
+  'get /logout': 'UserController.logout',
 
   /*
   // But what if you want your home page to display

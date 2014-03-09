@@ -3,7 +3,7 @@
  */
 var UiController = {
     index: function(req, res) {
-    	res.sendfile('views/'+req.param('controller') + '/ui/' + req.param('file'));
+    	res.sendfile('views/'+req.param('controller') + '/' + req.param('file'));
     }
 };
 

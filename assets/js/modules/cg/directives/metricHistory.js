@@ -4,7 +4,6 @@ angular.module('cg').directive('metricHistory', function() {
 		transclude:true,
 		scope: {
 			metricHistory:'=',
-			size: '@'
 		},
 		template: '<canvas linechart data="data" options="options" height="height" width="width"></canvas>',
 		link: {
@@ -21,13 +20,8 @@ angular.module('cg').directive('metricHistory', function() {
 						pointStrokeColor: '#fff'
 					}]
 				};
-				if(!scope.size) {
-					scope.height = 160;
-					scope.width = 200;
-				} else {
-					scope.height = + scope.size / 1.25;
-					scope.width = + scope.size;
-				}
+				scope.height = 300;
+				scope.width = null;
 				scope.options = {
 					scaleOverride: true,
 					scaleSteps: 10,

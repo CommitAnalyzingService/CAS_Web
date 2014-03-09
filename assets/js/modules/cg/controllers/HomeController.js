@@ -1,13 +1,13 @@
 angular.module('cg').controller(
 	'HomeController',
-	function($scope, socket, $location, responseHandler) {
+	function($scope, socket, $location, responseHandler, status) {
 		$scope.quickActions = {
 			repo_url: '',
 			repo_email: $scope.user.status.authenticated?$scope.user.object.email: '',
 			listed: true,
 			quickAddRepo: function() {
 				if($scope.quickAddForm.$valid) {
-					socket.post('/repository/create', {
+					socket.post('/repo', {
 						url: this.repo_url,
 						email: this.repo_email,
 						listed: this.listed
@@ -30,7 +30,7 @@ angular.module('cg').controller(
 			password: '',
 			submit: function() {
 				if($scope.createUser.$valid) {
-					socket.post('/user/create', {
+					socket.post('/user', {
 						email: this.email,
 						password: this.password
 					}, function(response) {
@@ -65,6 +65,13 @@ angular.module('cg').controller(
 			$scope.now = "12pm";
 		} else {
 			$scope.now = (now - 12) + "pm";
+		}
+		
+		if(status.statusCode == 404) {
+			$scope.globalMessages.push({
+				type: 'danger',
+				content: '404: The page you requested does not exist'
+			});
 		}
 
 	});

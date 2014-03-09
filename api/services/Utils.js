@@ -19,6 +19,12 @@ var Utils = {
 		return node_uuid.v4();
 	},
 	
+	string: {
+		trim: function(input) {
+			return input.replace(/^\s+|\s+$/g, '');
+		}
+	},
+	
 	/**
 	 *  Collection of date-related utilities
 	 */

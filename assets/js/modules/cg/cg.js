@@ -2,15 +2,28 @@ angular.module('cg', [ 'ui.router', 'ngAnimate', 'angles' ])
 /**
  * Define the configuration for the commit guru application
  */
-.config(function($stateProvider, $locationProvider, $urlRouterProvider, $httpProvider) {
-	$httpProvider.defaults.headers.common['X-Request-Origin'] = 'app';
+.config(function($stateProvider, $locationProvider, $urlRouterProvider) {
+
 	$stateProvider.state('home', {
 		url: '/',
-		templateUrl: '/',
-		controller: 'HomeController'
+		templateUrl: '/ui/home/index.html',
+		controller: 'HomeController',
+		resolve: {
+			status: function() {
+				return {statusCode: 200};
+			}
+		}
+	}).state('home.404', {
+		url: '404',
+		templateUrl: '/ui/home/index.html',
+		controller: 'HomeController',
+		onEnter: function(status) {
+			status.statusCode = 404;
+		}
+		
 	}).state('repos', {
 		url: '/repos',
-		templateUrl: '/repository'
+		templateUrl: '/ui/repository/index.html'
 	}).state('repo', {
 		abstract: true,
 		url: '/repo/:name',
@@ -32,6 +45,6 @@ angular.module('cg', [ 'ui.router', 'ngAnimate', 'angles' ])
 		url: '/settings',
 		templateUrl: '/ui/repository/options.html',
 	});
-	$urlRouterProvider.otherwise('/');
+	$urlRouterProvider.otherwise('/404');
 	$locationProvider.html5Mode(true);
 });

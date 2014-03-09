@@ -19,7 +19,7 @@ angular.module('cg')
 					 */
 					var handleError = function(action, details) {
 						if(typeof details == 'object') {
-							details = (details.message || details.content || details.error);
+							details = $filter('json')(details);
 						}
 						$scope.globalMessages.push({
 							type: 'danger',
@@ -37,27 +37,26 @@ angular.module('cg')
 					return function(response, successFn, errorFn) {
 
 						// Wrap in an apply block
-						$scope
-								.$apply(function() {
+						$scope.$apply(function() {
 
-									// If successful, call the success callback
-									if(response.success) {
-										successFn(response);
-									} else {
+							// If successful, call the success callback
+							if(response.success) {
+								successFn(response);
+							} else {
 
-										// Check if there is a callback function, then call it
-										if(typeof errorFn == "function") {
-											errorFn(response.error);
-										} else if(typeof errorFn == "string") {
-											handleError(errorFn, response.error);
-										} else if((typeof errorFn == "boolean" && errorFn !== false)
-											|| typeof errorFn == "undefined") {
-											handleError('Error', response.error);
-										}
+								// Check if there is a callback function, then call it
+								if(typeof errorFn == "function") {
+									errorFn(response.error);
+								} else if(typeof errorFn == "string") {
+									handleError(errorFn, response.error);
+								} else if((typeof errorFn == "boolean" && errorFn !== false)
+									|| typeof errorFn == "undefined") {
+									handleError('Error', response.error);
+								}
 
-										// If the errorFn is set to false, fail silently
-									}
-								});
+								// If the errorFn is set to false, fail silently
+							}
+						});
 					};
 				};
 			});

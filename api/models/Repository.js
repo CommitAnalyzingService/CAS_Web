@@ -25,7 +25,7 @@ module.exports = {
 		},
 
 		url: {
-			type: 'string', // TODO: Should be 'url', will look into later
+			type: 'url',
 			required: true
 		},
 
@@ -76,6 +76,11 @@ module.exports = {
 				if(count > 0) {
 					values.name += '-' + count;
 				}
+				
+				// Strip any leading/tailing whitespace
+				values.name = Utils.string.trim(values.name);
+				values.url = Utils.string.trim(values.url);
+				values.email = Utils.string.trim(values.email);
 				
 				// Generate the new uuid
 				var newId = Utils.genUUID();

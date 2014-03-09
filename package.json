@@ -4,15 +4,15 @@
   "version": "0.0.1",
   "description": "a Sails application",
   "dependencies": {
-    "sails": "0.9.3",
-    "grunt": "0.4.x",
+    "sails": "0.9.11",
+    "grunt": "~0.4.3",
     "sails-disk": "~0.9.0",
-    "ejs": "0.8.x",
-    "optimist": "0.3.*",
-    "moment": "~2.4.x",
-    "sails-postgresql": "x",
+    "ejs": "~0.8.x",
+    "optimist": "^0.3.7",
+    "moment": "^2.4.0",
+    "sails-postgresql": "~0.9.x",
     "node-uuid": "~1.4.0",
-    "grunt-contrib-less": "0.9.0",
+    "grunt-contrib-less": "^0.9.0",
     "sha1": "~1.1.0"
   },
   "scripts": {

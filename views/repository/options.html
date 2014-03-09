@@ -1,0 +1,15 @@
+<h2>Options</h2>
+<div class="row">
+	<div class="col-md-4">
+		<div class="panel panel-warning">
+			<div class="panel-heading">
+				<h3 class="panel-title">
+					Repository status: {{repo.status}} <i class="fa fa-refresh fa-spin" ng-show="repo.status != 'Analyzed'"></i>
+				</h3>
+			</div>
+			<div class="panel-body" ng-switch="repo.status">
+				<span ng-switch-when="Waiting to be Ingested"> The repository is scheduled to be ingested into the system. </span> <span ng-switch-when="Ingesting"> The repository is currently being ingested into the system. </span> <span ng-switch-when="Waiting to be Analyzed"> The repository was successfully ingested into the system and it is now waiting for analysis. </span> <span ng-switch-when="Analyzing"> The repository is currently being analyzed by the system. </span> <span ng-switch-when="Analyzed"> The repository has been successfully analyzed by the system. It will be updated every day from now on. </span> <br> <br> <span ng-if="repo.ingestion_date.length > 0">Last Ingested: {{repo.ingestion_date | timeFormat_fromNow}}</span><span ng-if="repo.analysis_date.length > 0"><br>Last Analyzed: {{repo.analysis_date | timeFormat_fromNow}}</span>
+			</div>
+		</div>
+	</div>
+</div>

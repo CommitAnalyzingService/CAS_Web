@@ -35,40 +35,4 @@ angular.module('cg').controller('RepoController', function($scope, $state, $stat
 			}
 		});
 	}
-	/*
-	socket.get('/repository/' + $stateParams.name, function(response) {
-	
-		if(response.success) {
-			$scope.$apply(function() {
-				$scope.repo = response.repo;
-				$scope.loaded = true;
-				handleCommitSearch();
-				$scope.showRepo = ($scope.commits.length > 0 && $scope.repo.analysis_date != '');
-				//if(!$scope.showRepo) {					
-					registerMH({
-						model: 'repository',
-						verb: 'update',
-						id: $scope.repo.id,
-						callback: function(data) {
-							if(data.hasOwnProperty('status')) {
-								if($scope.repo.status != 'Analyzed' && data.status == 'Analyzed') {
-									$state.reload();
-								}
-							}
-							$scope.repo = angular.extend($scope.repo, data);
-						}
-					});
-				//}
-			});
-		} else {
-			$scope.$apply(function() {
-				$scope.error = true;
-				$scope.globalMessages.push({
-					type:"danger",
-					content:'Repository does not exist.'
-				});
-				$location.path('/repos');
-			});
-		}
-	});*/
 });
