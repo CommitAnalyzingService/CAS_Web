@@ -1,4 +1,33 @@
-<h2 ng-show="showRepo" id="page-anchor-commits">Commits</h2>
+<h2 ng-show="showRepo" id="page-anchor-commits">Commits <button type="button" class="btn btn-link" ng-click="hide_display_options = !hide_display_options">Display options <i class="fa fa-caret-down" ng-class="{'fa-caret-up':hide_display_options}"></i></button></h2>
+
+<div class="container-fluid bottom-spacer" ng-show="hide_display_options">
+	<div class="form-inline">
+		<div class="form-group">
+			Display:
+		</div>
+		<div class="form-group">
+			<select type="text" class="form-control" ng-model="ms_filter">
+				<option value="" selected>Metric Risks</option>
+				<option value="1">High Risk</option>
+				<option value="0">Possible Risk</option>
+				<option value="-1">Low Risk</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<select type="text" class="form-control" ng-model="show_commit_body" ng-options="opt.value as opt.label for opt in show_commit_body_options">
+			</select>
+		</div>
+		<div class="form-group">
+			<select type="text" class="form-control" ng-model="pageSize">
+				<option value="5">5 per page</option>
+				<option value="10">10 per page</option>
+				<option value="20">20 per page</option>
+				<option value="50">50 per page</option>
+				<option value="100">100 per page</option>
+			</select>
+		</div>
+	</div>
+</div>	
 <div class="panel">
 	<div class="panel-body">
 		<div class="row">
@@ -7,13 +36,16 @@
 					Filter: 
 				</div>
 				<div class="form-group">
-					<input type="text" class="form-control" ng-model="search.commit_message" placeholder="Commit Message">
+					<input type="text" class="form-control" ng-model="search.commit_hash" placeholder="Commit hash">
+				</div>
+				<div class="form-group">
+					<input type="text" class="form-control" ng-model="search.commit_message" placeholder="Commit message">
 				</div>
 				<div class="form-group">
 					<select type="text" class="form-control" ng-model="search.classification">
 						<option value="">Classification</option>
 						<option>Corrective</option>
-						<option>Feature Addition</option>
+						<option>Feature addition</option>
 						<option>Non-functional</option>
 						<option>Merge</option>
 						<option>Perfective</option>
@@ -21,35 +53,7 @@
 					</select>
 				</div>
 				<div class="form-group">
-					<input type="text" class="form-control" ng-model="search.author_email" placeholder="Author Email">
-				</div>
-			</div>
-		</div>
-		<div class="row row-top-spacer">
-			<div class="col-md-12 form-inline">
-				<div class="form-group">
-					Display:
-				</div>
-				<div class="form-group">
-					<select type="text" class="form-control" ng-model="ms_filter">
-						<option value="" selected>Metric Risks</option>
-						<option value="1">High Risk</option>
-						<option value="0">Possible Risk</option>
-						<option value="-1">Low Risk</option>
-					</select>
-				</div>
-				<div class="form-group">
-					<select type="text" class="form-control" ng-model="show_commit_body" ng-options="opt.value as opt.label for opt in show_commit_body_options">
-					</select>
-				</div>
-				<div class="form-group">
-					<select type="text" class="form-control" ng-model="pageSize">
-						<option value="5">5 per page</option>
-						<option value="10">10 per page</option>
-						<option value="20">20 per page</option>
-						<option value="50">50 per page</option>
-						<option value="100">100 per page</option>
-					</select>
+					<input type="text" class="form-control" ng-model="search.author_email" placeholder="Author email">
 				</div>
 				<div class="pull-right" commit-pagination>
 				</div>
@@ -62,7 +66,7 @@
 		<div ng-repeat="commit in commits | startFrom:currentPage*pageSize | limitTo:pageSize">
 			<div class="panel commit-panel panel-default" ng-class="{'panel-danger':commit.contains_bug || commit.metric_summary.above > 4, 'collapsed': !show_commit_body}">
 				<div class="panel-heading">
-					<div class="pull-right">{{commit.author_name}} on {{commit.author_date}}</div>
+					<div class="pull-right">{{commit.author_name}} on {{commit.author_date | timeFormat_calendar}}</div>
 					<h3 class="panel-title" ng-click="show_commit_body = !show_commit_body">
 						<span ng-show="commit.classification != 'None'" class="label label-default">{{commit.classification}}</span> <span ng-if="commit.contains_bug">Possible Bug-inducing: </span>{{commit.commit_hash.substr(0, 10)}} <em>{{commit.commit_message.substr(0, 60)}}...</em>
 					</h3>

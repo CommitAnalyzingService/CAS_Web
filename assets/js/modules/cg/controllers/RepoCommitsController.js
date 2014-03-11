@@ -8,6 +8,9 @@ angular.module('cg').controller('RepoCommitsController', function($scope, socket
 		if(!!$scope.search.commit_message) {
 			criteria.commit_message = $scope.search.commit_message;
 		}
+		if(!!$scope.search.commit_hash) {
+			criteria.commit_hash = $scope.search.commit_hash;
+		}
 		if(!!$scope.search.classification) {
 			criteria.classification = $scope.search.classification;
 		}
@@ -18,7 +21,8 @@ angular.module('cg').controller('RepoCommitsController', function($scope, socket
 			filterFilter($scope.repo.commits, criteria);
 	};
 
-	$scope.search = {message:'', classification: '', author: ''};
+	$scope.search = {message:'', classification: '', author: '', 
+		commit_hash: ''};
 	$scope.commits = [];
 	handleCommitSearch();
 	
