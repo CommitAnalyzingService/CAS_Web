@@ -4,14 +4,21 @@ angular.module('cg').controller('RepoCommitsController', function($scope, socket
 	
 	var handleCommitSearch = function(search) {
 		$scope.currentPage = 0;
-		var commits = filterFilter($scope.repo.commits, $scope.search.fulltext);
-		if(!$scope.search.merge) {
-			commits = filterFilter(commits, {classification: "!merge"});
+		var criteria = {};
+		if(!!$scope.search.commit_message) {
+			criteria.commit_message = $scope.search.commit_message;
 		}
-		$scope.commits = commits;
+		if(!!$scope.search.classification) {
+			criteria.classification = $scope.search.classification;
+		}
+		if(!!$scope.search.author_email) {
+			criteria.author_email = $scope.search.author_email;
+		}
+		$scope.commits = 
+			filterFilter($scope.repo.commits, criteria);
 	};
 
-	$scope.search = {fulltext:'', merge: false};
+	$scope.search = {message:'', classification: '', author: ''};
 	$scope.commits = [];
 	handleCommitSearch();
 	
@@ -46,8 +53,18 @@ angular.module('cg').controller('RepoCommitsController', function($scope, socket
 	};
 	
 	$scope.currentPage = 0;
-    $scope.pageSize = 10;
+    $scope.pageSize = 20;
     $scope.numberOfPages=function(){
         return Math.ceil($scope.commits.length/$scope.pageSize);                
     };
+    
+    $scope.show_commit_body = false;
+    $scope.show_commit_body_options = [{
+    	value: false, 
+    	label: "Headings Only"
+    },{
+    	value: true, 
+    	label: "Full Details"
+    }];
+    $scope.ms_filter = '';
 });

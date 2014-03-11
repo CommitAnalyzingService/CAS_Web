@@ -71,9 +71,9 @@ div[metric] .alert {
 	display:inline-block;
 }
 
-div[metric-summary] {
-	width:160px;
-	height:200px;
+div[metric-summary] canvas {
+	margin: 0 auto;
+	display: block;
 }
 
 
@@ -190,4 +190,39 @@ div.metric-summary-legend .list-group {
 	font-size: 16px;
 	padding: 13.5px;
 	display: inline-block;
+}
+
+.metric-summary-overview-legend div {
+	text-align: center;
+}
+
+.panel .panel-custom-footer.row {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.panel .panel-custom-footer.row > div {
+	height: 100%;
+	padding: 5px;
+}
+
+.metric-ranges > div {
+	font-size: 18px;
+	text-align:center;
+}
+
+.commit-panel {
+	margin-bottom: -2px;
+}
+
+.commit-panel .panel-title {
+	cursor: pointer;
+}
+
+.bottom-pagination-container {
+	margin-top: 20px;
+}
+
+.row.row-top-spacer {
+	padding-top: 10px;
 }

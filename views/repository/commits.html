@@ -1,35 +1,73 @@
 <h2 ng-show="showRepo" id="page-anchor-commits">Commits</h2>
-<div class="row" ng-show="showRepo">
-	<div class="col-md-4 form-inline">
-		<div class="form-group">
-			<input type="text" class="form-control" ng-model="search.fulltext" placeholder="Filter commits">
+<div class="panel">
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-md-12 form-inline">
+				<div class="form-group">
+					Filter: 
+				</div>
+				<div class="form-group">
+					<input type="text" class="form-control" ng-model="search.commit_message" placeholder="Commit Message">
+				</div>
+				<div class="form-group">
+					<select type="text" class="form-control" ng-model="search.classification">
+						<option value="">Classification</option>
+						<option>Corrective</option>
+						<option>Feature Addition</option>
+						<option>Non-functional</option>
+						<option>Merge</option>
+						<option>Perfective</option>
+						<option>Preventative</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<input type="text" class="form-control" ng-model="search.author_email" placeholder="Author Email">
+				</div>
+			</div>
 		</div>
-		<div class="checkbox">
-			<label><input type="checkbox" class="form-control" ng-model="search.merge" /> Show Merge commits?</label>
-		</div>
-	</div>
-	<div class="col-md-8">
-		<div class="pull-right">
-			<div class="form-group">
-				<button class="btn btn-default" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">Previous</button>
-				{{currentPage+1}}/{{numberOfPages()}}
-				<button class="btn btn-default" ng-disabled="currentPage >= commits.length/pageSize - 1" ng-click="currentPage=currentPage+1">Next</button>
+		<div class="row row-top-spacer">
+			<div class="col-md-12 form-inline">
+				<div class="form-group">
+					Display:
+				</div>
+				<div class="form-group">
+					<select type="text" class="form-control" ng-model="ms_filter">
+						<option value="" selected>Metric Risks</option>
+						<option value="1">High Risk</option>
+						<option value="0">Possible Risk</option>
+						<option value="-1">Low Risk</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<select type="text" class="form-control" ng-model="show_commit_body" ng-options="opt.value as opt.label for opt in show_commit_body_options">
+					</select>
+				</div>
+				<div class="form-group">
+					<select type="text" class="form-control" ng-model="pageSize">
+						<option value="5">5 per page</option>
+						<option value="10">10 per page</option>
+						<option value="20">20 per page</option>
+						<option value="50">50 per page</option>
+						<option value="100">100 per page</option>
+					</select>
+				</div>
+				<div class="pull-right" commit-pagination>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<div class="row" ng-show="showRepo">
+<div class="row">
 	<div class="col-md-12">
-		
 		<div ng-repeat="commit in commits | startFrom:currentPage*pageSize | limitTo:pageSize">
-			<div class="panel panel-default" ng-class="{'panel-danger':commit.contains_bug}">
+			<div class="panel commit-panel panel-default" ng-class="{'panel-danger':commit.contains_bug || commit.metric_summary.above > 4, 'collapsed': !show_commit_body}">
 				<div class="panel-heading">
 					<div class="pull-right">{{commit.author_name}} on {{commit.author_date}}</div>
-					<h3 class="panel-title">
+					<h3 class="panel-title" ng-click="show_commit_body = !show_commit_body">
 						<span ng-show="commit.classification != 'None'" class="label label-default">{{commit.classification}}</span> <span ng-if="commit.contains_bug">Possible Bug-inducing: </span>{{commit.commit_hash.substr(0, 10)}} <em>{{commit.commit_message.substr(0, 60)}}...</em>
 					</h3>
 				</div>
-				<div class="panel-body">
+				<div class="panel-body" ng-if="show_commit_body">
 					<div class="row">
 						<div class="col-md-4">
 							<div class="row">
@@ -42,13 +80,13 @@
 										<a class="list-group-item list-group-item-primary" href="#" ng-click="ms_filter = false">
 											All Categories
 										</a>
-										<a class="list-group-item list-group-item-danger" href="#" ng-click="ms_filter = 1" ng-class="{'active':ms_filter === 1}">
+										<a class="list-group-item list-group-item-danger" href="#" ng-click="ms_filter = 1" ng-class="{'active':ms_filter == 1}">
 											{{commit.metric_summary.above | percentof: mtotal}}% High Risk
 										</a>
-										<a class="list-group-item list-group-item-warning" href="#" ng-click="ms_filter = 0" ng-class="{'active':ms_filter === 0}">
+										<a class="list-group-item list-group-item-warning" href="#" ng-click="ms_filter = 0" ng-class="{'active':ms_filter === 0 || ms_filter === '0'}">
 											{{commit.metric_summary.between | percentof: mtotal}}% Possible Risk
 										</a>
-										<a class="list-group-item list-group-item-success" href="#" ng-click="ms_filter = -1" ng-class="{'active':ms_filter === -1}">
+										<a class="list-group-item list-group-item-success" href="#" ng-click="ms_filter = -1" ng-class="{'active':ms_filter == -1}">
 											{{commit.metric_summary.below | percentof: mtotal}}% Low Risk
 										</a>
 									</div>
@@ -101,3 +139,4 @@
 		</div>
 	</div>
 </div>
+<div commit-pagination class="bottom-pagination-container center"></div>

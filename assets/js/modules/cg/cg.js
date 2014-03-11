@@ -42,7 +42,7 @@ angular.module('cg', [ 'ui.router', 'ngAnimate', 'angles' ])
 		templateUrl: '/ui/repository/commits.html',
 		controller: 'RepoCommitsController'
 	}).state('repo.options', {
-		url: '/settings',
+		url: '/options',
 		templateUrl: '/ui/repository/options.html',
 	});
 	$urlRouterProvider.otherwise('/404');

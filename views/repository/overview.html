@@ -4,32 +4,41 @@
 	</div>	
 	<div ng-switch-when="true">	
 		<h2 id="page-anchor-overview">Overview</h2>
-		<div class="panel">
-			<div class="panel-body">
-				<div class="row">
-					<div class="col-md-3" ng-show="showRepo">
-						<div metric-summary="repo.metrics.overall" size="250">
-						</div>
+		<div class="row">
+			<div class="col-md-5">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Metrics Quality</h3>
 					</div>
-					<div class="col-md-2" ng-show="showRepo">
-						<div class="list-group metric-summary-legend" ng-init="mtotal = repo.metrics.overall.below + repo.metrics.overall.between + repo.metrics.overall.above">
-							<a class="list-group-item list-group-item-primary" href="#" ng-click="ms_filter = false">
-								All Categories
-							</a>
-							<a class="list-group-item list-group-item-danger" href="#" ng-click="ms_filter = 1" ng-class="{'active':ms_filter === 1}">
-								{{repo.metrics.overall.above | percentof: mtotal}}% High Risk
-							</a>
-							<a class="list-group-item list-group-item-warning" href="#" ng-click="ms_filter = 0" ng-class="{'active':ms_filter === 0}">
-								{{repo.metrics.overall.between | percentof: mtotal}}% Possible Risk
-							</a>
-							<a class="list-group-item list-group-item-success" href="#" ng-click="ms_filter = -1" ng-class="{'active':ms_filter === -1}">
-								{{repo.metrics.overall.below | percentof: mtotal}}% Low Risk
-							</a>
-						</div>
+					<div class="panel-body">
+						<div metric-summary="repo.metrics.overall" size="300"></div>
 					</div>
-					<div class="col-md-7" ng-show="showRepo">
-						<div metric-history="repo.metrics.history" size="250">
-						</div>
+					<div class="row panel-custom-footer metric-summary-overview-legend" ng-init="mtotal = repo.metrics.overall.below + repo.metrics.overall.between + repo.metrics.overall.above">
+						<div class="col-xs-4 bg-danger">{{repo.metrics.overall.above | percentof: mtotal}}% High Risk</div> <div class="col-xs-4 bg-warning">{{repo.metrics.overall.between | percentof: mtotal}}% Possible Risk</div> <div class="col-xs-4 bg-success">{{repo.metrics.overall.below | percentof: mtotal}}% Low Risk</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-7" ng-show="showRepo">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Low-risk metrics over time</h3>
+					</div>
+					<div class="panel-body">
+						<div metric-history="repo.metrics.history" size="250"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<h3>Per-metric analysis</h3>
+		<div class="row">
+			<div class="col-md-2 inline-col" ng-repeat="(key, name) in metricValues">
+				<div class="panel">
+					<div class="panel-heading">
+						<h3 class="panel-title" ng-bind="name"></h3>
+					</div>
+					<div class="row panel-custom-footer metric-ranges">
+						<div class="col-xs-12 bg-danger" ng-bind="repo.metrics.individual[key + 'buggy'] | round"></div>
+						<div class="col-xs-12 bg-success" ng-bind="repo.metrics.individual[key + 'nonbuggy'] | round"></div>
 					</div>
 				</div>
 			</div>
