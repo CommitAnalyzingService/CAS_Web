@@ -25,6 +25,9 @@ module.exports = {
 			type: 'FLOAT',
 			defaultsTo: 0
 		},
+		ns_sig: {
+			type: 'FLOAT',
+		},
 		ndbuggy: {
 			type: 'FLOAT',
 			defaultsTo: 0
@@ -32,6 +35,9 @@ module.exports = {
 		ndnonbuggy: {
 			type: 'FLOAT',
 			defaultsTo: 0
+		},
+		nd_sig: {
+			type: 'FLOAT',
 		},
 		nfbuggy: {
 			type: 'FLOAT',
@@ -41,6 +47,9 @@ module.exports = {
 			type: 'FLOAT',
 			defaultsTo: 0
 		},
+		nf_sig: {
+			type: 'FLOAT',
+		},
 		entrophybuggy: {
 			type: 'FLOAT',
 			defaultsTo: 0
@@ -48,6 +57,9 @@ module.exports = {
 		entrophynonbuggy: {
 			type: 'FLOAT',
 			defaultsTo: 0
+		},
+		entrophy_sig: {
+			type: 'FLOAT',
 		},
 		labuggy: {
 			type: 'FLOAT',
@@ -57,6 +69,9 @@ module.exports = {
 			type: 'FLOAT',
 			defaultsTo: 0
 		},
+		la_sig: {
+			type: 'FLOAT',
+		},
 		ldbuggy: {
 			type: 'FLOAT',
 			defaultsTo: 0
@@ -64,6 +79,9 @@ module.exports = {
 		ldnonbuggy: {
 			type: 'FLOAT',
 			defaultsTo: 0
+		},
+		ld_sig: {
+			type: 'FLOAT',
 		},
 		ltbuggy: {
 			type: 'FLOAT',
@@ -73,6 +91,9 @@ module.exports = {
 			type: 'FLOAT',
 			defaultsTo: 0
 		},
+		lt_sig: {
+			type: 'FLOAT',
+		},
 		ndevbuggy: {
 			type: 'FLOAT',
 			defaultsTo: 0
@@ -80,6 +101,9 @@ module.exports = {
 		ndevnonbuggy: {
 			type: 'FLOAT',
 			defaultsTo: 0
+		},
+		ndev_sig: {
+			type: 'FLOAT',
 		},
 		agebuggy: {
 			type: 'FLOAT',
@@ -89,6 +113,9 @@ module.exports = {
 			type: 'FLOAT',
 			defaultsTo: 0
 		},
+		age_sig: {
+			type: 'FLOAT',
+		},
 		nucbuggy: {
 			type: 'FLOAT',
 			defaultsTo: 0
@@ -96,6 +123,9 @@ module.exports = {
 		nucnonbuggy: {
 			type: 'FLOAT',
 			defaultsTo: 0
+		},
+		nuc_sig: {
+			type: 'FLOAT',
 		},
 		expbuggy: {
 			type: 'FLOAT',
@@ -105,6 +135,9 @@ module.exports = {
 			type: 'FLOAT',
 			defaultsTo: 0
 		},
+		exp_sig: {
+			type: 'FLOAT',
+		},
 		rexpnonbuggy: {
 			type: 'FLOAT',
 			defaultsTo: 0
@@ -113,6 +146,9 @@ module.exports = {
 			type: 'FLOAT',
 			defaultsTo: 0
 		},
+		rexp_sig: {
+			type: 'FLOAT',
+		},
 		sexpbuggy: {
 			type: 'FLOAT',
 			defaultsTo: 0
@@ -120,6 +156,9 @@ module.exports = {
 		sexpnonbuggy: {
 			type: 'FLOAT',
 			defaultsTo: 0
+		},
+		sexp_sig: {
+			type: 'FLOAT',
 		},
 	}
 };
