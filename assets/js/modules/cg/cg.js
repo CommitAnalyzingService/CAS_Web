@@ -19,8 +19,11 @@ angular.module('cg', [ 'ui.router', 'ngAnimate', 'angles' ])
 		controller: 'HomeController',
 		onEnter: function(status) {
 			status.statusCode = 404;
-		}
-		
+		}	
+	}).state('about', {
+		url: '/about',
+		templateUrl: '/ui/home/about.html',
+		controller: function() {},
 	}).state('repos', {
 		url: '/repos',
 		templateUrl: '/ui/repository/index.html'

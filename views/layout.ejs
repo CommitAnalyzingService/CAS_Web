@@ -52,6 +52,9 @@
 					<li ng-class="{ active: (currentPage('/repos')|| currentPage('/repo'))}">
 						<a ui-sref="repos" ng-click="collapse = 0"><i class="fa fa-archive"></i> Repos</a>
 					</li>
+					<li ng-class="{ active: currentPage('/about')}">
+						<a ui-sref="about" ng-click="collapse = 0"><i class="fa fa-info-circle"></i> About</a>
+					</li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown">
