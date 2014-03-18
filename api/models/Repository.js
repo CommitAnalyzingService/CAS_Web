@@ -43,6 +43,11 @@ module.exports = {
 			type: 'string',
 			required: false
 		},
+		
+		last_data_dump: {
+			type: 'string',
+			required: false
+		},
 
 		email: {
 			type: 'email',

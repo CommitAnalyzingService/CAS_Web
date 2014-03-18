@@ -1,118 +1,119 @@
 /**
- * Commit
+ * Repository
  * 
  * @module :: Model
- * @description :: The commit module for finding commits
+ * @description :: The repositories abstraction class
  * 
  */
 
 module.exports = {
-	tableName: 'commits',
+	tableName: 'glm_coefficients',
 	migrate: 'safe',
 	autoCreatedAt: false,
 	autoUpdatedAt: false,
 	autoPK: false,
 	attributes: {
-		
-		// Basic Attributes
-		commit_hash: {
+		repo: {
 			type: 'STRING',
 			primaryKey: true
 		},
-		author_name: {
-			type: 'STRING'
+		intercept: {
+			type: 'FLOAT',
+			defaultsTo: 0
 		},
-		author_date_unix_timestamp: {
-			type: 'STRING'
-		},
-		author_email: {
-			type: 'STRING'
-		},
-		author_date: {
-			type: 'STRING'
-		},
-		commit_message: {
-			type: 'STRING'
-		},
-		repository_id: {
-			type: 'STRING'
-		},
-		
-		// Statistics
-		fix: {
-			type: 'STRING'
-		},
-		
-		classification: {
-			type: 'STRING'
-		},
-		
-		contains_bug: {
-			type: 'BOOLEAN',
-			defaultsTo: false
+		intercept_sig: {
+			type: 'FLOAT'
 		},
 		ns: {
 			type: 'FLOAT',
 			defaultsTo: 0
 		},
+		ns_sig: {
+			type: 'FLOAT'
+		},
 		nd: {
 			type: 'FLOAT',
 			defaultsTo: 0
+		},
+		nd_sig: {
+			type: 'FLOAT'
 		},
 		nf: {
 			type: 'FLOAT',
 			defaultsTo: 0
 		},
+		nf_sig: {
+			type: 'FLOAT'
+		},
 		entrophy: {
 			type: 'FLOAT',
 			defaultsTo: 0
+		},
+		entrophy_sig: {
+			type: 'FLOAT'
 		},
 		la: {
 			type: 'FLOAT',
 			defaultsTo: 0
 		},
+		la_sig: {
+			type: 'FLOAT'
+		},
 		ld: {
 			type: 'FLOAT',
 			defaultsTo: 0
 		},
-		fileschanged: {
-			type: 'STRING',
-			defaultsTo: undefined
+		ld_sig: {
+			type: 'FLOAT'
 		},
 		lt: {
 			type: 'FLOAT',
 			defaultsTo: 0
 		},
+		lt_sig: {
+			type: 'FLOAT'
+		},
 		ndev: {
 			type: 'FLOAT',
 			defaultsTo: 0
+		},
+		ndev_sig: {
+			type: 'FLOAT'
 		},
 		age: {
 			type: 'FLOAT',
 			defaultsTo: 0
 		},
+		age_sig: {
+			type: 'FLOAT'
+		},
 		nuc: {
 			type: 'FLOAT',
 			defaultsTo: 0
+		},
+		nuc_sig: {
+			type: 'FLOAT'
 		},
 		exp: {
 			type: 'FLOAT',
 			defaultsTo: 0
 		},
+		exp_sig: {
+			type: 'FLOAT'
+		},
 		rexp: {
 			type: 'FLOAT',
 			defaultsTo: 0
+		},
+		rexp_sig: {
+			type: 'FLOAT'
 		},
 		sexp: {
 			type: 'FLOAT',
 			defaultsTo: 0
 		},
-		
-		glm_probability: {
-			type: 'FLOAT',
-			defaultsTo: 0
+		sexp_sig: {
+			type: 'FLOAT'
 		}
-
 	}
-
 };
