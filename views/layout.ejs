@@ -86,17 +86,21 @@
 	</nav>
 	<div class="container animate-fade" ng-if="loading">
 		<div class="globalLoading">
-			<span>
-				<i class="fa fa-spin fa-refresh"></i> Loading...
-			</span>
+			<div>
+				<span>
+					<i class="fa fa-spin fa-refresh"></i> Loading...
+				</span>
+			</div>
 		</div>
 	</div>
 	<div id="content">
-		<div class="container" id="messages" ng-class="{showMessages: globalMessages.count() > 0}">
+		<div id="messages" ng-class="{showMessages: globalMessages.count() > 0}">
 			<div class="animate-repeat" ng-repeat="message in globalMessages.get()" ng-click="message.hold = true">
 				<div class="alert alert-{{message.type}} alert-dismissable">
-					<button type="button" class="close" ng-click="globalMessages.remove($index)">&times;</button>
-					{{message.content}}
+					<div class="container">
+						<button type="button" class="close" ng-click="globalMessages.remove($index)">&times;</button>
+						{{message.content}}
+					</div>
 				</div>
 			</div>
 		</div>

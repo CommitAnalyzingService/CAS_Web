@@ -14,6 +14,9 @@ angular.module('cg').controller('RepoController', function($scope, $state, $stat
 			rexp: "Recent dev experience",
 			sexp: "Subsystem dev experience",	
 	};
+	$scope.metricKeys = Object.keys($scope.metricValues);
+	
+	
 	var registerMH = messageHandler.controllerRegister($scope);
 	
 	$scope.repo = repoData;

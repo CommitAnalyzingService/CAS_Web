@@ -47,6 +47,7 @@ angular.module('cg', [ 'ui.router', 'ngAnimate', 'angles' ])
 	}).state('repo.options', {
 		url: '/options',
 		templateUrl: '/ui/repository/options.html',
+		controller: 'RepoOptionsController'
 	});
 	$urlRouterProvider.otherwise('/404');
 	$locationProvider.html5Mode(true);

@@ -69,53 +69,71 @@ var RepositoryController = {
         				
         				RepoPubPoll(req, repo);
         			}
-					res.json({success: true, repo: repo});					
+        			
+					return res.json({success: true, repo: repo});					
 	    		}
-
-	    		// METRCIS VALID
 	    		
-				// Get the commits for the repo
-				Commit.find({repository_id:repo.id})
-				.sort('author_date_unix_timestamp DESC')
-				.done(function(err, commits){
+	    		// METRICS VALID
+	    		
+	    		// Metrics found, get the Glm fields
+				Glmcoefficients.findOne({repo:repo.id}).done(function(err, glmc){
 					
-					// ERROR CHECKING FOR COMMITS
-					if(err) {
+		    		// ERROR CHECKING FOR GLMC
+		    		if(err) {
 		    			sails.log.error(err);
 		    			return res.json({success: false, error: err});
-		    		} else if(commits.length == 0) {
-		    			
-		    			// No commits in the repo
+		    		} else if(typeof glmc === "undefined") {
 						
-						return res.json({success: true, repo: repo});			
+		    			// GLMs not ready yet
+		    			return res.json({success: true, repo: repo});
+		    			
 		    		}
-					
-					// COMMITS VALID
-	
-					// Start the repo metric analyzer
-					var repoMetrics = 
-						new RepositoryMetrics(metrics, commits.length);
-	    			
-	    			// Loop through each commit
-	    			for(var i in commits) {
-	    				
-	    				// Parse each commit and update thresholds
-	    				repoMetrics.parseCommit(commits[i]);
-	    				
-	    				// Now normalize the fileschanged
-	    				commits[i].fileschanged = commits[i].fileschanged
-	    				.split(",CAS_DELIMITER").map(function(file) {
-	    					return file.replace(/(^,)|(,$)/, '');
-	    				});
-	    			}
-	    			
-	    			// Update repo with the new information
-	    			repo.commits = commits;
-	    			repo.metrics = repoMetrics.metrics;
-	    			
-	    			// Return the repo
-	    			return res.json({success: true, repo: repo});
-    			});
+		    		
+		    		// GLMC's valid
+		    		
+					// Get the commits for the repo
+					Commit.find({repository_id:repo.id})
+					.sort('author_date_unix_timestamp DESC')
+					.done(function(err, commits){
+						
+						// ERROR CHECKING FOR COMMITS
+						if(err) {
+			    			sails.log.error(err);
+			    			return res.json({success: false, error: err});
+			    		} else if(commits.length == 0) {
+			    			
+			    			// No commits in the repo
+							
+							return res.json({success: true, repo: repo});			
+			    		}
+						
+						// COMMITS VALID
+		
+						// Start the repo metric analyzer
+						var repoMetrics = 
+							new RepositoryMetrics(metrics, glmc, commits.length);
+		    			
+		    			// Loop through each commit
+		    			for(var i in commits) {
+		    				
+		    				// Parse each commit and update thresholds
+		    				repoMetrics.parseCommit(commits[i]);
+		    				
+		    				// Now normalize the fileschanged
+		    				commits[i].fileschanged = commits[i].fileschanged
+		    				.split(",CAS_DELIMITER").map(function(file) {
+		    					return file.replace(/(^,)|(,$)/, '');
+		    				});
+		    			}
+		    			
+		    			// Update repo with the new information
+		    			repo.commits = commits;
+		    			repo.metrics = repoMetrics.metrics;
+		    			
+		    			// Return the repo
+		    			return res.json({success: true, repo: repo});
+	    			});
+				});
 			});
     	});
     }

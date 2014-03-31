@@ -11,11 +11,12 @@
 	z-index: 1010;
 }
 #messages.showMessages {
-	padding-top:25px;
+	padding-top:0px;
 }
 
 #messages .alert, .alert.alert-main {
-	border-width:3px !important;
+	border-bottom-width:2px !important;
+	margin-bottom:0px !important;
 }
 
 .animate-repeat.ng-move , .animate-repeat.ng-enter , .animate-repeat.ng-leave {
@@ -55,7 +56,6 @@
 @-ms-viewport       { width: device-width; }
 @-o-viewport        { width: device-width; }
 @viewport           { width: device-width; }
-
 
 #repo_url_group {
 	@media screen and (min-width: @screen-md) {
@@ -180,16 +180,23 @@ div.metric-summary-legend .list-group {
 	top: 0;
 	left: 0;
 	right: 0;
+	height:100%;
+	width:100%;
+	z-index:10000;
+	background: rgba(255, 255, 255, .5);
+	display: table;
+}
+.globalLoading div {
+	vertical-align: middle;
+	display: table-cell;
 	text-align: center;
-	z-index:2000;
-	background: rgba(0, 0, 0, .3);
 }
 .globalLoading span {
-	background: #333;
-	color: #fff;
-	font-size: 16px;
-	padding: 13.5px;
-	display: inline-block;
+	background: #fff;
+	color: #333;
+	font-size: 36px;
+	padding: 25px;
+	border: 3px solid #ccc;
 }
 
 .metric-summary-overview-legend div {
@@ -211,6 +218,10 @@ div.metric-summary-legend .list-group {
 	text-align:center;
 }
 
+.per-metric-overview-body {
+	font-size: larger;
+}
+
 .commit-panel {
 	margin-bottom: -2px;
 }
@@ -225,4 +236,13 @@ div.metric-summary-legend .list-group {
 
 .bottom-spacer {
 	margin-bottom: 15px;
+}
+
+.alert-default {
+	background-color: #eee;
+}
+
+.glm_probability_main {
+	font-size: 50px;
+	text-align: center;
 }

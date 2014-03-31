@@ -9,12 +9,13 @@
 /**
  * Create a new RepoMetrics class
  */
-function RepositoryMetrics(thresholds, commitCount) {
+function RepositoryMetrics(thresholds, glmc, commitCount) {
 
 	this.thresholds = thresholds;
 
 	this.metrics = {
 		individual: thresholds,
+		glmc: glmc,
 		overall: {
 			above: 0,
 			below: 0,
@@ -27,6 +28,8 @@ function RepositoryMetrics(thresholds, commitCount) {
 			}
 		}
 	};
+	
+	// Set a map of the significant
 
 	// Set default options
 	this.options = {
