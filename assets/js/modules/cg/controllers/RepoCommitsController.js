@@ -54,7 +54,7 @@ angular.module('cg').controller('RepoCommitsController', function($scope, socket
 			
 			//Desending Sort?
 			var modifier;
-			if($scope.display.sortBy[0] == '-') {
+			if($scope.display.sortBy.charAt(0) == '-') {
 				modifier = '-';
 			} else {
 				modifier = '';
@@ -67,7 +67,7 @@ angular.module('cg').controller('RepoCommitsController', function($scope, socket
 				field = 'metric_summary.above';
 			}
 			
-			filterCommits = orderByFilter(filterCommits, modifier.field);
+			filterCommits = orderByFilter(filterCommits, modifier + field);
 		}
 		
 		$scope.commits = filterCommits;
@@ -145,7 +145,7 @@ angular.module('cg').controller('RepoCommitsController', function($scope, socket
     }];
     
     // Check if glmc has been calculated
-    if($scope.repo.metrics.glmc == null) {
+    if($scope.repo.metrics.glmc == null || !$scope.repo.metrics.glmc.hasOwnProperty("repo")) {
     	$scope.display_type_options = $scope.display_type_options.splice(0, 1);
     }
     
