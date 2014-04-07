@@ -25,6 +25,7 @@ function RepositoryMetrics(thresholds, glmc, commitCount) {
 			ids: [],
 			values: {
 				quality: [],
+				contains_bug: []
 			}
 		}
 	};
@@ -49,7 +50,10 @@ function RepositoryMetrics(thresholds, glmc, commitCount) {
 				: rawInterval + 1;
 	}
 
-	this._currentAvgs = [];
+	this._currentAvgs = {
+		quality: [],
+		contains_bug: []
+	};
 }
 
 /**
@@ -116,7 +120,7 @@ parseCommit = function(commit) {
 			}
 		}
 	}
-	this.updateRepoMetrics(commit.metric_summary);
+	this.updateRepoMetrics(commit);
 },
 
 /**
@@ -124,27 +128,35 @@ parseCommit = function(commit) {
  */
 flushHistory = function() {
 
-	// Sum the current averages
-	var sum = 0;
-	for( var i = this._currentAvgs.length; i--;) {
-		sum += this._currentAvgs[i];
-	}
-
+	var currentAvgs;
+	
 	// Push the current count as the label
 	this.metrics.history.ids.push(this.options.historyCount);
-
-	// Push the average to this value
-	this.metrics.history.values.quality.unshift(sum / this._currentAvgs.length);
-
-	// Clear current averages
-	this._currentAvgs.length = 0;
+	
+	for(var type in this._currentAvgs) {
+		
+		currentAvgs = this._currentAvgs[type];
+		
+		// Sum the current averages
+		var sum = 0;
+		for( var i = currentAvgs.length; i--;) {
+			sum += currentAvgs[i];
+		}
+		// Push the average to this value
+		this.metrics.history.values[type].unshift(sum / currentAvgs.length);
+	
+		// Clear current averages
+		this._currentAvgs[type].length = 0;
+	}
 },
 
 /**
  * Update the overall metric summary
  */
-updateRepoMetrics = function(summary) {
+updateRepoMetrics = function(commit) {
 
+	var summary = commit.metric_summary;
+	
 	// Add summary to overall totals
 	this.metrics.overall.above += summary.above;
 	this.metrics.overall.between += summary.between;
@@ -152,8 +164,12 @@ updateRepoMetrics = function(summary) {
 
 	// Set quality into currentAvgs
 	var total = summary.above + summary.between + summary.below;
-	var quality = (total == 0) ? 0 : Math.round((summary.below / total) * 100);
-	this._currentAvgs.push(quality);
+	var quality = (total == 0) ? 0 : Math.round((summary.below / total) * 100) / 100;
+	this._currentAvgs.quality.push(quality);
+	
+	// Set the contains bug into currentAvgs
+	var containsBug = commit.contains_bug? 1: 0;
+	this._currentAvgs.contains_bug.push(containsBug);
 
 	// Flush history if reached frequency or at the end of the commits
 	if(this.options.historyCount % this.options.historyFreq == 0

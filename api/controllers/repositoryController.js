@@ -51,6 +51,7 @@ var RepositoryController = {
 			// Init non-standard repo fields
 			repo.commits = [];
 			repo.metrics = {};
+			repo.settings = {};
 			
 			// Repository found, get the metrics
 			Metric.findOne({repo:repo.id}).done(function(err, metrics){
@@ -85,8 +86,8 @@ var RepositoryController = {
 		    		} else if(typeof glmc === "undefined") {
 						
 		    			// GLMs not ready yet
-		    			return res.json({success: true, repo: repo});
-		    			
+		    			//return res.json({success: true, repo: repo});
+		    			glmc = {};
 		    		}
 		    		
 		    		// GLMC's valid

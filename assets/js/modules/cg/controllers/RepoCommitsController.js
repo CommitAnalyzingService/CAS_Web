@@ -6,7 +6,7 @@ angular.module('cg').controller('RepoCommitsController', function($scope, socket
     $scope.display= {
     	type: 'historical',
     	metricKey: 'individual',
-    	sortByGlm: "no"
+    	sortBy: 'time'
     };
     
     // Display filtering
@@ -49,13 +49,25 @@ angular.module('cg').controller('RepoCommitsController', function($scope, socket
 		// Filter by the critera
 		filterCommits = filterFilter(filterCommits, criteria);
 		
-		// If sorting by glm?
-		if($scope.display.sortByGlm == "yes") {
-			if($scope.display.type == 'predictive') {
-				filterCommits = orderByFilter(filterCommits, '-glm_probability');
+		// If sorting by risk?
+		if($scope.display.sortBy.substring(1) == "risk") {
+			
+			//Desending Sort?
+			var modifier;
+			if($scope.display.sortBy[0] == '-') {
+				modifier = '-';
 			} else {
-				filterCommits = orderByFilter(filterCommits, '');
+				modifier = '';
 			}
+			
+			var field;
+			if($scope.display.type == 'predictive') {
+				field = 'glm_probability';
+			} else {
+				field = 'metric_summary.above';
+			}
+			
+			filterCommits = orderByFilter(filterCommits, modifier.field);
 		}
 		
 		$scope.commits = filterCommits;
@@ -123,5 +135,19 @@ angular.module('cg').controller('RepoCommitsController', function($scope, socket
     	value: true, 
     	label: "Full Details"
     }];
+    
+    $scope.display_type_options = [{
+    	value: 'historical',
+    	label: 'Historical Data'
+    }, {
+    	value: 'predictive',
+    	label: 'Predictive Data'
+    }];
+    
+    // Check if glmc has been calculated
+    if($scope.repo.metrics.glmc == null) {
+    	$scope.display_type_options = $scope.display_type_options.splice(0, 1);
+    }
+    
     $scope.ms_filter = '';
 });

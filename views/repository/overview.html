@@ -19,31 +19,38 @@
 				</div>
 			</div>
 			<div class="col-md-7" ng-show="showRepo">
-				<div class="panel panel-default">
+				<div class="panel panel-default" ng-init="metricHistoryType = 'quality'">
 					<div class="panel-heading">
-						<h3 class="panel-title">Low-risk metrics over time</h3>
+						<h3 class="panel-title">
+							<div class="form-group">
+								<select type="text" class="form-control" ng-model="metricHistoryType">
+									<option value="quality">Low Risk Metrics Over Time</option>
+									<option value="contains_bug">Average Bugs Introduced Over Time</option>
+								</select>
+							</div>
+						</h3>
 					</div>
 					<div class="panel-body">
-						<div metric-history="repo.metrics.history" size="250"></div>
+						<div metric-history="repo.metrics.history" type="metricHistoryType" size="250"></div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<h3>Per-metric overview <button type="button" class="btn btn-link pull-right" ng-click="perMetricViewToggle = !perMetricViewToggle">Switch view</button></h3>
-		<div class="panel panel-default" ng-if="!perMetricViewToggle">
+		<h3>Per-metric overview <small>* Metric is significant</small><button type="button" class="btn btn-link pull-right" ng-click="perMetricViewToggle = !perMetricViewToggle">Switch view</button></h3>
+		<div class="panel panel-default" ng-if="perMetricViewToggle">
 			<div class="panel-body table-responsive">
 				<table class="table">
 					<thead>
-						<th>Metric name</th>
-						<th>GLM Significance</th>
-						<th>Median Significance</th>
-						<th class="text-success">Median Low-Risk Threshold</th>
-						<th class="text-danger">Median High-Risk Threshold</th>
+						<tr>
+							<th>Metric name</th>
+							<th>Significant?</th>
+							<th class="text-success">Low-Risk Threshold</th>
+							<th class="text-danger">High-Risk Threshold</th>
+						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="(key, name) in metricValues">
 							<td ng-bind="name"></td>
-							<td><i class="fa" ng-class="{'fa-check text-success': repo.metrics.glmc[key + '_sig'], 'fa-times text-danger': !repo.metrics.glmc[key + '_sig']}"></i></td>
 							<td><i class="fa" ng-class="{'fa-check text-success': repo.metrics.individual[key + '_sig'], 'fa-times text-danger': !repo.metrics.individual[key + '_sig']}"></i></td>
 							<td ng-bind="repo.metrics.individual[key + 'nonbuggy'] | round"></td>
 							<td ng-bind="repo.metrics.individual[key + 'buggy'] | round"></td>
@@ -52,29 +59,15 @@
 				</table>
 			</div>
 		</div>
-		<div class="row" ng-if="perMetricViewToggle">
-			<div class="col-md-4 inline-col" ng-repeat="(key, name) in metricValues">
+		<div class="row" ng-if="!perMetricViewToggle">
+			<div class="col-md-2 inline-col" ng-repeat="(key, name) in metricValues">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h3 class="panel-title" ng-bind="name + (repo.metrics.glmc[key + '_sig']?'*':'')"></h3>
 					</div>
-					<div class="panel-body per-metric-overview-body">
-						<div class="row">
-						<div class="col-xs-5">GLM Model:</div>
-						<div ng-switch="repo.metrics.glmc[key + '_sig'] == 1">
-							<div class="col-xs-offset-3 col-xs-4" ng-switch-when="true"><span class="label label-success">Significant</span></div>
-							<div class="col-xs-offset-3 col-xs-4" ng-switch-when="false"><span class="label label-danger">Insignificant</span></div>
-						</div>
-					</div>
-					<div class="vert-spacer-sm"></div>
-					<div class="row">
-						<div class="col-xs-5">Median Model:</div>
-						<div class="col-xs-3"><span class="text-success" ng-bind="repo.metrics.individual[key + 'buggy'] | round"></span> / <span class="text-danger" ng-bind="repo.metrics.individual[key + 'nonbuggy'] | round"></span></div>
-						<div ng-switch="repo.metrics.individual[key + '_sig'] == 1">
-							<div class="col-xs-4" ng-switch-when="true"><span class="label label-success">Significant</span></div>
-							<div class="col-xs-4" ng-switch-when="false"><span class="label label-danger">Insignificant</span></div>
-						</div>
-					</div>
+					<div class="row panel-custom-footer metric-ranges">
+						<div class="col-xs-12 bg-danger" ng-bind="repo.metrics.individual[key + 'buggy'] | round"></div>
+						<div class="col-xs-12 bg-success" ng-bind="repo.metrics.individual[key + 'nonbuggy'] | round"></div>
 					</div>
 				</div>
 			</div>

@@ -6,23 +6,14 @@
 				Display: 
 			</div>
 			<div class="form-group">
-				<select type="text" class="form-control" ng-model="display.type">
-					<option value="historical">Historical Data</option>
-					<option value="predictive">Predictive Data</option>
+				<select type="text" class="form-control" ng-model="display.type" ng-options="opt.value as opt.label for opt in display_type_options">
 				</select>
 			</div>
-			<div class="form-group" ng-show="display.type == 'historical'">
-				<select type="text" class="form-control" ng-model="ms_filter">
-					<option value="" selected>Metric Risks</option>
-					<option value="1">High Risk</option>
-					<option value="0">Possible Risk</option>
-					<option value="-1">Low Risk</option>
-				</select>
-			</div>
-			<div class="form-group" ng-show="display.type == 'predictive'">
-				<select type="text" class="form-control" ng-model="display.sortByGlm">
-					<option value="no">Sort by Time</option>
-					<option value="yes">Sort by Risk-level</option>
+			<div class="form-group">
+				<select type="text" class="form-control" ng-model="display.sortBy">
+					<option value="time">Sort by Time</option>
+					<option value="-risk">Sort by High Risk-level</option>
+					<option value="+risk">Sort by Low Risk-level</option>
 				</select>
 			</div>
 			<div class="form-group">
