@@ -51,6 +51,12 @@ module.exports = {
 			type: 'BOOLEAN',
 			defaultsTo: false
 		},
+		
+		fixes: {
+			type: 'STRING',
+			defaultsTo: ""
+		},
+		
 		ns: {
 			type: 'FLOAT',
 			defaultsTo: 0
