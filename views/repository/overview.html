@@ -11,10 +11,10 @@
 						<h3 class="panel-title">Metrics Quality</h3>
 					</div>
 					<div class="panel-body">
-						<div metric-summary="repo.metrics.overall" size="300"></div>
+						<div contains-bug="yes" size="300"></div>
 					</div>
 					<div class="row panel-custom-footer metric-summary-overview-legend" ng-init="mtotal = repo.metrics.overall.below + repo.metrics.overall.between + repo.metrics.overall.above">
-						<div class="col-xs-4 bg-danger">{{repo.metrics.overall.above | percentof: mtotal}}% High Risk</div> <div class="col-xs-4 bg-warning">{{repo.metrics.overall.between | percentof: mtotal}}% Possible Risk</div> <div class="col-xs-4 bg-success">{{repo.metrics.overall.below | percentof: mtotal}}% Low Risk</div>
+						<div class="col-xs-6 bg-danger">{{repo.metrics.overall.above | percentof: mtotal}}% Bug-introducing commits</div> <div class="col-xs-6 bg-success">{{repo.metrics.overall.below | percentof: mtotal}}% Clean Commits</div>
 					</div>
 				</div>
 			</div>

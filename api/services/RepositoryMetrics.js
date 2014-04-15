@@ -26,6 +26,10 @@ function RepositoryMetrics(thresholds, glmc, commitCount) {
 			values: {
 				quality: [],
 				contains_bug: []
+			},
+			totals: {
+				count: 0,
+				contains_bug: 0
 			}
 		}
 	};
@@ -170,7 +174,11 @@ updateRepoMetrics = function(commit) {
 	// Set the contains bug into currentAvgs
 	var containsBug = commit.contains_bug? 1: 0;
 	this._currentAvgs.contains_bug.push(containsBug);
-
+	
+	// Update totals
+	this.metrics.history.totals.count++;
+	this.metrics.history.totals.contains_bug += containsBug;
+	
 	// Flush history if reached frequency or at the end of the commits
 	if(this.options.historyCount % this.options.historyFreq == 0
 		|| this.options.historyCount == this.options.commitCount) {

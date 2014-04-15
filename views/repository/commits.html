@@ -69,11 +69,8 @@
 				<div class="panel-heading">
 					<div class="pull-right">{{commit.author_name}} on {{commit.author_date | timeFormat_calendar}}</div>
 					<h3 class="panel-title" ng-click="show_commit_body = !show_commit_body">
-						<span ng-switch="display.type">
-							<span ng-switch-when="historical"><span ng-if="commit.contains_bug">Possible Bug-inducing: </span></span>
-							<span ng-switch-when="predictive"><span class="label label-success" ng-class="{'label-danger':commit.glm_probability > .5,'label-warning':commit.glm_probability > .25}">{{commit.glm_probability | decimalToPercent}}</span></span>
-						</span>
-						<span ng-show="commit.classification != 'None'" class="label label-default">{{commit.classification}}</span> {{commit.commit_hash.substr(0, 10)}} <em>{{commit.commit_message.substr(0, 60)}}...</em>
+						<span ng-if="display.type == 'predictive'"><span class="label label-success" ng-class="{'label-danger':commit.glm_probability > .5,'label-warning':commit.glm_probability > .25}">{{commit.glm_probability | decimalToPercent}}</span></span>
+						<span ng-show="commit.classification != 'None'" class="label label-default">{{commit.classification}}</span><span ng-if="display.type == 'historical'"><span ng-if="commit.contains_bug"> Possible Bug-inducing: </span> {{commit.commit_hash.substr(0, 10)}} <em>{{commit.commit_message.substr(0, 60)}}...</em>
 					</h3>
 				</div>
 				<div class="panel-body" ng-if="show_commit_body">
@@ -117,6 +114,13 @@
 								<div class="col-md-12 cont-max-150">
 									Updated Files:
 									<span class="label label-primary label-inline" ng-repeat="file in commit.fileschanged">{{file}}</span>
+								</div>
+							</div>
+							
+							<div class="row" ng-show="commit.fixes || commit.fixes.length > 0">
+								<div class="col-md-12 cont-max-150">
+									Fixes:
+									<span class="label label-success label-inline" ng-repeat="fixed in commit.fixes" ng-click="search.commit_hash = fixed">{{fixed}}</span>
 								</div>
 							</div>
 						</div>
