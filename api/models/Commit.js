@@ -59,7 +59,7 @@ module.exports = {
 		
 		linked: {
 			type: 'BOOLEAN',
-			defaultsTO: false
+			defaultsTo: false
 		},
 		
 		ns: {
