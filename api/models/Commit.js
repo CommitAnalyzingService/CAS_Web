@@ -57,6 +57,11 @@ module.exports = {
 			defaultsTo: ""
 		},
 		
+		linked: {
+			type: 'BOOLEAN',
+			defaultsTO: false
+		},
+		
 		ns: {
 			type: 'FLOAT',
 			defaultsTo: 0
