@@ -75,66 +75,31 @@
 				</div>
 				<div class="panel-body" ng-if="show_commit_body">
 					<div class="row">
-						<div class="col-md-4">
+						<div class="col-md-12">
 							<div class="row">
-								<div ng-switch="display.type">
-									<div ng-switch-when="historical">
-										<div class="col-md-6">
-											<div metric-summary="commit.metric_summary">
-											</div>
-										</div>
-										<div class="col-md-6">
-											<div class="list-group metric-summary-legend" ng-init="mtotal = commit.metric_summary.below + commit.metric_summary.between + commit.metric_summary.above">
-												<a class="list-group-item list-group-item-primary" href="#" ng-click="ms_filter = false">
-													All Categories
-												</a>
-												<a class="list-group-item list-group-item-danger" href="#" ng-click="ms_filter = 1" ng-class="{'active':ms_filter == 1}">
-													{{commit.metric_summary.above | percentof: mtotal}}% High Risk
-												</a>
-												<a class="list-group-item list-group-item-warning" href="#" ng-click="ms_filter = 0" ng-class="{'active':ms_filter === 0 || ms_filter === '0'}">
-													{{commit.metric_summary.between | percentof: mtotal}}% Possible Risk
-												</a>
-												<a class="list-group-item list-group-item-success" href="#" ng-click="ms_filter = -1" ng-class="{'active':ms_filter == -1}">
-													{{commit.metric_summary.below | percentof: mtotal}}% Low Risk
-												</a>
-											</div>
-										</div>
-									</div>
-									<div class="container-fluid" ng-switch-when="predictive">
-										<div class="alert glm_probability_main alert-success" ng-class="{'alert-danger':commit.glm_probability > .5,'alert-warning':commit.glm_probability > .25}">{{commit.glm_probability | decimalToPercent}}</span></div>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-12">
-									<div class="well cont-max-150" ng-bind="commit.commit_message"></div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-12 cont-max-150">
-									Updated Files:
-									<span class="label label-primary label-inline" ng-repeat="file in commit.fileschanged">{{file}}</span>
-								</div>
-							</div>
-							
-							<div class="row" ng-show="commit.fixes || commit.fixes.length > 0">
-								<div class="col-md-12 cont-max-150">
-									Fixes:
-									<span class="label label-success label-inline" ng-repeat="fixed in commit.fixes" ng-click="search.commit_hash = fixed">{{fixed}}</span>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-8">
-							<div class="row">
-								<div class="col-md-6" ng-repeat="group in metricGroups">
+								<div class="col-md-6 metricGroup" ng-repeat="group in metricGroups">
+									<div class="groupLabel">{{group.name}}</div>
 									<div class="clearfix">
 										<div ng-repeat="metricKey in group.metricKeys" metric-chart>
 											<div mc-bar-range-chart="metricChartData"></div>
 										</div>
 									</div>
-									<div class="center">{{group.name}}</div>
 								</div>
 							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<div class="well cont-max-150" ng-bind="commit.commit_message"></div>
+						</div>
+						<div class="col-md-4 cont-max-150">
+							Updated Files:
+							<span class="label label-primary label-inline" ng-repeat="file in commit.fileschanged">{{file}}</span>
+						</div>
+					
+						<div class="col-md-4 cont-max-150" ng-show="commit.fixes || commit.fixes.length > 0">
+							Fixes:
+							<span class="label label-success label-inline" ng-repeat="fixed in commit.fixes" ng-click="search.commit_hash = fixed">{{fixed}}</span>
 						</div>
 					</div>
 					<form ng-show="user.status.authenticated" class="form-inline pull-right" name="commit.feedback" ng-submit="submitFeedback(commit)">

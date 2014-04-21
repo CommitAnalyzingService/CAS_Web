@@ -12,11 +12,11 @@ angular.module('minChart').directive('mcBarRangeChart', function() {
 			pre: function(scope, elm, attrs) {
 				if(scope.data) {
 					console.log(scope.data);
-					var scale = scope.data.scale;
+					var scale = Math.round(scope.data.scale * 100) / 100;
 					
-						function getPercent(value) {
-							return Math.round((value / scale ) * 100) + '%';
-						}
+					function getPercent(value) {
+						return Math.round((value / scale ) * 100);
+					}
 					
 					scope.ranges = [];
 					
@@ -25,19 +25,36 @@ angular.module('minChart').directive('mcBarRangeChart', function() {
 						scope.ranges[i] = {
 							label: /*range.label + ': '*/ + range.value,
 							style: {
-								top: getPercent(range.value),
-								color: range.color
+								top: 100- getPercent(range.value) + '%',
+								color: range.color,
+								'border-top-color': range.color
 							}
 						};
 					}
 					
+					scope.ranges[i++] = {
+						style: {
+							bottom: getPercent(scope.data.data.value) + '%',
+							left: '100%',
+							width: '160%',
+							'border-top': 'none',
+							'text-align': 'center',
+							color: scope.data.data.color
+						},
+						label: scope.data.data.value
+					};
+					
+					scope.ranges[i++] = {
+						style: {
+							top: '0'	
+						},
+						label: scale
+					};
+					
 					scope.barStyle = {
-						height: getPercent(scope.data.data.value),
+						'transform': 'scaleY(' + (getPercent(scope.data.data.value) / 100) + ')',
 						'background-color': scope.data.data.color 
 					};
-					console.log(scope.barStyle, scope.ranges);
-				} else {
-					console.log(scope.$parent.metricKey);
 				}
 			}, 
 		}
