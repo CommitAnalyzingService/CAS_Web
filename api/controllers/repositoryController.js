@@ -125,6 +125,8 @@ var RepositoryController = {
 		    				.split(",CAS_DELIMITER").map(function(file) {
 		    					return file.replace(/(^,)|(,$)/, '');
 		    				});
+		    				
+		    				//commits[i].fixes = JSON.parse(commits[i].fixes);
 		    			}
 		    			
 		    			// Update repo with the new information

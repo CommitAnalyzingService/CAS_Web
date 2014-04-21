@@ -88,7 +88,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row" ng-init="commit.fixes = $eval(commit.fixes)">
 						<div class="col-md-4">
 							<div class="well cont-max-150" ng-bind="commit.commit_message"></div>
 						</div>
@@ -99,7 +99,7 @@
 					
 						<div class="col-md-4 cont-max-150" ng-show="commit.fixes || commit.fixes.length > 0">
 							Fixes:
-							<span class="label label-success label-inline" ng-repeat="fixed in commit.fixes" ng-click="search.commit_hash = fixed">{{fixed}}</span>
+							<span style="cursor: pointer;" class="label label-success label-inline" ng-repeat="fixed in commit.fixes" ng-click="search.commit_hash = fixed">{{fixed}}</span>
 						</div>
 					</div>
 					<form ng-show="user.status.authenticated" class="form-inline pull-right" name="commit.feedback" ng-submit="submitFeedback(commit)">
