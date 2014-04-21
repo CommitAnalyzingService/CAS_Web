@@ -70,7 +70,7 @@
 					<div class="pull-right">{{commit.author_name}} on {{commit.author_date | timeFormat_calendar}}</div>
 					<h3 class="panel-title" ng-click="show_commit_body = !show_commit_body">
 						<span ng-if="display.type == 'predictive'"><span class="label label-success" ng-class="{'label-danger':commit.glm_probability > .5,'label-warning':commit.glm_probability > .25}">{{commit.glm_probability | decimalToPercent}}</span></span>
-						<span ng-show="commit.classification != 'None'" class="label label-default">{{commit.classification}}</span><span ng-if="display.type == 'historical'"><span ng-if="commit.contains_bug"> Possible Bug-inducing: </span> {{commit.commit_hash.substr(0, 10)}} <em>{{commit.commit_message.substr(0, 60)}}...</em>
+						<span ng-show="commit.classification != 'None'" class="label label-default">{{commit.classification}}</span><span ng-if="display.type == 'historical'"><span ng-if="commit.contains_bug"> Possible Bug-inducing: </span></span> {{commit.commit_hash.substr(0, 10)}} <em>{{commit.commit_message.substr(0, 60)}}...</em>
 					</h3>
 				</div>
 				<div class="panel-body" ng-if="show_commit_body">
@@ -126,7 +126,14 @@
 						</div>
 						<div class="col-md-8">
 							<div class="row">
-								<div ng-repeat="key in metricKeys | sortBySignificance:repo.metrics[display.metricKey]" ng-if="(ms_filter===false || (!ms_filter && ms_filter !== 0))?true:(commit[key].threshold == ms_filter)" class="inline-col col-md-2" metric="commit[key]" display="display">{{metricValues[key] + (repo.metrics[display.metricKey][key + '_sig']?'*':'')}}</div>
+								<div class="col-md-6" ng-repeat="group in metricGroups">
+									<div class="clearfix">
+										<div ng-repeat="metricKey in group.metricKeys" metric-chart>
+											<div mc-bar-range-chart="metricChartData"></div>
+										</div>
+									</div>
+									<div class="center">{{group.name}}</div>
+								</div>
 							</div>
 						</div>
 					</div>

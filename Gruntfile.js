@@ -21,7 +21,7 @@ module.exports = function (grunt) {
 
 
   
-  jsModuleNames = ['cg', 'angles', 'socket.io', 'sails'];
+  jsModuleNames = ['cg', 'angles', 'socket.io', 'sails', 'minChart'];
   jsModules = {};
   jsModuleNames.forEach(function (path) {
 	jsModules[path] =  {

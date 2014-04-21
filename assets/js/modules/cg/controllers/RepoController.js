@@ -3,7 +3,7 @@ angular.module('cg').controller('RepoController', function($scope, $state, $stat
 			ns: "# of modified subsystems",
 			nd: "# of modified directories",
 			nf: "# of modified files",
-			entrophy: "Entrophy (distribution)",
+			entrophy: "Entropy (distribution)",
 			la: "Lines added",
 			ld: "Lines deleted",
 			lt: "Total lines",
@@ -15,6 +15,22 @@ angular.module('cg').controller('RepoController', function($scope, $state, $stat
 			sexp: "Subsystem dev experience",	
 	};
 	$scope.metricKeys = Object.keys($scope.metricValues);
+	
+	$scope.metricGroups = [
+		{
+			name: 'Diffusion',
+			metricKeys: ['ns', 'nd', 'nf', 'entrophy']
+		}, {
+			name: 'Size',
+			metricKeys: ['la', 'ld', 'lt']
+		}, {
+			name: 'History',
+			metricKeys: ['ndev', 'age', 'nuc']
+		}, {
+			name: 'Experience',
+			metricKeys: ['exp', 'rexp', 'sexp']
+		}
+	];
 	
 	
 	var registerMH = messageHandler.controllerRegister($scope);

@@ -31,7 +31,8 @@ function RepositoryMetrics(thresholds, glmc, commitCount) {
 				count: 0,
 				contains_bug: 0
 			}
-		}
+		},
+		maximums: {}
 	};
 	
 	// Set a map of the significant
@@ -121,6 +122,17 @@ parseCommit = function(commit) {
 			case -1:
 				commit.metric_summary.below++;
 				break;
+			}
+			
+			// Have we registered a maximum for this metric yet?
+			if(!this.metrics.maximums.hasOwnProperty(key)) {
+				this.metrics.maximums[key] = commit[key].value;
+			} else {
+				
+				// Is this metric greater than the one we have stored?
+				if(this.metrics.maximums[key] < commit[key].value) {
+					this.metrics.maximums[key] = commit[key].value;
+				}
 			}
 		}
 	}

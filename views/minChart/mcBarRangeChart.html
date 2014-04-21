@@ -1,0 +1,8 @@
+<div class="minChart mcBarRangeChart">
+	<div class="chartScale">
+		<div ng-repeat="range in ranges" ng-style="range.style" ng-bind="range.label"></div>
+	</div>
+	<div class="chartArea">
+		<div class="chartBar" ng-style="barStyle"><div class="barLabel">{{data.data.value}}</span></div>
+	</div>
+</div>
