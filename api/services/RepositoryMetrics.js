@@ -14,29 +14,28 @@ function RepositoryMetrics(thresholds, glmc, commitCount) {
 	this.thresholds = thresholds;
 
 	this.metrics = {
-		individual: thresholds,
+		median: thresholds,
 		glmc: glmc,
-		overall: {
+		/*overall: {
 			above: 0,
 			below: 0,
 			between: 0
-		},
+		},*/
 		history: {
-			ids: [],
+			/*ids: [],
 			values: {
 				quality: [],
 				contains_bug: []
-			},
+			},*/
 			totals: {
 				count: 0,
 				contains_bug: 0
 			}
 		},
-		maximums: {}
+		//maximums: {}
 	};
 	
-	// Set a map of the significant
-
+	/*
 	// Set default options
 	this.options = {
 		historyFreq: 1,
@@ -44,7 +43,7 @@ function RepositoryMetrics(thresholds, glmc, commitCount) {
 		historyPoints: 15,
 		commitCount: commitCount
 	};
-
+	
 	// Set frequency if more than numPoints commits in repo
 	if(this.options.commitCount > this.options.historyPoints) {
 
@@ -59,6 +58,7 @@ function RepositoryMetrics(thresholds, glmc, commitCount) {
 		quality: [],
 		contains_bug: []
 	};
+	*/
 }
 
 /**
@@ -68,6 +68,7 @@ function RepositoryMetrics(thresholds, glmc, commitCount) {
  * @param value
  * @returns {Object} The value and its position relative to the threshold
  */
+/*
 var metricThreshold = function(key, value) {
 
 	var threshold;
@@ -87,6 +88,7 @@ var metricThreshold = function(key, value) {
 		threshold: threshold
 	};
 },
+*/
 
 /**
  * Parse a commit and add it to the metrics
@@ -95,6 +97,7 @@ var metricThreshold = function(key, value) {
  */
 parseCommit = function(commit) {
 
+	/*
 	// Set the defaults for the metric summary
 	commit.metric_summary = {
 		above: 0,
@@ -124,6 +127,7 @@ parseCommit = function(commit) {
 				break;
 			}
 			
+			
 			// Have we registered a maximum for this metric yet?
 			if(!this.metrics.maximums.hasOwnProperty(key)) {
 				this.metrics.maximums[key] = commit[key].value;
@@ -135,13 +139,18 @@ parseCommit = function(commit) {
 				}
 			}
 		}
-	}
-	this.updateRepoMetrics(commit);
+	}*/
+	//this.updateRepoMetrics(commit);
+	
+	// Update totals
+	this.metrics.history.totals.count++;
+	if(commit.contains_bug) this.metrics.history.totals.contains_bug++;
 },
 
 /**
  * Flushes what ever is in the this._currentAvgs to the quality metric
  */
+/*
 flushHistory = function() {
 
 	var currentAvgs;
@@ -165,12 +174,13 @@ flushHistory = function() {
 		this._currentAvgs[type].length = 0;
 	}
 },
-
+*/
 /**
  * Update the overall metric summary
  */
+/*
 updateRepoMetrics = function(commit) {
-
+	
 	var summary = commit.metric_summary;
 	
 	// Add summary to overall totals
@@ -182,29 +192,32 @@ updateRepoMetrics = function(commit) {
 	var total = summary.above + summary.between + summary.below;
 	var quality = (total == 0) ? 0 : Math.round((summary.below / total) * 100) / 100;
 	this._currentAvgs.quality.push(quality);
-	
 	// Set the contains bug into currentAvgs
 	var containsBug = commit.contains_bug? 1: 0;
 	this._currentAvgs.contains_bug.push(containsBug);
+
 	
 	// Update totals
 	this.metrics.history.totals.count++;
 	this.metrics.history.totals.contains_bug += containsBug;
+	
 	
 	// Flush history if reached frequency or at the end of the commits
 	if(this.options.historyCount % this.options.historyFreq == 0
 		|| this.options.historyCount == this.options.commitCount) {
 		this.flushHistory();
 	}
+	
 
 	// Increase the current count
 	this.options.historyCount++;
 };
+*/
 
-RepositoryMetrics.prototype.metricThreshold = metricThreshold;
+//RepositoryMetrics.prototype.metricThreshold = metricThreshold;
 RepositoryMetrics.prototype.parseCommit = parseCommit;
-RepositoryMetrics.prototype.flushHistory = flushHistory;
-RepositoryMetrics.prototype.updateRepoMetrics = updateRepoMetrics;
+//RepositoryMetrics.prototype.flushHistory = flushHistory;
+//RepositoryMetrics.prototype.updateRepoMetrics = updateRepoMetrics;
 
 // Export the RepoMetrics class
 module.exports = RepositoryMetrics;

@@ -30,7 +30,7 @@ angular.module('cg').controller('AppController',
 
 		socket.get('/data', function(response) {
 			$scope.$apply(function() {
-				$scope.items = response.repositories;
+				$scope.repositories = response.repositories;
 				if(response.user) {
 					$scope.user.setUser(response.user);
 				}

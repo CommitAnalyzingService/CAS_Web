@@ -1,7 +1,7 @@
 <div class="jumbotron half-page">
 	<div class="container">
 		<h1>
-			<i class="fa fa-archive"></i> Repositories ({{items.length}})
+			<i class="fa fa-archive"></i> Repositories {{!repositories?'Loading...': '('+ repositories.length +')'}}
 		</h1>
 	</div>
 </div>
@@ -9,8 +9,7 @@
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
 			<div class="row">
-				<div class="list-group" repository-listing="items">
-				</div>
+				<div class="list-group"><a href="/repo/{{item.name}}" class="list-group-item" ng-repeat="item in repositories" ng-include="'/ui/repository/repositoryitem.html'"></a></div>
 			</div>
 		</div>
 	</div>

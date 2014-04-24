@@ -5,7 +5,7 @@ angular.module('cg').controller('RepoCommitsController', function($scope, socket
 	
     $scope.display= {
     	type: 'historical',
-    	metricKey: 'individual',
+    	metricKey: 'median',
     	sortBy: 'time'
     };
     
@@ -50,7 +50,7 @@ angular.module('cg').controller('RepoCommitsController', function($scope, socket
 		filterCommits = filterFilter(filterCommits, criteria);
 		
 		// If sorting by risk?
-		if($scope.display.sortBy.substring(1) == "risk") {
+		if($scope.display.sortBy.substring(1) == "risk" && $scope.display.type == 'predictive') {
 			
 			//Desending Sort?
 			var modifier;
@@ -63,8 +63,6 @@ angular.module('cg').controller('RepoCommitsController', function($scope, socket
 			var field;
 			if($scope.display.type == 'predictive') {
 				field = 'glm_probability';
-			} else {
-				field = 'metric_summary.above';
 			}
 			
 			filterCommits = orderByFilter(filterCommits, modifier + field);
@@ -81,7 +79,7 @@ angular.module('cg').controller('RepoCommitsController', function($scope, socket
     		$scope.show_commit_body = false;
     	} else if($scope.displayAfterTimestamp != 0) {
     		$scope.displayAfterTimestamp = 0;
-    		$scope.display.metricKey = "individual";
+    		$scope.display.metricKey = "median";
     		$scope.show_commit_body = false;
     	}
     });

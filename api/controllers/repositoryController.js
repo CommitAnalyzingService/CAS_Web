@@ -113,10 +113,8 @@ var RepositoryController = {
 						// Start the repo metric analyzer
 						var repoMetrics = 
 							new RepositoryMetrics(metrics, glmc, commits.length);
-		    			
 		    			// Loop through each commit
-		    			for(var i in commits) {
-		    				
+		    			for(var i = 0, l = commits.length; i < l; i++) {
 		    				// Parse each commit and update thresholds
 		    				repoMetrics.parseCommit(commits[i]);
 		    				

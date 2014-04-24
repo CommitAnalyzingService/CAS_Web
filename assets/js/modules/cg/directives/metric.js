@@ -2,20 +2,23 @@ angular.module('cg').directive('metric', function() {
 	return {
 		restrict: 'A',
 		transclude:true,
-		scope: {
-			metric:'=',
-			display:'='
-		},
-		template: '<div class="alert" ng-class="threshold" ng-bind="metric.value | round"></div><div ng-transclude></div>',
+		template: '<div class="alert" ng-class="metricClass" ng-bind="value | round"></div><div ng-transclude></div>',
 		link: {
 				pre: function(scope, elm, attrs) {
 					scope.$watch('display.type', function(newVal) {
+						scope.value =  scope.commit[scope.key];
 						if(newVal !='predictive') {
-							if(scope.metric.threshold > 0 ) scope.threshold="alert-danger";
-							else if(scope.metric.threshold < 0 ) scope.threshold="alert-success";
-							else scope.threshold="alert-warning";
+							if(scope.value >= scope.repo.metrics.median[scope.key + 'buggy'] ) scope.metricClass="alert-danger";
+							else if(scope.value >= scope.repo.metrics.median[scope.key + 'nonbuggy'] ) scope.metricClass="alert-warning";
+							else scope.metricClass="alert-success";
 						} else {
-							scope.threshold="alert-default";
+							if(scope.repo.metrics[scope.display.metricKey][scope.key + '_sig']) {
+								if(scope.commit.glm_probability > .5) scope.metricClass="alert-danger";
+								else if(scope.commit.glm_probability > .25 ) scope.metricClass="alert-warning";
+								else scope.metricClass="alert-success";
+							} else {
+								scope.metricClass = "alert-default";
+							}
 						}
 					});
 				}

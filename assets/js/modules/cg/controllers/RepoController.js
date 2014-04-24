@@ -18,14 +18,14 @@ angular.module('cg').controller('RepoController', function($scope, $state, $stat
 	
 	$scope.metricGroups = [
 		{
-			name: 'Diffusion',
-			metricKeys: ['ns', 'nd', 'nf', 'entrophy']
-		}, {
 			name: 'Size',
 			metricKeys: ['la', 'ld', 'lt']
 		}, {
 			name: 'History',
 			metricKeys: ['ndev', 'age', 'nuc']
+		}, {
+			name: 'Diffusion',
+			metricKeys: ['ns', 'nd', 'nf', 'entrophy']
 		}, {
 			name: 'Experience',
 			metricKeys: ['exp', 'rexp', 'sexp']

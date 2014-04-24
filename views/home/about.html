@@ -19,14 +19,14 @@
 </div>
 <div class="container">
 	<ul class="media-list">
-		<li class="media">
+			<li class="media">
 			<div class="pull-left" style="width:200px;">
-				<img class="media-object img-circle img-responsive"src="/images/team/christoffer.jpg">
+				<img class="media-object img-circle img-responsive"src="/images/team/emad.jpg">
 			</div>
 			<div class="media-body">
-				<h3 class="media-heading">Christoffer Rosen</h3>
-				<p>I am a 5th year undergraduate student studying software engineering at the Rochester Institute of Technology.</p>
-				<p>I am an open source enthusiast and a mobile hacker. I won the AT&T Developer Program hackathon in Chicago for the best overall app in July 2013, creating a mobile application to connect organizations in the city needing donations with residents to help the community while promoting reuse. I believe in simplicity, planning, and continuous improvement and try to incorporate it in everything I do.</p> 
+				<h3 class="media-heading">Emad Shihab</h3>
+				<p>I am an Assistant Professor in the Department of Software Engineering at the Rochester Institute of Technology.</p>
+				<p>My general research area is Software Engineering. I am particularly interested in Mining Software Repositories, Software Quality Assurance, Software Maintenance, Empirical Software Engineering and Software Architecture. I mine historical project data and apply Data Mining, Artificial Intelligence and Statistical Analysis techniques in order to build pragmatic solutions that practitioners can use to maximize their software quality with the least amount of resources. Some of my research has been done in collaboration with and/or adopted in industry by companies such as Avaya, Microsoft and Research In Motion.</p>
 			</div>
 		</li>
 		<li class="media">
@@ -41,12 +41,12 @@
 		</li>
 		<li class="media">
 			<div class="pull-left" style="width:200px;">
-				<img class="media-object img-circle img-responsive"src="/images/team/emad.jpg">
+				<img class="media-object img-circle img-responsive"src="/images/team/christoffer.jpg">
 			</div>
 			<div class="media-body">
-				<h3 class="media-heading">Emad Shihab</h3>
-				<p>I am an Assistant Professor in the Department of Software Engineering at the Rochester Institute of Technology.</p>
-				<p>My general research area is Software Engineering. I am particularly interested in Mining Software Repositories, Software Quality Assurance, Software Maintenance, Empirical Software Engineering and Software Architecture. I mine historical project data and apply Data Mining, Artificial Intelligence and Statistical Analysis techniques in order to build pragmatic solutions that practitioners can use to maximize their software quality with the least amount of resources. Some of my research has been done in collaboration with and/or adopted in industry by companies such as Avaya, Microsoft and Research In Motion.</p>
+				<h3 class="media-heading">Christoffer Rosen</h3>
+				<p>I am a 5th year undergraduate student studying software engineering at the Rochester Institute of Technology.</p>
+				<p>I am an open source enthusiast and a mobile hacker. I won the AT&T Developer Program hackathon in Chicago for the best overall app in July 2013, creating a mobile application to connect organizations in the city needing donations with residents to help the community while promoting reuse. I believe in simplicity, planning, and continuous improvement and try to incorporate it in everything I do.</p> 
 			</div>
 		</li>
 	</ul>
@@ -55,11 +55,11 @@
 <div class="jumbotron half-page">
 	<div class="container">
 		<h2>
-			<i class="fa fa-building-o"></i> Legal Information
+			<i class="fa fa-building-o"></i> Legal Information <div class="btn btn-default" ng-click="legalToggle = !legalToggle">View</div>
 		</h2>
 	</div>
 </div>
-<div class="container">
+<div class="container" ng-show="legalToggle">
 	THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
 HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	<h3 style="text-align: center;">GNU LESSER GENERAL PUBLIC LICENSE</h3>

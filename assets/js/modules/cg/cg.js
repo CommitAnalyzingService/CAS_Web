@@ -1,4 +1,4 @@
-angular.module('cg', [ 'ui.router', 'ngAnimate', 'angles', 'minChart' ])
+angular.module('cg', [ 'ui.router', 'ngAnimate', 'angles'])
 /**
  * Define the configuration for the commit guru application
  */

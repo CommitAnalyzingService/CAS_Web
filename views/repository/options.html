@@ -1,6 +1,6 @@
 <h2>Options</h2>
 <div class="row">
-	<div class="col-md-4">
+	<div class="col-md-6">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">
@@ -12,7 +12,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-md-4">
+	<div class="col-md-6">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">
@@ -22,21 +22,6 @@
 			<div class="panel-body" ng-switch="repo.status">
 				<div ng-show="repo.last_data_dump.length > 0">Last data dumped: {{repo.last_data_dump | timeFormat_fromNow}}</div>
 				<button ng-click="downloadDump()" type="button" class="btn btn-primary">Download dump (.csv)</button>
-			</div>
-		</div>
-	</div>
-	<div class="col-md-4">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">
-					Prediction model
-				</h3>
-			</div>
-			<div class="panel-body" ng-switch="repo.status">
-				<div class="form-inline">
-					<select class="form-control"><option>GLM</option><option>Median</option></select>
-					<button ng-click="setPredictionModel()" type="button" class="btn btn-primary">Set</button>
-				</div>
 			</div>
 		</div>
 	</div>

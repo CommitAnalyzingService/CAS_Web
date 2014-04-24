@@ -1,4 +1,4 @@
-<h2 ng-show="showRepo" id="page-anchor-commits">Commits</h2>
+<h2 ng-show="showRepo" id="page-anchor-commits">Commits ({{repo.metrics.history.totals.count}})</h2>
 <div class="panel panel-default">
 	<div class="panel-body">
 		<div class="form-inline">
@@ -12,8 +12,8 @@
 			<div class="form-group">
 				<select type="text" class="form-control" ng-model="display.sortBy">
 					<option value="time">Sort by Time</option>
-					<option value="-risk">Sort by High Risk-level</option>
-					<option value="+risk">Sort by Low Risk-level</option>
+					<option ng-disabled="display.type == 'historical'" value="-risk">Sort by High Risk-level</option>
+					<option ng-disabled="display.type == 'historical'" value="+risk">Sort by Low Risk-level</option>
 				</select>
 			</div>
 			<div class="form-group">
@@ -29,7 +29,7 @@
 					<option value="100">100 per page</option>
 				</select>
 			</div>
-			<button type="button" class="btn btn-default" ng-click="showFilterCommits = !showFilterCommits">Filter <i class="fa fa-caret-down" ng-class="{'fa-caret-up':showFilterCommits}"></i></button>
+			<button type="button" class="btn btn-default" ng-class="showFilterCommits?'active':''" ng-click="showFilterCommits = !showFilterCommits">Filter <i class="fa fa-caret-down" ng-class="{'fa-caret-up':showFilterCommits}"></i></button>
 			<div class="pull-right" commit-pagination></div>
 		</div>
 		<div class="row" ng-show="showFilterCommits">
@@ -77,13 +77,9 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="row">
-								<div class="col-md-6 metricGroup" ng-repeat="group in metricGroups">
+								<div class="col-md-6 inline-col metricGroup" ng-repeat="group in metricGroups">
 									<div class="groupLabel">{{group.name}}</div>
-									<div class="clearfix">
-										<div ng-repeat="metricKey in group.metricKeys" metric-chart>
-											<div mc-bar-range-chart="metricChartData"></div>
-										</div>
-									</div>
+									<div ng-repeat="key in group.metricKeys | sortBySignificance:repo.metrics[display.metricKey]" class="inline-col" metric ng-class="(group.metricKeys.length == 4)?'col-md-3':'col-md-4'">{{metricValues[key] + (repo.metrics[display.metricKey][key + '_sig']?'*':'')}}</div>
 								</div>
 							</div>
 						</div>
@@ -92,14 +88,14 @@
 						<div class="col-md-4">
 							<div class="well cont-max-150" ng-bind="commit.commit_message"></div>
 						</div>
-						<div class="col-md-4 cont-max-150">
+						<div class="col-md-4 cont-max-150" ng-show="(commit.fileschanged || commit.fileschanged.length > 0) && commit.fileschanged[0] != 'NULL'">
 							Updated Files:
 							<span class="label label-primary label-inline" ng-repeat="file in commit.fileschanged">{{file}}</span>
 						</div>
 					
 						<div class="col-md-4 cont-max-150" ng-show="commit.fixes || commit.fixes.length > 0">
 							Fixes:
-							<span style="cursor: pointer;" class="label label-success label-inline" ng-repeat="fixed in commit.fixes" ng-click="search.commit_hash = fixed">{{fixed}}</span>
+							<span style="cursor: pointer;" class="label label-success label-inline" ng-repeat="fixed in commit.fixes" ng-click="search.commit_hash = fixed; $parent.$parent.$parent.showFilterCommits = true;">{{fixed}}</span>
 						</div>
 					</div>
 					<form ng-show="user.status.authenticated" class="form-inline pull-right" name="commit.feedback" ng-submit="submitFeedback(commit)">

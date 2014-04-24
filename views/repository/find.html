@@ -26,4 +26,19 @@
 </div>
 <div class="container page-body">
 	<div ui-view autoscroll="false" class="animate-fade"></div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Legend</h3>
+		</div>
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="center"><strong>Historical Values:</strong><br> <span class="bg-success">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="text-success">&lt; low risk average</span> <span class="bg-warning">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="text-warning">Between high risk and low risk averages</span> <span class="bg-danger">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="text-danger">&gt; high risk average</span><br> "*" - Metric is historically significant</div>
+				</div>
+				<div class="col-md-6">
+					<div class="center"><strong>Predictive Values:</strong><br> <span class="bg-success">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="text-success">&lt; 25% chance</span> <span class="bg-warning">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="text-warning">Between 25% and 50% chance</span> <span class="bg-danger">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <span class="text-danger"> &gt; 50% chance</span><br> "*" - Metric is predictively significant</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
