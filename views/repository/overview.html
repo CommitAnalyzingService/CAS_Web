@@ -9,12 +9,18 @@
 				<h3>Commit Stats</h3>
 				<div class="panel panel-default">
 					<div class="panel-body">
-						<div contains-bug="yes" size="300"></div>
+						<div contains-bug="yes" size="200"></div>
 					</div>
 					<div class="row panel-custom-footer metric-summary-overview-legend">
-						<div class="col-xs-6 bg-danger">{{repo.metrics.history.totals.contains_bug | percentof: repo.metrics.history.totals.count}}% Introduce bugs</div> <div class="col-xs-6 bg-success">{{repo.metrics.history.totals.count - repo.metrics.history.totals.contains_bug | percentof: repo.metrics.history.totals.count}}% Don't introduce bugs</div>
+                        <div class="col-xs-6 bg-danger">{{repo.commitCounts.contains_bug | percentof: repo.commitCounts.total}}% Introduce bugs</div> <div class="col-xs-6 bg-success">{{repo.commitCounts.total - repo.commitCounts.contains_bug | percentof: repo.commitCounts.total}}% Don't introduce bugs</div>
 					</div>
 				</div>
+				<br>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h4>{{repo.commitCounts.total | number}} <small>total commits</small></h4>
+                    </div>
+                </div>
 			</div>
 			<div class="col-md-9">
 				<h3>Historical per-metric averages<button type="button" class="btn btn-link pull-right" ng-click="perMetricViewToggle = !perMetricViewToggle">Switch view</button></h3>
@@ -44,7 +50,7 @@
 					<div class="col-md-3 inline-col" ng-repeat="(key, name) in metricValues | sortBySignificance:repo.metrics.median">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<h3 class="panel-title" ng-bind="name + (repo.metrics.glmc[key + '_sig']?'*':'')"></h3>
+								<h3 class="panel-title" ng-bind="name + (repo.metrics.median[key + '_sig']?'*':'')"></h3>
 							</div>
 							<div class="row panel-custom-footer metric-ranges">
 								<div class="col-xs-12 bg-danger" ng-bind="repo.metrics.median[key + 'buggy'] | round"></div>

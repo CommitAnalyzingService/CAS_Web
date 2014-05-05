@@ -65,15 +65,15 @@
 		<div class="col-md-6">
 			<h1>Recent Repositories</h1>
 			<div ng-show="!repositories" class="alert alert-info"><i class="fa fa-refresh fa-spin"></i> Loading Repos...</div>
-			<div class="list-group"><a href="/repo/{{item.name}}" class="list-group-item" ng-repeat="item in repositories | limitTo:5" ng-include="'/ui/repository/repositoryitem.html'"></a></div>
-			<a ui-sref="repos" class="pull-right">View all...</a>
+			<div class="list-group"><a href="/repo/{{repo.name}}" class="list-group-item clearfix" ng-repeat="repo in repositories | limitTo:5" ng-include="'/ui/repository/repositoryitem.html'"></a></div>
+			<a ui-sref="repos" class="pull-right">View all <i class="fa fa-arrow-right"></i></a>
 		</div>
 		<div class="col-md-6">
 			<h1>How it Works:</h1>
 			<div class="center">
-				<p class="lead"><i class="fa fa-download fa-5x"></i><br><br>First, we pull your repository to our servers</p>
-				<p class="lead"><i class="fa fa-refresh fa-5x"></i><br><br>Next, we analyze your commits every day</p>
-				<p class="lead"><i class="fa fa-bar-chart-o fa-5x"></i><br><br>Finally, we display the results online</p>
+				<p class="lead"><i class="fa fa-download fa-3x"></i><br><br>First, we pull your repository to our servers</p>
+				<p class="lead"><i class="fa fa-refresh fa-3x"></i><br><br>Next, we analyze your commits every day</p>
+				<p class="lead"><i class="fa fa-bar-chart-o fa-3x"></i><br><br>Finally, we display the results online</p>
 			</div>
 		</div>
 	</div>

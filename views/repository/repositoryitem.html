@@ -1,4 +1,18 @@
-<h4 class="list-group-item-heading">{{item.name}}</h4>
-<p class="list-group-item-text">
-	<span ng-if="item.status != 'Analyzed'">Current Status: {{item.status}} </span><span ng-if="item.analysis_date.length > 0">Last Analyzed: {{item.analysis_date | timeFormat_fromNow}}</span> <span class="pull-right">Commits: {{item.commitCount}}</span>
-</p>
+<div class="row">
+    <div class="col-sm-4 col-xs-12">
+        <h4 class="list-group-item-heading">{{repo.name}}</h4>
+        <div class="list-group-item-text">
+            <span ng-if="repo.status != 'Analyzed'">Current Status: {{repo.status}}</span>
+            <span ng-if="repo.status == 'Analyzed' && repo.analysis_date.length > 0">Analyzed {{repo.analysis_date | timeFormat_fromNow}}</span>
+        </div>
+    </div>
+    <div class="col-sm-3 col-xs-4 text-success center">
+        <strong>{{repo.commitCounts.total | number}}</strong><br>
+        total commits
+    </div>
+    <div class="col-sm-3 col-xs-4 text-danger center">
+        <strong>{{repo.commitCounts.contains_bug | percentof:repo.commitCounts.total}}%</strong><br>
+        risky commits
+    </div>
+    <div class="col-sm-2 col-xs-4" contains-bug size="60"></div>
+</div>

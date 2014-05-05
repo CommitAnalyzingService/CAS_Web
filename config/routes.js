@@ -42,6 +42,8 @@ module.exports.routes = {
   'post /repo': 'RepositoryController.create',
   
   'get /repo/:name': 'RepositoryController.find',
+    
+  'get /repo/:name/commits': 'CommitController.find',
   
   'post /feedback/submit/:commit_hash': 'FeedbackController.submit',
   

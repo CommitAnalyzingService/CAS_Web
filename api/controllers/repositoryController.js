@@ -87,11 +87,28 @@ var RepositoryController = {
 						
 		    			// GLMs not ready yet
 		    			//return res.json({success: true, repo: repo});
+                        
+                        if(repo.status != 'Analyzed') {
+                            
+                            // Start the polling to send updates
+                            
+                            RepoPubPoll(req, repo);
+                        }
 		    			glmc = {};
 		    		}
 		    		
 		    		// GLMC's valid
-		    		
+                    
+                    repo.metrics = {
+                        median: metrics,
+                        glmc: glmc
+                    };
+                    
+                    CommitCounts.getOne(repo.id, function(commitCounts) {
+                        repo.commitCounts = commitCounts;
+                        return res.json({success: true, repo: repo});   
+                    });
+		    		/*
 					// Get the commits for the repo
 					Commit.find({repository_id:repo.id})
 					.sort('author_date_unix_timestamp DESC')
@@ -109,9 +126,9 @@ var RepositoryController = {
 			    		}
 						
 						// COMMITS VALID
-		
+                        
 						// Start the repo metric analyzer
-						var repoMetrics = 
+						/*var repoMetrics = 
 							new RepositoryMetrics(metrics, glmc, commits.length);
 		    			// Loop through each commit
 		    			for(var i = 0, l = commits.length; i < l; i++) {
@@ -129,11 +146,12 @@ var RepositoryController = {
 		    			
 		    			// Update repo with the new information
 		    			repo.commits = commits;
-		    			repo.metrics = repoMetrics.metrics;
+		    			
 		    			
 		    			// Return the repo
 		    			return res.json({success: true, repo: repo});
 	    			});
+                    */
 				});
 			});
     	});

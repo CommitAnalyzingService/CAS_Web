@@ -10,16 +10,14 @@ var HomeController = {
     		if(err) return res.json({success: false, error: err});
     		
     		
-    		var continueData = function(commitCounts) {
-    			var repoCommitCounts = {};
-    			for(var i = 0, l = commitCounts.length; i < l; i++) {
-    				repoCommitCounts[commitCounts[i].repository_id] = +commitCounts[i].commitcount;
-    			}
+    		CommitCounts.getAll(function(repoCommitCounts) {                         
     			
+    			// Add the commitcoutns to each repo
     			for(var i = 0, l = repos.length; i < l; i++) {
-    				repos[i].commitCount = repoCommitCounts[repos[i].id];
+    				repos[i].commitCounts = repoCommitCounts[repos[i].id];
     			}
- 
+                
+                // Check if the user is in the session
 	    		if(req.session.user) {
 	    			User.findOne(req.session.user).done(function(err, user) {
 	    				if(err) return res.json({success: false, error: err});
@@ -32,22 +30,7 @@ var HomeController = {
 	    		} else {
 	    			res.json({repositories: repos, user: false});
 	    		}
-    		};
-    		
-    		var refreshCounts = function(cb) {
-    			Commit.query('SELECT repository_id, COUNT(*) as commitCount FROM commits GROUP BY repository_id',{}, function(err, result) {
-    				SimpleCache.put(cacheKey, result.rows);
-    				cb(result.rows);
-    			});
-    		};
-    		var now = new Date();
-    		var cacheKey = 'commitCounts_' + now.getMonth() + now.getDay() + repos.length;
-    		var commitCounts = [];
-    		if((commitCounts = SimpleCache.get(cacheKey)) == null) {
-    			refreshCounts(continueData);
-    		} else {
-    			continueData(commitCounts);
-    		}
+    		});
     	});
     },
 }

@@ -1,4 +1,6 @@
-angular.module('cg').controller('RepoCommitsController', function($scope, socket, $filter, moment) {
+angular.module('cg').controller('RepoCommitsController', function($scope, socket, $filter, moment, commitData, commitLoader, $stateParams) {
+    
+    $scope.repo.commits = commitData;
 	
 	var filterFilter = $filter('filter');
 	var orderByFilter = $filter('orderBy');
@@ -141,6 +143,14 @@ angular.module('cg').controller('RepoCommitsController', function($scope, socket
     	value: 'predictive',
     	label: 'Predictive Data'
     }];
+    
+    $scope.$watch('currentPage', function(newPage, oldPage) {
+        if(newPage != oldPage) {
+            commitLoader($stateParams.name, {page: newPage + 1}).then(function(commits) {
+                $scope.repo.commits = commits;
+            });
+        }
+    });
     
     // Check if glmc has been calculated
     if($scope.repo.metrics.glmc == null || !$scope.repo.metrics.glmc.hasOwnProperty("repo")) {

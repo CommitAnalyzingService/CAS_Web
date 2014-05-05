@@ -36,7 +36,7 @@ angular.module('cg').controller('RepoController', function($scope, $state, $stat
 	var registerMH = messageHandler.controllerRegister($scope);
 	
 	$scope.repo = repoData;
-	$scope.showRepo = ($scope.repo.commits.length > 0 && $scope.repo.analysis_date != '');
+	$scope.showRepo = ($scope.repo.analysis_date != '');
 	
 	if(!$scope.showRepo) {
 		registerMH({

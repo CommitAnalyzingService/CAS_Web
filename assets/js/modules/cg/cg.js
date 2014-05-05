@@ -43,7 +43,12 @@ angular.module('cg', [ 'ui.router', 'ngAnimate', 'angles'])
 	}).state('repo.commits', {
 		url: '/commits',
 		templateUrl: '/ui/repository/commits.html',
-		controller: 'RepoCommitsController'
+		controller: 'RepoCommitsController',
+        resolve: {
+            commitData: function($stateParams, commitLoader) {
+                return commitLoader($stateParams.name);
+            }
+        }
 	}).state('repo.options', {
 		url: '/options',
 		templateUrl: '/ui/repository/options.html',
