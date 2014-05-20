@@ -1,400 +1,416 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <PropertyGroup>
-        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-        <SchemaVersion>2.0</SchemaVersion>
-        <ProjectGuid>{85c5396c-2ef4-4b30-8468-f9c1fbdda329}</ProjectGuid>
-        <ProjectHome />
-        <ProjectView>ShowAllFiles</ProjectView>
-        <StartupFile>app.js</StartupFile>
-        <WorkingDirectory>.</WorkingDirectory>
-        <OutputPath>.</OutputPath>
-        <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
-        <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
-        <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
-    <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
-    <ItemGroup>
-        <Content Include="bower.json" />
-        <Content Include="package.json" />
-        <Content Include="README.md" />
-        <Compile Include="app.js" />
-        <Compile Include="Gruntfile.js" />
-        <Compile Include="config\404.js" />
-        <Compile Include="config\500.js" />
-        <Compile Include="config\adapters.example.js" />
-        <Compile Include="config\adapters.js" />
-        <Compile Include="config\bootstrap.js" />
-        <Compile Include="config\controllers.js" />
-        <Compile Include="config\csrf.js" />
-        <Compile Include="config\i18n.js" />
-        <Compile Include="config\local.js" />
-        <Compile Include="config\log.js" />
-        <Compile Include="config\policies.js" />
-        <Compile Include="config\routes.js" />
-        <Compile Include="config\session.js" />
-        <Compile Include="config\sockets.js" />
-        <Compile Include="config\views.js" />
-        <Content Include="resources\InfoPage.png" />
-        <Content Include="views\404.ejs" />
-        <Content Include="views\500.ejs" />
-        <Content Include="views\layout.ejs" />
-        <Content Include=".tmp\public\robots.txt" />
-        <Content Include=".tmp\public\favicon.ico" />
-        <Content Include=".tmp\public\styles\app.css" />
-        <Content Include=".tmp\public\images\team\ben.jpg" />
-        <Content Include=".tmp\public\images\team\christoffer.jpg" />
-        <Content Include=".tmp\public\images\team\emad.jpg" />
-        <Compile Include=".tmp\public\js\modules\angles.js" />
-        <Compile Include=".tmp\public\js\modules\cg.js" />
-        <Compile Include=".tmp\public\js\modules\sails.js" />
-        <Compile Include=".tmp\public\js\modules\socket.io.js" />
-        <Compile Include=".tmp\public\js\vendor\angular-ui-router\release\angular-ui-router.js" />
-        <Compile Include=".tmp\public\js\vendor\angular-ui-router\release\angular-ui-router.min.js" />
-        <Compile Include="api\controllers\feedbackController.js" />
-        <Compile Include="api\controllers\homeController.js" />
-        <Compile Include="api\controllers\repositoryController.js" />
-        <Compile Include="api\controllers\uiController.js" />
-        <Compile Include="api\controllers\userController.js" />
-        <Compile Include="api\models\Commit.js" />
-        <Compile Include="api\models\Feedback.js" />
-        <Compile Include="api\models\Glmcoefficients.js" />
-        <Compile Include="api\models\Metric.js" />
-        <Compile Include="api\models\Repository.js" />
-        <Compile Include="api\models\User.js" />
-        <Compile Include="api\policies\authenticated.js" />
-        <Compile Include="api\policies\nonAuthenticated.js" />
-        <Compile Include="api\policies\singlePageApp.js" />
-        <Compile Include="api\services\RepoPubPoll.js" />
-        <Compile Include="api\services\RepositoryMetrics.js" />
-        <Compile Include="api\services\Utils.js" />
-        <Content Include="assets\public\robots.txt" />
-        <Content Include="assets\public\favicon.ico" />
-        <Compile Include="assets\js\modules\angles\angles.js" />
-        <Compile Include="assets\js\modules\cg\cg.js" />
-        <Compile Include="assets\js\modules\sails\sails.io.js" />
-        <Compile Include="assets\js\modules\socket.io\socket.io.js" />
-        <Compile Include="assets\js\modules\cg\controllers\AppController.js" />
-        <Compile Include="assets\js\modules\cg\controllers\HomeController.js" />
-        <Compile Include="assets\js\modules\cg\controllers\NavbarController.js" />
-        <Compile Include="assets\js\modules\cg\controllers\RepoCommitsController.js" />
-        <Compile Include="assets\js\modules\cg\controllers\RepoController.js" />
-        <Compile Include="assets\js\modules\cg\controllers\RepoOptionsController.js" />
-        <Compile Include="assets\js\modules\cg\directives\commitPagination.js" />
-        <Compile Include="assets\js\modules\cg\directives\debug.js" />
-        <Compile Include="assets\js\modules\cg\directives\metric.js" />
-        <Compile Include="assets\js\modules\cg\directives\metricHistory.js" />
-        <Compile Include="assets\js\modules\cg\directives\metricSummary.js" />
-        <Compile Include="assets\js\modules\cg\directives\pinned.js" />
-        <Compile Include="assets\js\modules\cg\directives\repositoryListing.js" />
-        <Compile Include="assets\js\modules\cg\directives\scrollActivate.js" />
-        <Compile Include="assets\js\modules\cg\filters\timeformat.js" />
-        <Compile Include="assets\js\modules\cg\filters\utils.js" />
-        <Compile Include="assets\js\modules\cg\providers\factories\messageHandler.js" />
-        <Compile Include="assets\js\modules\cg\providers\factories\responseHandler.js" />
-        <Compile Include="assets\js\modules\cg\providers\services\moment.js" />
-        <Compile Include="assets\js\modules\cg\providers\services\repoLoader.js" />
-        <Compile Include="assets\js\modules\cg\providers\services\socket.js" />
-        <Content Include="assets\public\images\team\ben.jpg" />
-        <Content Include="assets\public\images\team\christoffer.jpg" />
-        <Content Include="assets\public\images\team\emad.jpg" />
-        <Content Include="assets\vendor\angular\angular-csp.css" />
-        <Content Include="assets\vendor\angular\.bower.json" />
-        <Content Include="assets\vendor\angular\bower.json" />
-        <Content Include="assets\vendor\angular\README.md" />
-        <Compile Include="assets\vendor\angular\angular.js" />
-        <Compile Include="assets\vendor\angular\angular.min.js" />
-        <Content Include="assets\vendor\angular-ui-router\.bower.json" />
-        <Content Include="assets\vendor\angular-ui-router\bower.json" />
-        <Content Include="assets\vendor\angular-ui-router\CHANGELOG.md" />
-        <Content Include="assets\vendor\angular-ui-router\README.md" />
-        <Compile Include="assets\vendor\angular-ui-router\files.js" />
-        <Compile Include="assets\vendor\angular-ui-router\Gruntfile.js" />
-        <Content Include="assets\vendor\bootstrap\.bower.json" />
-        <Content Include="assets\vendor\bootstrap\bower.json" />
-        <Content Include="assets\vendor\bootstrap\package.json" />
-        <Content Include="assets\vendor\bootstrap\README.md" />
-        <Compile Include="assets\vendor\bootstrap\Gruntfile.js" />
-        <Content Include="assets\vendor\jquery\MIT-LICENSE.txt" />
-        <Content Include="assets\vendor\jquery\.bower.json" />
-        <Content Include="assets\vendor\jquery\bower.json" />
-        <Compile Include="assets\vendor\angular-ui-router\release\angular-ui-router.js" />
-        <Compile Include="assets\vendor\angular-ui-router\release\angular-ui-router.min.js" />
-        <Content Include="assets\vendor\angular-ui-router\site\index.html" />
-        <Content Include="assets\vendor\angular-ui-router\site\favicon.ico" />
-        <Compile Include="assets\vendor\angular-ui-router\src\common.js" />
-        <Compile Include="assets\vendor\angular-ui-router\src\compat.js" />
-        <Compile Include="assets\vendor\angular-ui-router\src\resolve.js" />
-        <Compile Include="assets\vendor\angular-ui-router\src\state.js" />
-        <Compile Include="assets\vendor\angular-ui-router\src\stateDirectives.js" />
-        <Compile Include="assets\vendor\angular-ui-router\src\stateFilters.js" />
-        <Compile Include="assets\vendor\angular-ui-router\src\templateFactory.js" />
-        <Compile Include="assets\vendor\angular-ui-router\src\urlMatcherFactory.js" />
-        <Compile Include="assets\vendor\angular-ui-router\src\urlRouter.js" />
-        <Compile Include="assets\vendor\angular-ui-router\src\view.js" />
-        <Compile Include="assets\vendor\angular-ui-router\src\viewDirective.js" />
-        <Compile Include="assets\vendor\angular-ui-router\src\viewScroll.js" />
-        <Content Include="assets\vendor\angular-ui-router\site\css\animations.css" />
-        <Content Include="assets\vendor\angular-ui-router\site\css\bootstrap.min.css" />
-        <Content Include="assets\vendor\angular-ui-router\site\css\docs.css" />
-        <Content Include="assets\vendor\angular-ui-router\site\css\doc_widgets.css" />
-        <Content Include="assets\vendor\angular-ui-router\site\css\font-awesome.css" />
-        <Content Include="assets\vendor\angular-ui-router\site\font\fontawesome-webfont.svg" />
-        <Compile Include="assets\vendor\angular-ui-router\site\js\angular-bootstrap-prettify.min.js" />
-        <Compile Include="assets\vendor\angular-ui-router\site\js\angular-bootstrap.min.js" />
-        <Compile Include="assets\vendor\angular-ui-router\site\js\angular.min.js" />
-        <Compile Include="assets\vendor\angular-ui-router\site\js\docs-setup.js" />
-        <Compile Include="assets\vendor\angular-ui-router\site\js\docs.js" />
-        <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.util.$templateFactory.html" />
-        <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.state.$uiViewScroll.html" />
-        <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.router.html" />
-        <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.util.html" />
-        <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.state.$state.html" />
-        <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.util.$resolve.html" />
-        <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.state.directive.ui-sref.html" />
-        <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.state.diretive.ui-view.html" />
-        <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.state.filter.isState.html" />
-        <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.state.$stateProvider.html" />
-        <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.state.$view.html" />
-        <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.router.$urlRouterProvider.html" />
-        <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.router.$urlRouter.html" />
-        <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.state.directive.ui-sref-active.html" />
-        <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.state.filter.includeByState.html" />
-        <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.compat.$route.html" />
-        <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.compat.$routeProvider.html" />
-        <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.compat.html" />
-        <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.html" />
-        <Content Include="assets\vendor\bootstrap\fonts\glyphicons-halflings-regular.svg" />
-        <Compile Include="assets\vendor\bootstrap\grunt\bs-glyphicons-data-generator.js" />
-        <Compile Include="assets\vendor\bootstrap\grunt\bs-lessdoc-parser.js" />
-        <Compile Include="assets\vendor\bootstrap\grunt\bs-raw-files-generator.js" />
-        <Compile Include="assets\vendor\bootstrap\grunt\shrinkwrap.js" />
-        <Compile Include="assets\vendor\bootstrap\js\affix.js" />
-        <Compile Include="assets\vendor\bootstrap\js\alert.js" />
-        <Compile Include="assets\vendor\bootstrap\js\button.js" />
-        <Compile Include="assets\vendor\bootstrap\js\carousel.js" />
-        <Compile Include="assets\vendor\bootstrap\js\collapse.js" />
-        <Compile Include="assets\vendor\bootstrap\js\dropdown.js" />
-        <Compile Include="assets\vendor\bootstrap\js\modal.js" />
-        <Compile Include="assets\vendor\bootstrap\js\popover.js" />
-        <Compile Include="assets\vendor\bootstrap\js\scrollspy.js" />
-        <Compile Include="assets\vendor\bootstrap\js\tab.js" />
-        <Compile Include="assets\vendor\bootstrap\js\tooltip.js" />
-        <Compile Include="assets\vendor\bootstrap\js\transition.js" />
-        <Content Include="assets\vendor\bootstrap\test-infra\requirements.txt" />
-        <Content Include="assets\vendor\bootstrap\test-infra\npm-shrinkwrap.canonical.json" />
-        <Content Include="assets\vendor\bootstrap\test-infra\README.md" />
-        <Content Include="assets\vendor\bootstrap\dist\css\bootstrap-theme.css" />
-        <Content Include="assets\vendor\bootstrap\dist\css\bootstrap-theme.min.css" />
-        <Content Include="assets\vendor\bootstrap\dist\css\bootstrap.css" />
-        <Content Include="assets\vendor\bootstrap\dist\css\bootstrap.min.css" />
-        <Content Include="assets\vendor\bootstrap\dist\fonts\glyphicons-halflings-regular.svg" />
-        <Compile Include="assets\vendor\bootstrap\dist\js\bootstrap.js" />
-        <Compile Include="assets\vendor\bootstrap\dist\js\bootstrap.min.js" />
-        <Compile Include="assets\vendor\jquery\dist\jquery.js" />
-        <Compile Include="assets\vendor\jquery\dist\jquery.min.js" />
-        <Compile Include="assets\vendor\jquery\src\ajax.js" />
-        <Compile Include="assets\vendor\jquery\src\attributes.js" />
-        <Compile Include="assets\vendor\jquery\src\callbacks.js" />
-        <Compile Include="assets\vendor\jquery\src\core.js" />
-        <Compile Include="assets\vendor\jquery\src\css.js" />
-        <Compile Include="assets\vendor\jquery\src\data.js" />
-        <Compile Include="assets\vendor\jquery\src\deferred.js" />
-        <Compile Include="assets\vendor\jquery\src\deprecated.js" />
-        <Compile Include="assets\vendor\jquery\src\dimensions.js" />
-        <Compile Include="assets\vendor\jquery\src\effects.js" />
-        <Compile Include="assets\vendor\jquery\src\event.js" />
-        <Compile Include="assets\vendor\jquery\src\intro.js" />
-        <Compile Include="assets\vendor\jquery\src\jquery.js" />
-        <Compile Include="assets\vendor\jquery\src\manipulation.js" />
-        <Compile Include="assets\vendor\jquery\src\offset.js" />
-        <Compile Include="assets\vendor\jquery\src\outro.js" />
-        <Compile Include="assets\vendor\jquery\src\queue.js" />
-        <Compile Include="assets\vendor\jquery\src\selector-native.js" />
-        <Compile Include="assets\vendor\jquery\src\selector-sizzle.js" />
-        <Compile Include="assets\vendor\jquery\src\selector.js" />
-        <Compile Include="assets\vendor\jquery\src\serialize.js" />
-        <Compile Include="assets\vendor\jquery\src\traversing.js" />
-        <Compile Include="assets\vendor\jquery\src\wrap.js" />
-        <Compile Include="assets\vendor\jquery\src\ajax\jsonp.js" />
-        <Compile Include="assets\vendor\jquery\src\ajax\load.js" />
-        <Compile Include="assets\vendor\jquery\src\ajax\parseJSON.js" />
-        <Compile Include="assets\vendor\jquery\src\ajax\parseXML.js" />
-        <Compile Include="assets\vendor\jquery\src\ajax\script.js" />
-        <Compile Include="assets\vendor\jquery\src\ajax\xhr.js" />
-        <Compile Include="assets\vendor\jquery\src\attributes\attr.js" />
-        <Compile Include="assets\vendor\jquery\src\attributes\classes.js" />
-        <Compile Include="assets\vendor\jquery\src\attributes\prop.js" />
-        <Compile Include="assets\vendor\jquery\src\attributes\support.js" />
-        <Compile Include="assets\vendor\jquery\src\attributes\val.js" />
-        <Compile Include="assets\vendor\jquery\src\core\access.js" />
-        <Compile Include="assets\vendor\jquery\src\core\init.js" />
-        <Compile Include="assets\vendor\jquery\src\core\parseHTML.js" />
-        <Compile Include="assets\vendor\jquery\src\core\ready.js" />
-        <Compile Include="assets\vendor\jquery\src\css\addGetHookIf.js" />
-        <Compile Include="assets\vendor\jquery\src\css\curCSS.js" />
-        <Compile Include="assets\vendor\jquery\src\css\defaultDisplay.js" />
-        <Compile Include="assets\vendor\jquery\src\css\hiddenVisibleSelectors.js" />
-        <Compile Include="assets\vendor\jquery\src\css\support.js" />
-        <Compile Include="assets\vendor\jquery\src\css\swap.js" />
-        <Compile Include="assets\vendor\jquery\src\data\accepts.js" />
-        <Compile Include="assets\vendor\jquery\src\data\Data.js" />
-        <Compile Include="assets\vendor\jquery\src\effects\animatedSelector.js" />
-        <Compile Include="assets\vendor\jquery\src\effects\Tween.js" />
-        <Compile Include="assets\vendor\jquery\src\event\alias.js" />
-        <Compile Include="assets\vendor\jquery\src\event\support.js" />
-        <Compile Include="assets\vendor\jquery\src\exports\amd.js" />
-        <Compile Include="assets\vendor\jquery\src\exports\global.js" />
-        <Compile Include="assets\vendor\jquery\src\manipulation\support.js" />
-        <Compile Include="assets\vendor\jquery\src\manipulation\_evalUrl.js" />
-        <Compile Include="assets\vendor\jquery\src\queue\delay.js" />
-        <Compile Include="assets\vendor\jquery\src\traversing\findFilter.js" />
-        <Compile Include="assets\vendor\jquery\src\var\arr.js" />
-        <Compile Include="assets\vendor\jquery\src\var\class2type.js" />
-        <Compile Include="assets\vendor\jquery\src\var\concat.js" />
-        <Compile Include="assets\vendor\jquery\src\var\hasOwn.js" />
-        <Compile Include="assets\vendor\jquery\src\var\indexOf.js" />
-        <Compile Include="assets\vendor\jquery\src\var\pnum.js" />
-        <Compile Include="assets\vendor\jquery\src\var\push.js" />
-        <Compile Include="assets\vendor\jquery\src\var\rnotwhite.js" />
-        <Compile Include="assets\vendor\jquery\src\var\slice.js" />
-        <Compile Include="assets\vendor\jquery\src\var\strundefined.js" />
-        <Compile Include="assets\vendor\jquery\src\var\support.js" />
-        <Compile Include="assets\vendor\jquery\src\var\toString.js" />
-        <Compile Include="assets\vendor\jquery\src\var\trim.js" />
-        <Compile Include="assets\vendor\jquery\src\ajax\var\nonce.js" />
-        <Compile Include="assets\vendor\jquery\src\ajax\var\rquery.js" />
-        <Compile Include="assets\vendor\jquery\src\core\var\rsingleTag.js" />
-        <Compile Include="assets\vendor\jquery\src\css\var\cssExpand.js" />
-        <Compile Include="assets\vendor\jquery\src\css\var\getStyles.js" />
-        <Compile Include="assets\vendor\jquery\src\css\var\isHidden.js" />
-        <Compile Include="assets\vendor\jquery\src\css\var\rmargin.js" />
-        <Compile Include="assets\vendor\jquery\src\css\var\rnumnonpx.js" />
-        <Compile Include="assets\vendor\jquery\src\data\var\data_priv.js" />
-        <Compile Include="assets\vendor\jquery\src\data\var\data_user.js" />
-        <Compile Include="assets\vendor\jquery\src\manipulation\var\rcheckableType.js" />
-        <Compile Include="assets\vendor\jquery\src\sizzle\dist\sizzle.js" />
-        <Compile Include="assets\vendor\jquery\src\sizzle\dist\sizzle.min.js" />
-        <Compile Include="assets\vendor\jquery\src\traversing\var\rneedsContext.js" />
-        <Content Include="config\locales\en.json" />
-        <Content Include="config\locales\es.json" />
-        <Content Include="config\locales\_README.md" />
-        <Content Include="views\home\about.html" />
-        <Content Include="views\home\index.html" />
-        <Content Include="views\repository\commits.html" />
-        <Content Include="views\repository\find.html" />
-        <Content Include="views\repository\index.html" />
-        <Content Include="views\repository\options.html" />
-        <Content Include="views\repository\overview.html" />
-        <Content Include="views\user\profile.html" />
-    </ItemGroup>
-    <ItemGroup>
-        <Folder Include=".tmp\public" />
-        <Folder Include=".tmp\public\images\team" />
-        <Folder Include=".tmp\public\js\modules" />
-        <Folder Include=".tmp\public\js\vendor\angular-ui-router\release" />
-        <Folder Include=".tmp\public\styles" />
-        <Folder Include="api\controllers" />
-        <Folder Include="api\models" />
-        <Folder Include="api\policies" />
-        <Folder Include="api\services" />
-        <Folder Include="assets\js\modules\angles" />
-        <Folder Include="assets\js\modules\cg" />
-        <Folder Include="assets\js\modules\cg\controllers" />
-        <Folder Include="assets\js\modules\cg\directives" />
-        <Folder Include="assets\js\modules\cg\filters" />
-        <Folder Include="assets\js\modules\cg\providers\factories" />
-        <Folder Include="assets\js\modules\cg\providers\services" />
-        <Folder Include="assets\js\modules\sails" />
-        <Folder Include="assets\js\modules\socket.io" />
-        <Folder Include="assets\public" />
-        <Folder Include="assets\public\images\team" />
-        <Folder Include="assets\vendor\angular" />
-        <Folder Include="assets\vendor\angular-ui-router" />
-        <Folder Include="assets\vendor\angular-ui-router\release" />
-        <Folder Include="assets\vendor\angular-ui-router\site" />
-        <Folder Include="assets\vendor\angular-ui-router\site\css" />
-        <Folder Include="assets\vendor\angular-ui-router\site\font" />
-        <Folder Include="assets\vendor\angular-ui-router\site\js" />
-        <Folder Include="assets\vendor\angular-ui-router\site\partials\api" />
-        <Folder Include="assets\vendor\angular-ui-router\src" />
-        <Folder Include="assets\vendor\bootstrap" />
-        <Folder Include="assets\vendor\bootstrap\dist\css" />
-        <Folder Include="assets\vendor\bootstrap\dist\fonts" />
-        <Folder Include="assets\vendor\bootstrap\dist\js" />
-        <Folder Include="assets\vendor\bootstrap\fonts" />
-        <Folder Include="assets\vendor\bootstrap\grunt" />
-        <Folder Include="assets\vendor\bootstrap\js" />
-        <Folder Include="assets\vendor\bootstrap\test-infra" />
-        <Folder Include="assets\vendor\jquery" />
-        <Folder Include="assets\vendor\jquery\dist" />
-        <Folder Include="assets\vendor\jquery\src" />
-        <Folder Include="assets\vendor\jquery\src\ajax" />
-        <Folder Include="assets\vendor\jquery\src\ajax\var" />
-        <Folder Include="assets\vendor\jquery\src\attributes" />
-        <Folder Include="assets\vendor\jquery\src\core" />
-        <Folder Include="assets\vendor\jquery\src\core\var" />
-        <Folder Include="assets\vendor\jquery\src\css" />
-        <Folder Include="assets\vendor\jquery\src\css\var" />
-        <Folder Include="assets\vendor\jquery\src\data" />
-        <Folder Include="assets\vendor\jquery\src\data\var" />
-        <Folder Include="assets\vendor\jquery\src\effects" />
-        <Folder Include="assets\vendor\jquery\src\event" />
-        <Folder Include="assets\vendor\jquery\src\exports" />
-        <Folder Include="assets\vendor\jquery\src\manipulation" />
-        <Folder Include="assets\vendor\jquery\src\manipulation\var" />
-        <Folder Include="assets\vendor\jquery\src\queue" />
-        <Folder Include="assets\vendor\jquery\src\sizzle\dist" />
-        <Folder Include="assets\vendor\jquery\src\traversing" />
-        <Folder Include="assets\vendor\jquery\src\traversing\var" />
-        <Folder Include="assets\vendor\jquery\src\var" />
-        <Folder Include="config" />
-        <Folder Include="config\locales" />
-        <Folder Include="resources" />
-        <Folder Include="views" />
-        <Folder Include="views\home" />
-        <Folder Include="views\repository" />
-        <Folder Include="views\user" />
-    </ItemGroup>
-    <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-    <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
-    <ProjectExtensions>
-        <VisualStudio>
-          <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
-            <WebProjectProperties>
-              <UseIIS>False</UseIIS>
-              <AutoAssignPort>True</AutoAssignPort>
-              <DevelopmentServerPort>0</DevelopmentServerPort>
-              <DevelopmentServerVPath>/</DevelopmentServerVPath>
-              <IISUrl>http://localhost:48022/</IISUrl>
-              <NTLMAuthentication>False</NTLMAuthentication>
-              <UseCustomServer>True</UseCustomServer>
-              <CustomServerUrl>http://localhost:1337</CustomServerUrl>
-              <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
-            </WebProjectProperties>
-          </FlavorProperties>
-          <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
-            <WebProjectProperties>
-              <StartPageUrl>
-              </StartPageUrl>
-              <StartAction>CurrentPage</StartAction>
-              <AspNetDebugging>True</AspNetDebugging>
-              <SilverlightDebugging>False</SilverlightDebugging>
-              <NativeDebugging>False</NativeDebugging>
-              <SQLDebugging>False</SQLDebugging>
-              <ExternalProgram>
-              </ExternalProgram>
-              <StartExternalURL>
-              </StartExternalURL>
-              <StartCmdLineArguments>
-              </StartCmdLineArguments>
-              <StartWorkingDirectory>
-              </StartWorkingDirectory>
-              <EnableENC>False</EnableENC>
-              <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
-            </WebProjectProperties>
-          </FlavorProperties>
-        </VisualStudio>
-    </ProjectExtensions>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{85c5396c-2ef4-4b30-8468-f9c1fbdda329}</ProjectGuid>
+    <ProjectHome />
+    <ProjectView>ShowAllFiles</ProjectView>
+    <StartupFile>app.js</StartupFile>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <ItemGroup>
+    <Content Include="bower.json" />
+    <Content Include="package.json" />
+    <Content Include="README.md" />
+    <Compile Include="api\controllers\commitController.js" />
+    <Compile Include="app.js" />
+    <Compile Include="Gruntfile.js" />
+    <Compile Include="config\404.js" />
+    <Compile Include="config\500.js" />
+    <Compile Include="config\adapters.example.js" />
+    <Compile Include="config\adapters.js" />
+    <Compile Include="config\bootstrap.js" />
+    <Compile Include="config\controllers.js" />
+    <Compile Include="config\csrf.js" />
+    <Compile Include="config\i18n.js" />
+    <Compile Include="config\local.js" />
+    <Compile Include="config\log.js" />
+    <Compile Include="config\policies.js" />
+    <Compile Include="config\routes.js" />
+    <Compile Include="config\session.js" />
+    <Compile Include="config\sockets.js" />
+    <Compile Include="config\views.js" />
+    <Content Include="resources\InfoPage.png" />
+    <Content Include="views\404.ejs" />
+    <Content Include="views\500.ejs" />
+    <Content Include="views\layout.ejs" />
+    <Content Include=".tmp\public\robots.txt" />
+    <Content Include=".tmp\public\favicon.ico" />
+    <Content Include=".tmp\public\styles\app.css" />
+    <Content Include=".tmp\public\images\team\ben.jpg" />
+    <Content Include=".tmp\public\images\team\christoffer.jpg" />
+    <Content Include=".tmp\public\images\team\emad.jpg" />
+    <Compile Include=".tmp\public\js\modules\angles.js" />
+    <Compile Include=".tmp\public\js\modules\cg.js" />
+    <Compile Include=".tmp\public\js\modules\sails.js" />
+    <Compile Include=".tmp\public\js\modules\socket.io.js" />
+    <Compile Include=".tmp\public\js\vendor\angular-ui-router\release\angular-ui-router.js" />
+    <Compile Include=".tmp\public\js\vendor\angular-ui-router\release\angular-ui-router.min.js" />
+    <Compile Include="api\controllers\feedbackController.js" />
+    <Compile Include="api\controllers\homeController.js" />
+    <Compile Include="api\controllers\repositoryController.js" />
+    <Compile Include="api\controllers\uiController.js" />
+    <Compile Include="api\controllers\userController.js" />
+    <Compile Include="api\models\Commit.js" />
+    <Compile Include="api\models\Feedback.js" />
+    <Compile Include="api\models\Glmcoefficients.js" />
+    <Compile Include="api\models\Metric.js" />
+    <Compile Include="api\models\Repository.js" />
+    <Compile Include="api\models\User.js" />
+    <Compile Include="api\policies\authenticated.js" />
+    <Compile Include="api\policies\nonAuthenticated.js" />
+    <Compile Include="api\policies\singlePageApp.js" />
+    <Compile Include="api\services\RepoPubPoll.js" />
+    <Compile Include="api\services\RepositoryMetrics.js" />
+    <Compile Include="api\services\Utils.js" />
+    <Content Include="assets\public\robots.txt" />
+    <Content Include="assets\public\favicon.ico" />
+    <Compile Include="assets\js\modules\angles\angles.js" />
+    <Compile Include="assets\js\modules\cg\cg.js" />
+    <Compile Include="assets\js\modules\sails\sails.io.js" />
+    <Compile Include="assets\js\modules\socket.io\socket.io.js" />
+    <Compile Include="assets\js\modules\cg\controllers\AppController.js" />
+    <Compile Include="assets\js\modules\cg\controllers\HomeController.js" />
+    <Compile Include="assets\js\modules\cg\controllers\NavbarController.js" />
+    <Compile Include="assets\js\modules\cg\controllers\RepoCommitsController.js" />
+    <Compile Include="assets\js\modules\cg\controllers\RepoController.js" />
+    <Compile Include="assets\js\modules\cg\controllers\RepoOptionsController.js" />
+    <Compile Include="assets\js\modules\cg\directives\commitPagination.js" />
+    <Compile Include="assets\js\modules\cg\directives\debug.js" />
+    <Compile Include="assets\js\modules\cg\directives\metric.js" />
+    <Compile Include="assets\js\modules\cg\directives\metricHistory.js" />
+    <Compile Include="assets\js\modules\cg\directives\metricSummary.js" />
+    <Compile Include="assets\js\modules\cg\directives\pinned.js" />
+    <Compile Include="assets\js\modules\cg\directives\repositoryListing.js" />
+    <Compile Include="assets\js\modules\cg\directives\scrollActivate.js" />
+    <Compile Include="assets\js\modules\cg\filters\timeformat.js" />
+    <Compile Include="assets\js\modules\cg\filters\utils.js" />
+    <Compile Include="assets\js\modules\cg\providers\factories\messageHandler.js" />
+    <Compile Include="assets\js\modules\cg\providers\factories\responseHandler.js" />
+    <Compile Include="assets\js\modules\cg\providers\services\moment.js" />
+    <Compile Include="assets\js\modules\cg\providers\services\repoLoader.js" />
+    <Compile Include="assets\js\modules\cg\providers\services\socket.js" />
+    <Content Include="assets\public\images\team\ben.jpg" />
+    <Content Include="assets\public\images\team\christoffer.jpg" />
+    <Content Include="assets\public\images\team\emad.jpg" />
+    <Content Include="assets\vendor\angular\angular-csp.css" />
+    <Content Include="assets\vendor\angular\.bower.json" />
+    <Content Include="assets\vendor\angular\bower.json" />
+    <Content Include="assets\vendor\angular\README.md" />
+    <Compile Include="assets\vendor\angular\angular.js" />
+    <Compile Include="assets\vendor\angular\angular.min.js" />
+    <Content Include="assets\vendor\angular-ui-router\.bower.json" />
+    <Content Include="assets\vendor\angular-ui-router\bower.json" />
+    <Content Include="assets\vendor\angular-ui-router\CHANGELOG.md" />
+    <Content Include="assets\vendor\angular-ui-router\README.md" />
+    <Compile Include="assets\vendor\angular-ui-router\files.js" />
+    <Compile Include="assets\vendor\angular-ui-router\Gruntfile.js" />
+    <Content Include="assets\vendor\bootstrap\.bower.json" />
+    <Content Include="assets\vendor\bootstrap\bower.json" />
+    <Content Include="assets\vendor\bootstrap\package.json" />
+    <Content Include="assets\vendor\bootstrap\README.md" />
+    <Compile Include="assets\vendor\bootstrap\Gruntfile.js" />
+    <Content Include="assets\vendor\jquery\MIT-LICENSE.txt" />
+    <Content Include="assets\vendor\jquery\.bower.json" />
+    <Content Include="assets\vendor\jquery\bower.json" />
+    <Compile Include="assets\vendor\angular-ui-router\release\angular-ui-router.js" />
+    <Compile Include="assets\vendor\angular-ui-router\release\angular-ui-router.min.js" />
+    <Content Include="assets\vendor\angular-ui-router\site\index.html" />
+    <Content Include="assets\vendor\angular-ui-router\site\favicon.ico" />
+    <Compile Include="assets\vendor\angular-ui-router\src\common.js" />
+    <Compile Include="assets\vendor\angular-ui-router\src\compat.js" />
+    <Compile Include="assets\vendor\angular-ui-router\src\resolve.js" />
+    <Compile Include="assets\vendor\angular-ui-router\src\state.js" />
+    <Compile Include="assets\vendor\angular-ui-router\src\stateDirectives.js" />
+    <Compile Include="assets\vendor\angular-ui-router\src\stateFilters.js" />
+    <Compile Include="assets\vendor\angular-ui-router\src\templateFactory.js" />
+    <Compile Include="assets\vendor\angular-ui-router\src\urlMatcherFactory.js" />
+    <Compile Include="assets\vendor\angular-ui-router\src\urlRouter.js" />
+    <Compile Include="assets\vendor\angular-ui-router\src\view.js" />
+    <Compile Include="assets\vendor\angular-ui-router\src\viewDirective.js" />
+    <Compile Include="assets\vendor\angular-ui-router\src\viewScroll.js" />
+    <Content Include="assets\vendor\angular-ui-router\site\css\animations.css" />
+    <Content Include="assets\vendor\angular-ui-router\site\css\bootstrap.min.css" />
+    <Content Include="assets\vendor\angular-ui-router\site\css\docs.css" />
+    <Content Include="assets\vendor\angular-ui-router\site\css\doc_widgets.css" />
+    <Content Include="assets\vendor\angular-ui-router\site\css\font-awesome.css" />
+    <Content Include="assets\vendor\angular-ui-router\site\font\fontawesome-webfont.svg" />
+    <Compile Include="assets\vendor\angular-ui-router\site\js\angular-bootstrap-prettify.min.js" />
+    <Compile Include="assets\vendor\angular-ui-router\site\js\angular-bootstrap.min.js" />
+    <Compile Include="assets\vendor\angular-ui-router\site\js\angular.min.js" />
+    <Compile Include="assets\vendor\angular-ui-router\site\js\docs-setup.js" />
+    <Compile Include="assets\vendor\angular-ui-router\site\js\docs.js" />
+    <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.util.$templateFactory.html" />
+    <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.state.$uiViewScroll.html" />
+    <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.router.html" />
+    <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.util.html" />
+    <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.state.$state.html" />
+    <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.util.$resolve.html" />
+    <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.state.directive.ui-sref.html" />
+    <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.state.diretive.ui-view.html" />
+    <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.state.filter.isState.html" />
+    <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.state.$stateProvider.html" />
+    <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.state.$view.html" />
+    <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.router.$urlRouterProvider.html" />
+    <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.router.$urlRouter.html" />
+    <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.state.directive.ui-sref-active.html" />
+    <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.state.filter.includeByState.html" />
+    <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.compat.$route.html" />
+    <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.compat.$routeProvider.html" />
+    <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.compat.html" />
+    <Content Include="assets\vendor\angular-ui-router\site\partials\api\ui.router.html" />
+    <Content Include="assets\vendor\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Compile Include="assets\vendor\bootstrap\grunt\bs-glyphicons-data-generator.js" />
+    <Compile Include="assets\vendor\bootstrap\grunt\bs-lessdoc-parser.js" />
+    <Compile Include="assets\vendor\bootstrap\grunt\bs-raw-files-generator.js" />
+    <Compile Include="assets\vendor\bootstrap\grunt\shrinkwrap.js" />
+    <Compile Include="assets\vendor\bootstrap\js\affix.js" />
+    <Compile Include="assets\vendor\bootstrap\js\alert.js" />
+    <Compile Include="assets\vendor\bootstrap\js\button.js" />
+    <Compile Include="assets\vendor\bootstrap\js\carousel.js" />
+    <Compile Include="assets\vendor\bootstrap\js\collapse.js" />
+    <Compile Include="assets\vendor\bootstrap\js\dropdown.js" />
+    <Compile Include="assets\vendor\bootstrap\js\modal.js" />
+    <Compile Include="assets\vendor\bootstrap\js\popover.js" />
+    <Compile Include="assets\vendor\bootstrap\js\scrollspy.js" />
+    <Compile Include="assets\vendor\bootstrap\js\tab.js" />
+    <Compile Include="assets\vendor\bootstrap\js\tooltip.js" />
+    <Compile Include="assets\vendor\bootstrap\js\transition.js" />
+    <Content Include="assets\vendor\bootstrap\test-infra\requirements.txt" />
+    <Content Include="assets\vendor\bootstrap\test-infra\npm-shrinkwrap.canonical.json" />
+    <Content Include="assets\vendor\bootstrap\test-infra\README.md" />
+    <Content Include="assets\vendor\bootstrap\dist\css\bootstrap-theme.css" />
+    <Content Include="assets\vendor\bootstrap\dist\css\bootstrap-theme.min.css" />
+    <Content Include="assets\vendor\bootstrap\dist\css\bootstrap.css" />
+    <Content Include="assets\vendor\bootstrap\dist\css\bootstrap.min.css" />
+    <Content Include="assets\vendor\bootstrap\dist\fonts\glyphicons-halflings-regular.svg" />
+    <Compile Include="assets\vendor\bootstrap\dist\js\bootstrap.js" />
+    <Compile Include="assets\vendor\bootstrap\dist\js\bootstrap.min.js" />
+    <Compile Include="assets\vendor\jquery\dist\jquery.js" />
+    <Compile Include="assets\vendor\jquery\dist\jquery.min.js" />
+    <Compile Include="assets\vendor\jquery\src\ajax.js" />
+    <Compile Include="assets\vendor\jquery\src\attributes.js" />
+    <Compile Include="assets\vendor\jquery\src\callbacks.js" />
+    <Compile Include="assets\vendor\jquery\src\core.js" />
+    <Compile Include="assets\vendor\jquery\src\css.js" />
+    <Compile Include="assets\vendor\jquery\src\data.js" />
+    <Compile Include="assets\vendor\jquery\src\deferred.js" />
+    <Compile Include="assets\vendor\jquery\src\deprecated.js" />
+    <Compile Include="assets\vendor\jquery\src\dimensions.js" />
+    <Compile Include="assets\vendor\jquery\src\effects.js" />
+    <Compile Include="assets\vendor\jquery\src\event.js" />
+    <Compile Include="assets\vendor\jquery\src\intro.js" />
+    <Compile Include="assets\vendor\jquery\src\jquery.js" />
+    <Compile Include="assets\vendor\jquery\src\manipulation.js" />
+    <Compile Include="assets\vendor\jquery\src\offset.js" />
+    <Compile Include="assets\vendor\jquery\src\outro.js" />
+    <Compile Include="assets\vendor\jquery\src\queue.js" />
+    <Compile Include="assets\vendor\jquery\src\selector-native.js" />
+    <Compile Include="assets\vendor\jquery\src\selector-sizzle.js" />
+    <Compile Include="assets\vendor\jquery\src\selector.js" />
+    <Compile Include="assets\vendor\jquery\src\serialize.js" />
+    <Compile Include="assets\vendor\jquery\src\traversing.js" />
+    <Compile Include="assets\vendor\jquery\src\wrap.js" />
+    <Compile Include="assets\vendor\jquery\src\ajax\jsonp.js" />
+    <Compile Include="assets\vendor\jquery\src\ajax\load.js" />
+    <Compile Include="assets\vendor\jquery\src\ajax\parseJSON.js" />
+    <Compile Include="assets\vendor\jquery\src\ajax\parseXML.js" />
+    <Compile Include="assets\vendor\jquery\src\ajax\script.js" />
+    <Compile Include="assets\vendor\jquery\src\ajax\xhr.js" />
+    <Compile Include="assets\vendor\jquery\src\attributes\attr.js" />
+    <Compile Include="assets\vendor\jquery\src\attributes\classes.js" />
+    <Compile Include="assets\vendor\jquery\src\attributes\prop.js" />
+    <Compile Include="assets\vendor\jquery\src\attributes\support.js" />
+    <Compile Include="assets\vendor\jquery\src\attributes\val.js" />
+    <Compile Include="assets\vendor\jquery\src\core\access.js" />
+    <Compile Include="assets\vendor\jquery\src\core\init.js" />
+    <Compile Include="assets\vendor\jquery\src\core\parseHTML.js" />
+    <Compile Include="assets\vendor\jquery\src\core\ready.js" />
+    <Compile Include="assets\vendor\jquery\src\css\addGetHookIf.js" />
+    <Compile Include="assets\vendor\jquery\src\css\curCSS.js" />
+    <Compile Include="assets\vendor\jquery\src\css\defaultDisplay.js" />
+    <Compile Include="assets\vendor\jquery\src\css\hiddenVisibleSelectors.js" />
+    <Compile Include="assets\vendor\jquery\src\css\support.js" />
+    <Compile Include="assets\vendor\jquery\src\css\swap.js" />
+    <Compile Include="assets\vendor\jquery\src\data\accepts.js" />
+    <Compile Include="assets\vendor\jquery\src\data\Data.js" />
+    <Compile Include="assets\vendor\jquery\src\effects\animatedSelector.js" />
+    <Compile Include="assets\vendor\jquery\src\effects\Tween.js" />
+    <Compile Include="assets\vendor\jquery\src\event\alias.js" />
+    <Compile Include="assets\vendor\jquery\src\event\support.js" />
+    <Compile Include="assets\vendor\jquery\src\exports\amd.js" />
+    <Compile Include="assets\vendor\jquery\src\exports\global.js" />
+    <Compile Include="assets\vendor\jquery\src\manipulation\support.js" />
+    <Compile Include="assets\vendor\jquery\src\manipulation\_evalUrl.js" />
+    <Compile Include="assets\vendor\jquery\src\queue\delay.js" />
+    <Compile Include="assets\vendor\jquery\src\traversing\findFilter.js" />
+    <Compile Include="assets\vendor\jquery\src\var\arr.js" />
+    <Compile Include="assets\vendor\jquery\src\var\class2type.js" />
+    <Compile Include="assets\vendor\jquery\src\var\concat.js" />
+    <Compile Include="assets\vendor\jquery\src\var\hasOwn.js" />
+    <Compile Include="assets\vendor\jquery\src\var\indexOf.js" />
+    <Compile Include="assets\vendor\jquery\src\var\pnum.js" />
+    <Compile Include="assets\vendor\jquery\src\var\push.js" />
+    <Compile Include="assets\vendor\jquery\src\var\rnotwhite.js" />
+    <Compile Include="assets\vendor\jquery\src\var\slice.js" />
+    <Compile Include="assets\vendor\jquery\src\var\strundefined.js" />
+    <Compile Include="assets\vendor\jquery\src\var\support.js" />
+    <Compile Include="assets\vendor\jquery\src\var\toString.js" />
+    <Compile Include="assets\vendor\jquery\src\var\trim.js" />
+    <Compile Include="assets\vendor\jquery\src\ajax\var\nonce.js" />
+    <Compile Include="assets\vendor\jquery\src\ajax\var\rquery.js" />
+    <Compile Include="assets\vendor\jquery\src\core\var\rsingleTag.js" />
+    <Compile Include="assets\vendor\jquery\src\css\var\cssExpand.js" />
+    <Compile Include="assets\vendor\jquery\src\css\var\getStyles.js" />
+    <Compile Include="assets\vendor\jquery\src\css\var\isHidden.js" />
+    <Compile Include="assets\vendor\jquery\src\css\var\rmargin.js" />
+    <Compile Include="assets\vendor\jquery\src\css\var\rnumnonpx.js" />
+    <Compile Include="assets\vendor\jquery\src\data\var\data_priv.js" />
+    <Compile Include="assets\vendor\jquery\src\data\var\data_user.js" />
+    <Compile Include="assets\vendor\jquery\src\manipulation\var\rcheckableType.js" />
+    <Compile Include="assets\vendor\jquery\src\sizzle\dist\sizzle.js" />
+    <Compile Include="assets\vendor\jquery\src\sizzle\dist\sizzle.min.js" />
+    <Compile Include="assets\vendor\jquery\src\traversing\var\rneedsContext.js" />
+    <Content Include="config\locales\en.json" />
+    <Content Include="config\locales\es.json" />
+    <Content Include="config\locales\_README.md" />
+    <Content Include="views\home\about.html" />
+    <Content Include="views\home\index.html" />
+    <Content Include="views\repository\commits.html" />
+    <Content Include="views\repository\find.html" />
+    <Content Include="views\repository\index.html" />
+    <Content Include="views\repository\options.html" />
+    <Content Include="views\repository\overview.html" />
+    <Content Include="views\user\profile.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include=".tmp\" />
+    <Folder Include=".tmp\public" />
+    <Folder Include=".tmp\public\images\" />
+    <Folder Include=".tmp\public\images\team" />
+    <Folder Include=".tmp\public\js\" />
+    <Folder Include=".tmp\public\js\modules" />
+    <Folder Include=".tmp\public\js\vendor\" />
+    <Folder Include=".tmp\public\js\vendor\angular-ui-router\" />
+    <Folder Include=".tmp\public\js\vendor\angular-ui-router\release" />
+    <Folder Include=".tmp\public\styles" />
+    <Folder Include="api\" />
+    <Folder Include="api\controllers" />
+    <Folder Include="api\models" />
+    <Folder Include="api\policies" />
+    <Folder Include="api\services" />
+    <Folder Include="assets\" />
+    <Folder Include="assets\js\" />
+    <Folder Include="assets\js\modules\" />
+    <Folder Include="assets\js\modules\angles" />
+    <Folder Include="assets\js\modules\cg" />
+    <Folder Include="assets\js\modules\cg\controllers" />
+    <Folder Include="assets\js\modules\cg\directives" />
+    <Folder Include="assets\js\modules\cg\filters" />
+    <Folder Include="assets\js\modules\cg\providers\" />
+    <Folder Include="assets\js\modules\cg\providers\factories" />
+    <Folder Include="assets\js\modules\cg\providers\services" />
+    <Folder Include="assets\js\modules\sails" />
+    <Folder Include="assets\js\modules\socket.io" />
+    <Folder Include="assets\public" />
+    <Folder Include="assets\public\images\" />
+    <Folder Include="assets\public\images\team" />
+    <Folder Include="assets\vendor\" />
+    <Folder Include="assets\vendor\angular" />
+    <Folder Include="assets\vendor\angular-ui-router" />
+    <Folder Include="assets\vendor\angular-ui-router\release" />
+    <Folder Include="assets\vendor\angular-ui-router\site" />
+    <Folder Include="assets\vendor\angular-ui-router\site\css" />
+    <Folder Include="assets\vendor\angular-ui-router\site\font" />
+    <Folder Include="assets\vendor\angular-ui-router\site\js" />
+    <Folder Include="assets\vendor\angular-ui-router\site\partials\" />
+    <Folder Include="assets\vendor\angular-ui-router\site\partials\api" />
+    <Folder Include="assets\vendor\angular-ui-router\src" />
+    <Folder Include="assets\vendor\bootstrap" />
+    <Folder Include="assets\vendor\bootstrap\dist\" />
+    <Folder Include="assets\vendor\bootstrap\dist\css" />
+    <Folder Include="assets\vendor\bootstrap\dist\fonts" />
+    <Folder Include="assets\vendor\bootstrap\dist\js" />
+    <Folder Include="assets\vendor\bootstrap\fonts" />
+    <Folder Include="assets\vendor\bootstrap\grunt" />
+    <Folder Include="assets\vendor\bootstrap\js" />
+    <Folder Include="assets\vendor\bootstrap\test-infra" />
+    <Folder Include="assets\vendor\jquery" />
+    <Folder Include="assets\vendor\jquery\dist" />
+    <Folder Include="assets\vendor\jquery\src" />
+    <Folder Include="assets\vendor\jquery\src\ajax" />
+    <Folder Include="assets\vendor\jquery\src\ajax\var" />
+    <Folder Include="assets\vendor\jquery\src\attributes" />
+    <Folder Include="assets\vendor\jquery\src\core" />
+    <Folder Include="assets\vendor\jquery\src\core\var" />
+    <Folder Include="assets\vendor\jquery\src\css" />
+    <Folder Include="assets\vendor\jquery\src\css\var" />
+    <Folder Include="assets\vendor\jquery\src\data" />
+    <Folder Include="assets\vendor\jquery\src\data\var" />
+    <Folder Include="assets\vendor\jquery\src\effects" />
+    <Folder Include="assets\vendor\jquery\src\event" />
+    <Folder Include="assets\vendor\jquery\src\exports" />
+    <Folder Include="assets\vendor\jquery\src\manipulation" />
+    <Folder Include="assets\vendor\jquery\src\manipulation\var" />
+    <Folder Include="assets\vendor\jquery\src\queue" />
+    <Folder Include="assets\vendor\jquery\src\sizzle\" />
+    <Folder Include="assets\vendor\jquery\src\sizzle\dist" />
+    <Folder Include="assets\vendor\jquery\src\traversing" />
+    <Folder Include="assets\vendor\jquery\src\traversing\var" />
+    <Folder Include="assets\vendor\jquery\src\var" />
+    <Folder Include="config" />
+    <Folder Include="config\locales" />
+    <Folder Include="resources" />
+    <Folder Include="views" />
+    <Folder Include="views\home" />
+    <Folder Include="views\repository" />
+    <Folder Include="views\user" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

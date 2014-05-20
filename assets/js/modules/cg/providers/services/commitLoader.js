@@ -5,9 +5,9 @@ angular.module('cg')
  */
 .factory('commitLoader', function($q, socket) {
 
-    return function(name, params) {
+    return function(params) {
         var defer = $q.defer();
-        socket.get('/repo/' + name + '/commits', 
+        socket.get('/repo/' + params.name + '/commits', 
             params?params:{},
             function(response) {
                 if(response.success) {

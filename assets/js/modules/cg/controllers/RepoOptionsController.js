@@ -1,9 +1,6 @@
-angular.module('cg').controller('RepoOptionsController', function($scope) {
+angular.module('cg').controller('RepoOptionsController', function($scope, $window) {
 	
 	$scope.downloadDump = function() {
-		$scope.globalMessages.push({
-			type:'warning',
-			content: 'Not implimented yet...'
-		});
+		$window.location = "http://data.commit.guru/dumps/" + $scope.repo.id + ".csv";
 	};
 });

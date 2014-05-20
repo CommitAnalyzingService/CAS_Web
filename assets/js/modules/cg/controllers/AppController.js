@@ -1,5 +1,6 @@
 angular.module('cg').controller('AppController',
 	function($scope, $location, $timeout, socket, responseHandler, $state) {
+        $scope.pageTitle = "Commit Guru";
 		$scope.globalMessages = {
 			_messages: [],
 			push: function(elm) {
@@ -37,8 +38,22 @@ angular.module('cg').controller('AppController',
 			});
 		});
 		$scope.loading = false;
-		$scope.$on("$stateChangeStart", function() {
+		$scope.$on("$stateChangeStart", function(event, toState, toParams) {
 			$scope.loading = true;
+
+            var pageTitle = "Commit Guru";
+            
+            if(toParams.hasOwnProperty("name")) {
+                pageTitle += " - " + toParams.name;
+            }
+            
+            if(toParams.hasOwnProperty("page")) {
+                if(toParams.page) {
+                    pageTitle += " - page " + toParams.page;
+                }
+            }
+            
+            $scope.pageTitle = pageTitle;
 		});
 		$scope.$on("$stateChangeSuccess", function() {
 			$scope.loading = false;

@@ -41,12 +41,14 @@ angular.module('cg', [ 'ui.router', 'ngAnimate', 'angles'])
 		url: '',
 		templateUrl: '/ui/repository/overview.html',
 	}).state('repo.commits', {
-		url: '/commits',
+		url: '/commits?type&page&limit&sort&commit_message&commit_hash&classification&author_email',
 		templateUrl: '/ui/repository/commits.html',
 		controller: 'RepoCommitsController',
         resolve: {
             commitData: function($stateParams, commitLoader) {
-                return commitLoader($stateParams.name);
+                $stateParams.page = +($stateParams.page) || 1;
+                $stateParams.limit = +($stateParams.limit) || 20;
+                return commitLoader($stateParams);
             }
         }
 	}).state('repo.options', {

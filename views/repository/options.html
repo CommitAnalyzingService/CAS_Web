@@ -12,16 +12,16 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-md-6">
+    <div class="col-md-6" ng-show="repo.last_data_dump.length > 0 && repo.last_data_dump != 0">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">
-					Request data dump
+					Download data dump
 				</h3>
 			</div>
 			<div class="panel-body" ng-switch="repo.status">
-				<div ng-show="repo.last_data_dump.length > 0">Last data dumped: {{repo.last_data_dump | timeFormat_fromNow}}</div>
-				<button ng-click="downloadDump()" type="button" class="btn btn-primary">Download dump (.csv)</button>
+                Last data dumped: {{repo.last_data_dump | timeFormat_fromNow}}
+				<button ng-click="downloadDump()" type="button" class="btn btn-primary pull-right">Download dump (.csv)</button>
 			</div>
 		</div>
 	</div>

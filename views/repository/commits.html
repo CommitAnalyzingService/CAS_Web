@@ -1,4 +1,4 @@
-<h2 ng-show="showRepo" id="page-anchor-commits">Commits ({{repo.commitCounts.total}})</h2>
+<h2 ng-show="showRepo" id="page-anchor-commits">Commits</h2>
 <div class="panel panel-default">
 	<div class="panel-body">
 		<div class="form-inline">
@@ -10,8 +10,9 @@
 				</select>
 			</div>
 			<div class="form-group">
-				<select type="text" class="form-control" ng-model="display.sortBy">
-					<option value="time">Sort by Time</option>
+				<select type="text" class="form-control" ng-model="display.sort">
+					<option value="-time">Sort by Newest</option>
+                    <option value="+time">Sort by Oldest</option>
 					<option ng-disabled="display.type == 'historical'" value="-risk">Sort by High Risk-level</option>
 					<option ng-disabled="display.type == 'historical'" value="+risk">Sort by Low Risk-level</option>
 				</select>
@@ -34,7 +35,7 @@
 		</div>
 		<div class="row" ng-show="showFilterCommits">
 			<div class="vert-spacer-sm"></div>
-			<div class="col-md-12 form-inline">
+            <form class="col-md-12 form-inline" ng-submit="handleCommitSearch()">
 				<div class="form-group">
 					Filter: 
 				</div>
@@ -58,7 +59,8 @@
 				<div class="form-group">
 					<input type="text" class="form-control" ng-model="search.author_email" placeholder="Author email">
 				</div>
-			</div>
+                <button type="submit" class="btn btn-default">Search <i class="fa fa-right-arrow"></i></button>
+			</form>
 		</div>
 	</div>
 </div>
@@ -68,10 +70,12 @@
 			<div class="panel commit-panel panel-default" ng-class="{'panel-danger':((commit.contains_bug && display.type == 'historical') || (commit.glm_probability > .5 && display.type == 'predictive')), 'collapsed': !show_commit_body}">
 				<div class="panel-heading">
 					<div class="pull-right">{{commit.author_name}} on {{commit.author_date | timeFormat_calendar}}</div>
-					<h3 class="panel-title" ng-click="show_commit_body = !show_commit_body">
-						<span ng-if="display.type == 'predictive'"><span class="label label-success" ng-class="{'label-danger':commit.glm_probability > .5,'label-warning':commit.glm_probability > .25}">{{commit.glm_probability | decimalToPercent}}</span></span>
-						<span ng-show="commit.classification != 'None'" class="label label-default">{{commit.classification}}</span><span ng-if="display.type == 'historical'"><span ng-if="commit.contains_bug"> Possible Bug-inducing: </span></span> {{commit.commit_hash.substr(0, 10)}} <em>{{commit.commit_message.substr(0, 60)}}...</em>
-					</h3>
+					<div class="panel-title-container">
+                        <h3 class="panel-title" ng-click="show_commit_body = !show_commit_body">
+                            <span ng-if="display.type == 'predictive'"><span class="label label-success" ng-class="{'label-danger':commit.glm_probability > .5,'label-warning':commit.glm_probability > .25}">{{commit.glm_probability | decimalToPercent}}</span></span>
+                            <span ng-show="commit.classification != 'None'" class="label label-default">{{commit.classification}}</span><span ng-if="display.type == 'historical'"><span ng-if="commit.contains_bug"> Possible Bug-inducing: </span></span> {{commit.commit_hash.substr(0, 10)}} <em>{{commit.commit_message.substr(0, 60)}}...</em>
+                        </h3>
+                    </div>
 				</div>
 				<div class="panel-body" ng-if="show_commit_body">
 					<div class="row">
@@ -94,8 +98,8 @@
 						</div>
 					
 						<div class="col-md-4 cont-max-150" ng-show="commit.fixes || commit.fixes.length > 0">
-							Fixes:
-							<span style="cursor: pointer;" class="label label-success label-inline" ng-repeat="fixed in commit.fixes" ng-click="search.commit_hash = fixed; $parent.$parent.$parent.showFilterCommits = true;">{{fixed}}</span>
+							Fixed By:
+							<span style="cursor: pointer;" class="label label-success label-inline" ng-repeat="fixed in commit.fixes" ng-click="search.commit_hash = fixed; $parent.$parent.$parent.showFilterCommits = true; handleCommitSearch();">{{fixed}}</span>
 						</div>
 					</div>
 					<form ng-show="user.status.authenticated" class="form-inline pull-right" name="commit.feedback" ng-submit="submitFeedback(commit)">

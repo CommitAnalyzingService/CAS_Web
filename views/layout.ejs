@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="cg" ng-controller="AppController">
 <head>
-<title>Commit Guru</title>
+<title ng-bind="pageTitle">Commit Guru</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -33,7 +33,7 @@
 </script>
 </head>
 
-<body ng-app="cg" ng-controller="AppController">
+<body>
 	<nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-controller="NavbarController">
 		<div class="container">
 			<div class="navbar-header">

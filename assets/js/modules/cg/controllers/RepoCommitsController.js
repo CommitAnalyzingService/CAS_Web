@@ -1,97 +1,83 @@
-angular.module('cg').controller('RepoCommitsController', function($scope, socket, $filter, moment, commitData, commitLoader, $stateParams) {
+angular.module('cg').controller('RepoCommitsController', function($scope, socket, commitData, $stateParams, $location) {
     
-    $scope.repo.commits = commitData;
+    $scope.commits = commitData;
 	
-	var filterFilter = $filter('filter');
-	var orderByFilter = $filter('orderBy');
-	
-    $scope.display= {
-    	type: 'historical',
+    $scope.display = {
+    	type: $stateParams.type || 'historical',
     	metricKey: 'median',
-    	sortBy: 'time'
+        sort: $stateParams.sort || '-time'
     };
-    
-    // Display filtering
-    $scope.displayAfterTimestamp = 0;
-    
-    var displayAfterTimestampActive = +moment.utc()
-    	.subtract('months', 3).format('X');
-    
-	var filterAfterTimestampFn = function(input) {
-		return input['author_date_unix_timestamp'] > 
-			$scope.displayAfterTimestamp;
-	};
 	
-	var handleCommitSearch = function(search) {
-		$scope.currentPage = 0;
-		var criteria = {};
-		
-		// Check each search value and add it to the criteria if neccessary
-		if(!!$scope.search.commit_message) {
-			criteria.commit_message = $scope.search.commit_message;
-		}
-		if(!!$scope.search.commit_hash) {
-			criteria.commit_hash = $scope.search.commit_hash;
-		}
-		if(!!$scope.search.classification) {
-			criteria.classification = $scope.search.classification;
-		}
-		if(!!$scope.search.author_email) {
-			criteria.author_email = $scope.search.author_email;
-		}
-		
-		// Grab the raw commits
-		var filterCommits = $scope.repo.commits;
-		
-		// Remove any older commits if in prediction mode
-		if($scope.displayAfterTimestamp > 0) {
-			filterCommits = filterFilter(filterCommits, filterAfterTimestampFn);
-		}
-		
-		// Filter by the critera
-		filterCommits = filterFilter(filterCommits, criteria);
-		
-		// If sorting by risk?
-		if($scope.display.sortBy.substring(1) == "risk" && $scope.display.type == 'predictive') {
-			
-			//Desending Sort?
-			var modifier;
-			if($scope.display.sortBy.charAt(0) == '-') {
-				modifier = '-';
-			} else {
-				modifier = '';
-			}
-			
-			var field;
-			if($scope.display.type == 'predictive') {
-				field = 'glm_probability';
-			}
-			
-			filterCommits = orderByFilter(filterCommits, modifier + field);
-		}
-		
-		$scope.commits = filterCommits;
+	var handleCommitSearch = function(newValue, oldValue) {
+        
+        if(newValue === oldValue) {
+            return;
+        }
+        
+		var criteria = angular.extend({}, $scope.search);
+        
+        criteria.page = ($scope.currentPage == 0)? null : $scope.currentPage + 1;
+        criteria.limit = ($scope.pageSize == 20)? null : $scope.pageSize;
+        criteria.type = ($scope.display.type == "historical")? null : $scope.display.type;
+        criteria.sort = ($scope.display.sort == "-time")? null : $scope.display.sort;
+        var criteraCount = 0;
+        for(var key in criteria) {
+            if(criteria[key] === null || criteria[key] === "") {
+                delete criteria[key];
+            } else if(key != 'page' && key != 'limit') {
+                criteraCount++;
+                criteria[key] = criteria[key];
+            }
+        }
+        
+        if(criteria.page != null && criteraCount > 0 && newValue[1] == oldValue[1]) {
+            delete criteria.page;
+        }
+        
+        $location.search(criteria);
 	};
     
     // Remove any commits older than three months if in predictive mode
     $scope.$watch('display.type', function(newVal, oldVal) {
-    	if(oldVal !== newVal && newVal === 'predictive') {
-    		$scope.displayAfterTimestamp = displayAfterTimestampActive;
+    	if(newVal === 'predictive') {
     		$scope.display.metricKey = "glmc";
     		$scope.show_commit_body = false;
     	} else if($scope.displayAfterTimestamp != 0) {
-    		$scope.displayAfterTimestamp = 0;
     		$scope.display.metricKey = "median";
     		$scope.show_commit_body = false;
     	}
     });
 
-	$scope.search = {message:'', classification: '', author: '', 
-		commit_hash: ''};
-	$scope.commits = [];
-	handleCommitSearch();
+    $scope.search = angular.extend({}, $stateParams);
+    delete $scope.search.name;
+    delete $scope.search.limit;
+    delete $scope.search.page;
+    delete $scope.search.sort;
+    delete $scope.search.type;
+
+    var criteriaCount = 0;
+    for(var key in $scope.search) {
+        if($scope.search[key] === null) {
+            $scope.search[key] = "";
+        } else {
+            criteriaCount++;
+        }
+    }
+
+    if(criteriaCount > 0) {
+        $scope.showFilterCommits = true;
+    }
+	//handleCommitSearch();
 	
-	$scope.$watch('[search, display]', handleCommitSearch, true);
+    $scope.currentPage = $stateParams.page - 1 || 0;
+    $scope.pageSize = $stateParams.limit || 20;
+    $scope.numberOfPages=function(){
+        return Math.ceil($scope.repo.commitCounts.total/ $scope.pageSize);                
+    };
+    
+	$scope.$watch('[display, currentPage, pageSize]', handleCommitSearch, true);
+    
+    $scope.handleCommitSearch = handleCommitSearch.bind(null, 0, 1);
 	
 	$scope.submitFeedback = function(commit) {
 		if(commit.feedback.$valid) {
@@ -121,11 +107,7 @@ angular.module('cg').controller('RepoCommitsController', function($scope, socket
 		}
 	};
 	
-	$scope.currentPage = 0;
-    $scope.pageSize = 20;
-    $scope.numberOfPages=function(){
-        return Math.ceil($scope.commits.length/$scope.pageSize);                
-    };
+	
     
     $scope.show_commit_body = false;
     $scope.show_commit_body_options = [{
@@ -143,14 +125,6 @@ angular.module('cg').controller('RepoCommitsController', function($scope, socket
     	value: 'predictive',
     	label: 'Predictive Data'
     }];
-    
-    $scope.$watch('currentPage', function(newPage, oldPage) {
-        if(newPage != oldPage) {
-            commitLoader($stateParams.name, {page: newPage + 1}).then(function(commits) {
-                $scope.repo.commits = commits;
-            });
-        }
-    });
     
     // Check if glmc has been calculated
     if($scope.repo.metrics.glmc == null || !$scope.repo.metrics.glmc.hasOwnProperty("repo")) {

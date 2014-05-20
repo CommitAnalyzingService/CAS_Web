@@ -20,20 +20,67 @@ var CommitController = {
             // REPO is valid
             
             var paginationOptions = {
-                page: 0,
-                limit: 10
+                page: (+req.param('page')) || 0,
+                limit: (+req.param('limit')) || 20
             };
-            console.log(req);
-            if(typeof req.body.page != "undefined") {
-                paginationOptions.page = req.body.page;
+            
+            var critera = {
+                commit_hash: {like: null},
+                classification: {like: null},
+                author_email: {like: null},
+                commit_message: {like: null}
+            };
+            
+            var criteriaCount = 0;
+            var result = null;
+            for(var key in critera) {
+                criteriaCount++;
+                if((result = req.param(key)) !== null) {
+                    critera[key].like = "%" + result + "%";
+                    criteriaCount++;
+                } else {
+                    delete critera[key];
+                }
             }
             
-            var query = Commit.find({repository_id: repo.id})
-            .paginate(paginationOptions)
-            .sort('author_date_unix_timestamp DESC');
-            console.log(query);
+            var type = req.param('type');
+            if(type == 'predictive') {
+                var d = new Date();
+                d.setMonth(d.getMonth() - 3);
+                critera.author_date_unix_timestamp = {'>=': d.getTime()};
+            }
             
-            query
+            var sortParam = req.param('sort');
+            var sort = '';
+            if(sortParam !== null) {
+                
+                var sortModifier = sortParam.substr(0, 1);
+                var sortDESC = (sortModifier != '+');
+                var sortType = (sortDESC && sortModifier != "-")? sortParam: sortParam.substr(1);
+                
+                if(sortType == 'risk') {
+                    sort = "glm_probability";
+                } else if(sortType == 'time') {
+                    sort = "author_date_unix_timestamp";
+                } else {
+                    sort = false;
+                }
+                
+                if(sort) {
+                    sort += (sortDESC)? " DESC": " ASC";
+                }
+            }
+            
+            if(!sort) {
+                sort = 'author_date_unix_timestamp DESC';
+            }
+            
+            var query = Commit.find({repository_id: repo.id});
+            if(criteriaCount > 0) {
+                query.where(critera);
+            }
+            query.paginate(paginationOptions)
+            .sort(sort)
             .done(function(err, commits){
 
                 // ERROR CHECKING FOR COMMITS
@@ -44,7 +91,7 @@ var CommitController = {
 
                     // No commits in the repo
 
-                    return res.json({success: true, repo: repo});			
+                    return res.json({success: true, commits: []});			
                 }
 
                 // COMMITS VALID
