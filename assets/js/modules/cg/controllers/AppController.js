@@ -57,6 +57,8 @@ angular.module('cg').controller('AppController',
 		});
 		$scope.$on("$stateChangeSuccess", function() {
 			$scope.loading = false;
+            
+            ga('send', 'pageview');
 		});
 		$scope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {
 			$scope.globalMessages.push({
