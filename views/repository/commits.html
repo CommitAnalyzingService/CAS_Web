@@ -68,7 +68,7 @@
 	<div class="col-md-12">
 		<div ng-repeat="commit in commits | limitTo:pageSize">
 			<div class="panel commit-panel panel-default" ng-class="{'panel-danger':((commit.contains_bug && display.type == 'historical') || (commit.glm_probability > .5 && display.type == 'predictive')), 'collapsed': !show_commit_body}">
-				<div class="panel-heading">
+                <div ng-init="commit.fixes = $eval(commit.fixes)" class="panel-heading">
 					<div class="pull-right">{{commit.author_name}} on {{commit.author_date | timeFormat_calendar}}</div>
 					<div class="panel-title-container">
                         <h3 class="panel-title" ng-click="show_commit_body = !show_commit_body">
@@ -88,7 +88,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="row" ng-init="commit.fixes = $eval(commit.fixes)">
+					<div class="row">
 						<div class="col-md-4">
 							<div class="well cont-max-150" ng-bind="commit.commit_message"></div>
 						</div>
