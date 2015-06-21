@@ -18,7 +18,7 @@
 				<br>
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <h4>{{repo.commitCounts.total | number}} <small>total commits</small></h4>
+                        <h4 class="text-center">{{repo.commitCounts.total | number}} <small>total commits</small></h4>
                     </div>
                 </div>
 			</div>
@@ -50,7 +50,8 @@
 					<div class="col-md-3 inline-col" ng-repeat="(key, name) in metricValues | sortBySignificance:repo.metrics.median">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<h3 class="panel-title" ng-bind="name + (repo.metrics.median[key + '_sig']?'*':'')"></h3>
+								<h3 style="display:inline;" class="panel-title" ng-bind="name + (repo.metrics.median[key + '_sig']?'*':'')"></h3>
+								<a class="tooltips" href="#"><b>?</b><div ng-bind="metricDescriptionValues[key]"></div></a>
 							</div>
 							<div class="row panel-custom-footer metric-ranges">
 								<div class="col-xs-12 bg-danger" ng-bind="repo.metrics.median[key + 'buggy'] | round"></div>
